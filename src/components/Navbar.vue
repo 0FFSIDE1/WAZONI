@@ -16,7 +16,7 @@
       </div>
   
       <div class="navbar-center">
-        <a class="btn btn-ghost text-2xl">lineShop</a>
+        <a class="btn btn-ghost text-2xl">WAZONI</a>
       </div>
   
       <div class="navbar-end">

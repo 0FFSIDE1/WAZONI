@@ -17,7 +17,7 @@
           <div class="bg-white shadow-lg rounded-lg p-6">
             <h3 class="text-xl font-semibold text-gray-800 mb-4">Support</h3>
             <p class="text-gray-700">For any product-related queries or technical support, we're here to help.</p>
-            <p class="font-medium text-gray-800 mt-2">Email: <a href="mailto:support@lineshop.com" class="text-blue-600">support@lineshop.com</a></p>
+            <p class="font-medium text-gray-800 mt-2">Email: <a href="mailto:support@wazoni.com" class="text-blue-600">support@wazoni.com</a></p>
             <p class="font-medium text-gray-800 mt-2">Phone: <a href="tel:+123456789" class="text-blue-600">+234 (9025) 118-665</a></p>
           </div> -->
   
