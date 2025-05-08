@@ -1,5 +1,5 @@
 <template>
-  <section data-aos="zoom-in" class="min-h-screen my-5 flex items-center justify-center px-4">
+  <section data-aos="zoom-in" class="font-poppins min-h-screen my-5 flex items-center justify-center px-4">
     <div class="max-w-3xl text-center">
       <h1 class="text-5xl font-bold mb-6">Our Story</h1>
       <transition name="fade" mode="out-in">
