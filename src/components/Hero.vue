@@ -7,17 +7,23 @@
         :class="{ active: index === currentSlide }"
         :style="{ backgroundImage: `url(${img})` }"
       ></div>
-  
+      
       <div class="content  px-4">
         <blockquote class="italic border-l-4 border-primary pl-6 text-lg md:text-xl mb-10"><h1 class="text-4xl md:text-5xl font-bold fade-in">"Your Hustle Deserves to Be <span class="text-neutral-content">Seen</span>"</h1></blockquote>
         <p class="mt-2 text-lg md:text-xl fade-in">Vendors like <span class="text-neutral-content">Mama Tee</span> are ready to stop begging for visibilty. Are you next?</p>
         <button class="mt-4 btn btn-primary scale-in">Join the Waitlist</button>
       </div>
+         <!-- Only show Phone component on md screens and up -->
+    <div class="hidden md:block absolute bottom-0 right-8 z-10">
+      <Phone />
     </div>
-  </template>
+</div>
+   
+</template>
   
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+import Phone from '@/components/utils/Phone.vue'
 import Img1 from '@/assets/images/hero1.jpeg'
 import Img2 from '@/assets/images/hero2.jpeg'
 import Img3 from '@/assets/images/hero3.jpeg'
