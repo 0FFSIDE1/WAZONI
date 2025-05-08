@@ -1,5 +1,5 @@
 <template>
-  <section data-aos="zoom-in-left" class="min-h-screen flex items-center justify-center px-4">
+  <section data-aos="zoom-in" class="min-h-screen my-5 flex items-center justify-center px-4">
     <div class="max-w-3xl text-center">
       <h1 class="text-5xl font-bold mb-6">Our Story</h1>
       <transition name="fade" mode="out-in">
@@ -13,7 +13,7 @@
       <h1 class="text-primary">
         "Market no dull — na who show face de sell pass."
       </h1>
-      <button class="btn btn-primary mt-4">Join the Waitlist</button>
+      <button class="btn btn-primary btn-lg text-lg px-10 hover:scale-105 transition-transform duration-300 mt-8">Join the Waitlist</button>
     </div>
   </section>
 </template>
