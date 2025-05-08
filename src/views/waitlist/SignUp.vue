@@ -43,7 +43,7 @@ const submitForm = () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-base-100 flex flex-col md:flex-row">
+  <div class="font-poppins min-h-screen bg-base-100 flex flex-col md:flex-row">
     
     <!-- Left: Form -->
     <div class="w-full md:w-1/2 p-6 md:p-16 flex flex-col justify-center">
