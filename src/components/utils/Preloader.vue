@@ -1,9 +1,9 @@
 <template>
-    <div id="preloader" class="preloader">
+    <div id="preloader" class="preloader bg-neutral">
         <div class="jumper">
-            <div></div>
-            <div></div>
-            <div></div>
+            <div class="bg-primary"></div>
+            <div class="bg-primary"></div>
+            <div class="bg-primary"></div>
         </div>
     </div> 
 </template>
@@ -11,7 +11,6 @@
 <style scoped>
 #preloader {
   overflow: hidden;
-  background-color: #020202; /* Dark background */
   left: 0;
   right: 0;
   top: 0;
@@ -34,7 +33,7 @@
 
 /* The circles (representing weight plates or dumbbells) */
 #preloader .jumper > div {
-  background-color: #e4cdc6; /* Strong color like gym orange */
+  /* Strong color like gym orange */
   width: 20px;
   height: 20px;
   border-radius: 50%;
