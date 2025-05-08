@@ -14,7 +14,7 @@
         <button class="mt-4 btn btn-primary scale-in">Join the Waitlist</button>
       </div>
          <!-- Only show Phone component on md screens and up -->
-    <div class="hidden md:block absolute bottom-0 right-8 z-10">
+    <div class="hidden md:block absolute bottom-2 right-8 z-10">
       <Phone />
     </div>
 </div>
