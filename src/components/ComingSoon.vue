@@ -1,5 +1,5 @@
 <template>
-    <section data-aos="zoom-in-up" class="py-8 min-h-full flex items-center justify-center text-center bg-base-300">
+    <section data-aos="zoom-in-up" class="py-24 min-h-full flex items-center justify-center text-center bg-base-300">
       <div class="max-w-4xl mx-auto px-4">
         <h2 class="text-4xl md:text-5xl font-bold mb-10">
           Coming Soon: <span class="text-primary">A Smarter Way to Sell Online</span>
