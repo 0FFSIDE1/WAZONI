@@ -1,7 +1,7 @@
 <template>
     <section
     data-aos="zoom-in"
-      class="bg-neutral text-neutral-content py-24 px-4 text-center overflow-hidden"
+      class="font-poppins bg-neutral text-neutral-content py-24 px-4 text-center overflow-hidden"
     >
       <div class="max-w-3xl mx-auto">
         <!-- Entrance animation -->
