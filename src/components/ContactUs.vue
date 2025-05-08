@@ -6,11 +6,11 @@
   
         <div class="flex flex-col md:flex-row items-center justify-center gap-12">
           <!-- Management Info -->
-          <div class="bg-white h-56 card shadow-lg rounded-lg p-6">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">Management Team</h3>
-            <p class="text-gray-700">For business inquiries and corporate communication.</p>
-            <p class="font-medium text-gray-800 mt-2">Email: <a href="mailto:info@offsideint.com" class="text-blue-600">info@offsideint.com</a></p>
-            <p class="font-medium text-gray-800 mt-2">Phone: <a href="tel:+2349025118665" class="text-blue-600">+234 (9025) 118-665</a></p>
+          <div class="h-56 card shadow-2xl rounded-xl p-6">
+            <h3 class="text-xl text-primary font-semibold mb-4">Management Team</h3>
+            <p>For business inquiries and corporate communication.</p>
+            <p class="font-medium mt-2">Email: <a href="mailto:info@offsideint.com" class="text-primary">info@offsideint.com</a></p>
+            <p class="font-medium mt-2">Phone: <a href="tel:+2349025118665" class="text-primary">+234 (9025) 118-665</a></p>
           </div>
   
           <!-- Support Info
@@ -22,17 +22,17 @@
           </div> -->
   
           <!-- Emergency Help Info -->
-          <div class="bg-white h-56 card shadow-lg rounded-lg p-6">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">Emergency Helpline</h3>
-            <p class="text-gray-700">For urgent matters, please reach out to our emergency helpline.</p>
-            <p class="font-medium text-gray-800 mt-2">Phone: <a href="tel:+234905471280" class="text-red-600">+234 (9054) 712-803</a></p>
+          <div class="h-56 card shadow-2xl rounded-xl p-6">
+            <h3 class="text-xl text-primary font-semibold mb-4">Emergency Helpline</h3>
+            <p>For urgent matters, please reach out to our emergency helpline.</p>
+            <p class="font-medium mt-2">Phone: <a href="tel:+2349054712803" class="text-red-600">+234 (9054) 712-803</a></p>
           </div>
         </div>
   
         <div class="mt-12 text-center">
           <h3 class="text-xl font-semibold mb-4">Visit Us</h3>
           <p class="text-primary">Our office is located at:</p>
-          <p class="font-medium text-primary mt-2">123 Business Street, City, Country</p>
+          <p class="font-medium text-primary mt-2">10 Anuoluwapo Street, Isashi, Ojo-Lagos, Nigeria</p>
         </div>
       </div>
     </section>
