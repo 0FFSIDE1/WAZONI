@@ -10,6 +10,7 @@ const form = ref({
   phone: '',
   email: '',
   delivery: ''
+  quantity: ''
 })
 
 const errors = ref({})
@@ -26,7 +27,9 @@ const validateForm = () => {
   if (!form.value.category) errors.value.category = 'Please select a business category.'
   if (!form.value.type) errors.value.type = 'Select your business type.'
   if (!form.value.scale) errors.value.scale = 'Select the scale of your brand.'
-  if (!form.value.email) errors.value.scale = 'Enter your email'
+  if (!form.value.email) errors.value.email = 'Enter your email'
+  if (!form.value.phone) errors.value.phone = 'Enter your email'
+  if (!form.value.quantity) errors.value.quantity = 'Enter your email'
   if (!form.value.delivery) errors.value.delivery = 'Please answer the delivery question.'
   return Object.keys(errors.value).length === 0
 }
@@ -68,14 +71,15 @@ const submitForm = () => {
            <!-- Email -->
            <fieldset class="fieldset">
             <legend class="fieldset-legend">Email *</legend>
-            <input v-model="form.phone" type="tel" placeholder="youremail@example.com" class="input input-bordered w-full" />
+            <input v-model="form.email" type="tel" placeholder="youremail@example.com" class="input input-bordered w-full" />
             <p v-if="errors.email" class="text-error text-sm">{{ errors.email }}</p>
           </fieldset>
 
           <!-- WhatsApp (Optional) -->
           <fieldset class="fieldset">
-            <legend class="fieldset-legend">WhatsApp Number</legend>
+            <legend class="fieldset-legend">WhatsApp Number *</legend>
             <input v-model="form.phone" type="tel" placeholder="+234..." class="input input-bordered w-full" />
+             <p v-if="errors.phone" class="text-error text-sm">{{ errors.phone }}</p>
           </fieldset>
     
           <!-- Business Category -->
@@ -112,11 +116,22 @@ const submitForm = () => {
           <!-- Scale -->
           <fieldset class="fieldset">
             <legend class="fieldset-legend">How big is your brand? *</legend>
-            <select v-model="form.scale" class="select select-bordered w-full">
+            <select v-model="form.scale" class="select w-full">
               <option disabled value="">Select one</option>
               <option>Just starting out</option>
               <option>Growing steadily</option>
               <option>Established brand</option>
+            </select>
+          </fieldset>
+
+          <!-- Scale -->
+          <fieldset class="fieldset">
+            <legend class="fieldset-legend">How much much product do you have? *</legend>
+            <select v-model="form.quantity" class="select w-full">
+              <option disabled value="">Select one</option>
+              <option>10 - 100</option>
+              <option>101 - 1000</option>
+              <option>More than 1000</option>
             </select>
           </fieldset>
 
