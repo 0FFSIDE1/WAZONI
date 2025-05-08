@@ -145,7 +145,7 @@ const submitForm = () => {
     </div>
 
     <!-- Right: Illustration (hidden on small screens) -->
-    <div class="hidden md:flex md:w-1/2 bg-gradient-to-br from-base-100 to-secondary items-center justify-center relative overflow-hidden">
+    <div class="hidden md:flex md:w-1/2 bg-gradient-to-br from-base-100 to-base-300 items-center justify-center relative overflow-hidden">
       <div class="w-full h-full absolute top-0 left-0 opacity-20 mask mask-triangle-3 bg-white"></div>
       <img
         src="https://undraw.co/api/illustrations/undraw_online_shopping_re_k1sv.svg"
