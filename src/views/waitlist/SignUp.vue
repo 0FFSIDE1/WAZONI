@@ -9,7 +9,7 @@ const form = ref({
   scale: '',
   phone: '',
   email: '',
-  delivery: ''
+  delivery: '',
   quantity: ''
 })
 
