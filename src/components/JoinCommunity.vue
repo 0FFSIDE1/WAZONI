@@ -6,7 +6,7 @@
             <h2 class="text-3xl md:text-4xl font-bold  mb-4">
               Stay Ahead. Join the Community.
             </h2>
-            <p class="text-base text-gray-300 mb-8">
+            <p class="text-base text-primary mb-8">
               Be the first to know when we launch, get invites to private vendor events,
               and join a tribe of smart sellers like you.
             </p>
