@@ -28,8 +28,8 @@ const validateForm = () => {
   if (!form.value.type) errors.value.type = 'Select your business type.'
   if (!form.value.scale) errors.value.scale = 'Select the scale of your brand.'
   if (!form.value.email) errors.value.email = 'Enter your email'
-  if (!form.value.phone) errors.value.phone = 'Enter your email'
-  if (!form.value.quantity) errors.value.quantity = 'Enter your email'
+  if (!form.value.phone) errors.value.phone = 'Enter your phone number'
+  if (!form.value.quantity) errors.value.quantity = 'Enter your product quantity'
   if (!form.value.delivery) errors.value.delivery = 'Please answer the delivery question.'
   return Object.keys(errors.value).length === 0
 }
@@ -48,7 +48,7 @@ const submitForm = () => {
     <!-- Left: Form -->
     <div class="w-full md:w-1/2 p-6 md:p-16 flex flex-col justify-center">
       <div class="max-w-xl mx-auto">
-        <h1 class="text-2xl md:text-4xl font-bold text-primary mb-3">Be The First. Be Visible. 📢</h1>
+        <h1 class="text-2xl py-5 md:text-4xl font-bold text-primary mb-3">Be The First. Be Visible. 📢</h1>
         <p class="text-base-content/70 mb-5 text-sm md:text-base">
           Join our community of smart vendors. Get notified before we launch, and never miss an update or event.
         </p>
@@ -122,6 +122,7 @@ const submitForm = () => {
               <option>Growing steadily</option>
               <option>Established brand</option>
             </select>
+            <p v-if="errors.scale" class="text-error text-sm">{{ errors.scale }}</p>
           </fieldset>
 
           <!-- Scale -->
@@ -133,6 +134,7 @@ const submitForm = () => {
               <option>101 - 1000</option>
               <option>More than 1000</option>
             </select>
+            <p v-if="errors.quantity" class="text-error text-sm">{{ errors.quantity }}</p>
           </fieldset>
 
           <!-- Deliver outside location -->
