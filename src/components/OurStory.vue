@@ -13,13 +13,18 @@
       <h1 class="text-primary">
         "Market no dull — na who show face de sell pass."
       </h1>
-      <button class="btn btn-primary btn-lg text-lg px-10 hover:scale-105 transition-transform duration-300 mt-8">Join the Waitlist</button>
+      <button @click="GoToWaitlistPage" class="btn btn-primary btn-lg text-lg px-10 hover:scale-105 transition-transform duration-300 mt-8">Join the Waitlist</button>
     </div>
   </section>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router';
+const router = useRouter();
+const GoToWaitlistPage = () => {
+  router.push('/waitlist');
+};
 const stories = [
   {
     "title": "Mama Tee Still Dey Wait for Her Breakthrough",
