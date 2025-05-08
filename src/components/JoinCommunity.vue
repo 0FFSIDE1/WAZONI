@@ -1,5 +1,5 @@
 <template>
-    <section data-aos="zoom-in-up" class="bg-primary-content py-20 px-4 text-center">
+    <section data-aos="zoom-in-up" class="font-poppins bg-primary-content py-20 px-4 text-center">
       <div class="max-w-xl mx-auto">
         <transition name="fade" appear>
           <div>
