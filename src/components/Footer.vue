@@ -1,5 +1,5 @@
 <template>
-    <footer class="footer footer-horizontal footer-center shadow-[inset_0_-4px_0px_rgba(0,0,0,0.1)] shadow-neutral-content text-base-content rounded p-10">
+    <footer class="footer font-poppins footer-horizontal footer-center shadow-[inset_0_-4px_0px_rgba(0,0,0,0.1)] shadow-neutral-content text-base-content rounded p-10">
   <nav class="grid grid-flow-col gap-4">
     <a class="link link-hover">About us</a>
     <a class="link link-hover">Contact</a>
