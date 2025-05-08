@@ -10,9 +10,9 @@ function closeDropdown() {
 </script>
 
 <template>
-  <header>
+  <header class="sticky top-0 z-50">
     <nav
-      class="navbar sticky top-0 z-50 bg-base-100 h-24 shadow-lg shadow-neutral-content"
+      class="navbar bg-base-100 h-24 shadow-lg shadow-neutral-content"
       role="navigation"
       aria-label="Main Navigation"
     >
