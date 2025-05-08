@@ -24,6 +24,7 @@
             </blockquote>
   
            <button
+            @click="GoToWaitlistPage"
              class="btn btn-primary btn-lg text-lg px-10 hover:scale-105 transition-transform duration-300"
            >
              Join the Waitlist Now
@@ -35,7 +36,11 @@
  </template>
  
  <script setup>
- // No JS needed here unless triggering modal/navigation on CTA
+ import { useRouter } from 'vue-router';
+const router = useRouter();
+const GoToWaitlistPage = () => {
+  router.push('/waitlist');
+};
  </script>
  
  <style scoped>
