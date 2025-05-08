@@ -1,5 +1,5 @@
 <template>
-    <section data-aos="zoom-in-up" class="py-12 bg-base-300 px-6">
+    <section data-aos="zoom-in-up" class="font-poppins py-12 bg-base-300 px-6">
       <div class="max-w-4xl mx-auto text-center">
         <h2 class="text-3xl font-bold mb-6">Contact Our Team</h2>
         <p class="text-lg text-primary mb-6">Feel free to reach out to us for any inquiries, support, or assistance.</p>
