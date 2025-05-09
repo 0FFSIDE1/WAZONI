@@ -1,15 +1,16 @@
 <script setup>
 import { ref } from 'vue'
+import api from '@/api/axios'
 
 const form = ref({
   fullName: '',
-  businessName: '',
-  category: '',
-  type: '',
-  scale: '',
+  brand_name: '',
+  brand_category: '',
+  brand_type: '',
+  brand_scale: '',
   phone: '',
   email: '',
-  delivery: '',
+  delivery_question: '',
   quantity: ''
 })
 
@@ -23,23 +24,54 @@ const categories = [
 const validateForm = () => {
   errors.value = {}
   if (!form.value.fullName) errors.value.fullName = 'Full name is required.'
-  if (!form.value.businessName) errors.value.businessName = 'Business name is required.'
-  if (!form.value.category) errors.value.category = 'Please select a business category.'
-  if (!form.value.type) errors.value.type = 'Select your business type.'
-  if (!form.value.scale) errors.value.scale = 'Select the scale of your brand.'
+  if (!form.value.brand_name) errors.value.brand_name = 'Business name is required.'
+  if (!form.value.brand_category) errors.value.brand_category = 'Please select a business brand_category.'
+  if (!form.value.brand_type) errors.value.brand_type = 'Select your business brand_type.'
+  if (!form.value.brand_scale) errors.value.brand_scale = 'Select the brand_scale of your brand.'
   if (!form.value.email) errors.value.email = 'Enter your email'
   if (!form.value.phone) errors.value.phone = 'Enter your phone number'
   if (!form.value.quantity) errors.value.quantity = 'Enter your product quantity'
-  if (!form.value.delivery) errors.value.delivery = 'Please answer the delivery question.'
+  if (!form.value.delivery_question) errors.value.delivery_question = 'Please answer the delivery question.'
   return Object.keys(errors.value).length === 0
 }
 
-const submitForm = () => {
+const submitForm = async () => {
   if (validateForm()) {
-    alert('Waitlist submitted successfully!')
-    // Submit logic here
+    try {
+      const response = await api.post('waitlist/', {
+        full_name: form.value.fullName,
+        brand_name: form.value.brand_name,
+        brand_category: form.value.brand_category,
+        brand_type: form.value.brand_type,
+        brand_scale: form.value.brand_scale,
+        phone: form.value.phone,
+        email: form.value.email,
+        delivery_question: form.value.delivery_question,
+        quantity: form.value.quantity  // Note: This field doesn't exist in your Django model unless you add it
+      })
+      alert('Waitlist submitted successfully!')
+      // Reset form
+      form.value = {
+        fullName: '',
+        brand_name: '',
+        brand_category: '',
+        brand_type: '',
+        brand_scale: '',
+        phone: '',
+        email: '',
+        delivery_question: '',
+        quantity: ''
+      }
+    } catch (err) {
+      if (err.response && err.response.data) {
+        errors.value = err.response.data
+      } else {
+        alert('Something went wrong.')
+      }
+    }
   }
 }
+
 </script>
 
 <template>
@@ -64,8 +96,8 @@ const submitForm = () => {
              <!-- Business Name -->
           <fieldset class="fieldset">
               <legend class="fieldset-legend">Brand Name *</legend>
-              <input v-model="form.businessName" type="text" class="input w-full" placeholder="Your business name"  />
-              <p v-if="errors.businessName" class="text-error text-sm">{{ errors.businessName }}</p>
+              <input v-model="form.brand_name" type="text" class="input w-full" placeholder="Your business name"  />
+              <p v-if="errors.brand_name" class="text-error text-sm">{{ errors.brand_name }}</p>
             </fieldset>
 
            <!-- Email -->
@@ -82,50 +114,50 @@ const submitForm = () => {
              <p v-if="errors.phone" class="text-error text-sm">{{ errors.phone }}</p>
           </fieldset>
     
-          <!-- Business Category -->
+          <!-- Business brand_category -->
           <fieldset class="fieldset">
             <legend class="fieldset-legend">Brand Category *</legend>
            
-            <input list="categories" v-model="form.category" placeholder="Choose or type..." class="input input-bordered w-full" />
+            <input list="categories" v-model="form.brand_category" placeholder="Choose or brand_type..." class="input input-bordered w-full" />
             <datalist id="categories">
               <option v-for="item in categories" :key="item" :value="item" />
             </datalist>
-            <p v-if="errors.category" class="text-error text-sm">{{ errors.category }}</p>
+            <p v-if="errors.brand_category" class="text-error text-sm">{{ errors.brand_category }}</p>
           </fieldset>
 
-          <!-- Type of Business -->
+          <!-- brand_type of Business -->
           <fieldset class="fieldset">
             <legend class="fieldset-legend">Type of Brand *</legend>
             <div class="flex flex-wrap gap-3">
               <label class="cursor-pointer">
-                <input type="radio" v-model="form.type" value="Physical Store" class="radio radio-primary" />
+                <input type="radio" v-model="form.brand_type" value="Physical Store" class="radio radio-primary" />
                 <span class="ml-2">Physical Store</span>
               </label>
               <label class="cursor-pointer">
-                <input type="radio" v-model="form.type" value="Online Store" class="radio radio-primary" />
+                <input type="radio" v-model="form.brand_type" value="Online Store" class="radio radio-primary" />
                 <span class="ml-2">Online Store</span>
               </label>
               <label class="cursor-pointer">
-                <input type="radio" v-model="form.type" value="Both" class="radio radio-primary" />
+                <input type="radio" v-model="form.brand_type" value="Both" class="radio radio-primary" />
                 <span class="ml-2">Both</span>
               </label>
             </div>
-            <p v-if="errors.type" class="text-error text-sm">{{ errors.type }}</p>
+            <p v-if="errors.brand_type" class="text-error text-sm">{{ errors.brand_type }}</p>
           </fieldset>
 
-          <!-- Scale -->
+          <!-- brand_scale -->
           <fieldset class="fieldset">
             <legend class="fieldset-legend">How big is your brand? *</legend>
-            <select v-model="form.scale" class="select w-full">
+            <select v-model="form.brand_scale" class="select w-full">
               <option disabled value="">Select one</option>
               <option>Just starting out</option>
               <option>Growing steadily</option>
               <option>Established brand</option>
             </select>
-            <p v-if="errors.scale" class="text-error text-sm">{{ errors.scale }}</p>
+            <p v-if="errors.brand_scale" class="text-error text-sm">{{ errors.brand_scale }}</p>
           </fieldset>
 
-          <!-- Scale -->
+          <!-- brand_scale -->
           <fieldset class="fieldset">
             <legend class="fieldset-legend">How much much product do you have? *</legend>
             <select v-model="form.quantity" class="select w-full">
@@ -142,15 +174,15 @@ const submitForm = () => {
             <legend class="fieldset-legend">Would you deliver outside your location? *</legend>
             <div class="flex gap-4">
               <label class="cursor-pointer">
-                <input type="radio" v-model="form.delivery" value="Yes" class="radio radio-success" />
+                <input brand_type="radio" v-model="form.delivery_question" value="Yes" class="radio radio-success" />
                 <span class="ml-2">Yes</span>
               </label>
               <label class="cursor-pointer">
-                <input type="radio" v-model="form.delivery" value="No" class="radio radio-error" />
+                <input brand_type="radio" v-model="form.delivery_question" value="No" class="radio radio-error" />
                 <span class="ml-2">No</span>
               </label>
             </div>
-            <p v-if="errors.delivery" class="text-error text-sm">{{ errors.delivery }}</p>
+            <p v-if="errors.delivery_question" class="text-error text-sm">{{ errors.delivery_question }}</p>
           </fieldset>
 
           <!-- Submit -->
