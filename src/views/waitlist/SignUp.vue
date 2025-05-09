@@ -3,7 +3,10 @@ import { ref } from 'vue'
 import api from '@/api/axios'
 import Modal from '@/components/Modal.vue'
 import { useToast } from 'vue-toastification';
+import Preloader from '@/components/utils/Preloader.vue';
 
+
+const isLoading = ref(false);
 const form = ref({
   fullName: '',
   brand_name: '',
@@ -41,6 +44,7 @@ const validateForm = () => {
 const submitForm = async () => {
   if (validateForm()) {
     try {
+      isLoading.value = true;
       const response = await api.post('waitlist/', {
         fullName: form.value.fullName,
         brand_name: form.value.brand_name,
@@ -52,6 +56,7 @@ const submitForm = async () => {
         delivery_question: form.value.delivery_question,
         quantity: form.value.quantity  // Note: This field doesn't exist in your Django model unless you add it
       })
+      isLoading.value = false;
       // Show modal
       modalRef.value?.openModal()
       // Reset form
@@ -68,8 +73,8 @@ const submitForm = async () => {
       }
     } catch (err) {
       if (err.response && err.response.data) {
-        console.log(err.response.data)
         errors.value = err.response.data
+        toast.error('Some info are incorrect. Please try again.')
       } else {
         toast.error('Something went wrong, try again later or contact us.')
       }
@@ -80,6 +85,7 @@ const submitForm = async () => {
 </script>
 
 <template>
+  <Preloader v-if="isLoading" />
   <div class="font-poppins min-h-screen bg-base-100 flex flex-col md:flex-row">
     
     <!-- Left: Form -->
