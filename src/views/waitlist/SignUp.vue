@@ -43,8 +43,8 @@ const validateForm = () => {
 
 const submitForm = async () => {
   if (validateForm()) {
+    isLoading.value = true;
     try {
-      isLoading.value = true;
       const response = await api.post('waitlist/', {
         fullName: form.value.fullName,
         brand_name: form.value.brand_name,
@@ -54,11 +54,12 @@ const submitForm = async () => {
         phone: form.value.phone,
         email: form.value.email,
         delivery_question: form.value.delivery_question,
-        quantity: form.value.quantity  // Note: This field doesn't exist in your Django model unless you add it
+        quantity: form.value.quantity
       })
-      isLoading.value = false;
-      // Show modal
+
+      // Show modal on success
       modalRef.value?.openModal()
+
       // Reset form
       form.value = {
         fullName: '',
@@ -71,6 +72,7 @@ const submitForm = async () => {
         delivery_question: '',
         quantity: ''
       }
+
     } catch (err) {
       if (err.response && err.response.data) {
         errors.value = err.response.data
@@ -78,9 +80,12 @@ const submitForm = async () => {
       } else {
         toast.error('Something went wrong, try again later or contact us.')
       }
+    } finally {
+      isLoading.value = false // Always stop loader
     }
   }
 }
+
 
 </script>
 
