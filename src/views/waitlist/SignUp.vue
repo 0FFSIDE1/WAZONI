@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue'
 import api from '@/api/axios'
+import Modal from '@/components/Modal.vue'
+import { useToast } from 'vue-toastification';
 
 const form = ref({
   fullName: '',
@@ -13,8 +15,9 @@ const form = ref({
   delivery_question: '',
   quantity: ''
 })
-
+const toast = useToast()
 const errors = ref({})
+const modalRef = ref(null)
 
 const categories = [
   'Fashion', 'Food & Beverages', 'Electronics', 'Beauty & Skincare',
@@ -24,13 +27,13 @@ const categories = [
 const validateForm = () => {
   errors.value = {}
   if (!form.value.fullName) errors.value.fullName = 'Full name is required.'
-  if (!form.value.brand_name) errors.value.brand_name = 'Business name is required.'
-  if (!form.value.brand_category) errors.value.brand_category = 'Please select a business brand_category.'
-  if (!form.value.brand_type) errors.value.brand_type = 'Select your business brand_type.'
-  if (!form.value.brand_scale) errors.value.brand_scale = 'Select the brand_scale of your brand.'
+  if (!form.value.brand_name) errors.value.brand_name = 'Brand name is required.'
+  if (!form.value.brand_category) errors.value.brand_category = 'Please select a brand category.'
+  if (!form.value.brand_type) errors.value.brand_type = 'Select your brand type.'
+  if (!form.value.brand_scale) errors.value.brand_scale = 'Tell us how big your brand is.'
   if (!form.value.email) errors.value.email = 'Enter your email'
-  if (!form.value.phone) errors.value.phone = 'Enter your phone number'
-  if (!form.value.quantity) errors.value.quantity = 'Enter your product quantity'
+  if (!form.value.phone) errors.value.phone = 'Enter your phone number eg. +234.....'
+  if (!form.value.quantity) errors.value.quantity = 'Please answer the question'
   if (!form.value.delivery_question) errors.value.delivery_question = 'Please answer the delivery question.'
   return Object.keys(errors.value).length === 0
 }
@@ -39,7 +42,7 @@ const submitForm = async () => {
   if (validateForm()) {
     try {
       const response = await api.post('waitlist/', {
-        full_name: form.value.fullName,
+        fullName: form.value.fullName,
         brand_name: form.value.brand_name,
         brand_category: form.value.brand_category,
         brand_type: form.value.brand_type,
@@ -49,7 +52,8 @@ const submitForm = async () => {
         delivery_question: form.value.delivery_question,
         quantity: form.value.quantity  // Note: This field doesn't exist in your Django model unless you add it
       })
-      alert('Waitlist submitted successfully!')
+      // Show modal
+      modalRef.value?.openModal()
       // Reset form
       form.value = {
         fullName: '',
@@ -64,9 +68,10 @@ const submitForm = async () => {
       }
     } catch (err) {
       if (err.response && err.response.data) {
+        console.log(err.response.data)
         errors.value = err.response.data
       } else {
-        alert('Something went wrong.')
+        toast.error('Something went wrong, try again later or contact us.')
       }
     }
   }
@@ -103,7 +108,7 @@ const submitForm = async () => {
            <!-- Email -->
            <fieldset class="fieldset">
             <legend class="fieldset-legend">Email *</legend>
-            <input v-model="form.email" type="tel" placeholder="youremail@example.com" class="input input-bordered w-full" />
+            <input v-model="form.email" type="email" placeholder="youremail@example.com" class="input input-bordered w-full" />
             <p v-if="errors.email" class="text-error text-sm">{{ errors.email }}</p>
           </fieldset>
 
@@ -159,7 +164,7 @@ const submitForm = async () => {
 
           <!-- brand_scale -->
           <fieldset class="fieldset">
-            <legend class="fieldset-legend">How much much product do you have? *</legend>
+            <legend class="fieldset-legend">How much product do you have? *</legend>
             <select v-model="form.quantity" class="select w-full">
               <option disabled value="">Select one</option>
               <option>10 - 100</option>
@@ -174,11 +179,11 @@ const submitForm = async () => {
             <legend class="fieldset-legend">Would you deliver outside your location? *</legend>
             <div class="flex gap-4">
               <label class="cursor-pointer">
-                <input brand_type="radio" v-model="form.delivery_question" value="Yes" class="radio radio-success" />
+                <input type="radio" v-model="form.delivery_question" value="Yes" class="radio radio-success" />
                 <span class="ml-2">Yes</span>
               </label>
               <label class="cursor-pointer">
-                <input brand_type="radio" v-model="form.delivery_question" value="No" class="radio radio-error" />
+                <input type="radio" v-model="form.delivery_question" value="No" class="radio radio-error" />
                 <span class="ml-2">No</span>
               </label>
             </div>
@@ -192,6 +197,7 @@ const submitForm = async () => {
         </form>
       </div>
     </div>
+    <Modal ref="modalRef" />
 
     <!-- Right: Illustration (hidden on small screens) -->
     <div class="hidden md:flex md:w-1/2 bg-gradient-to-br from-base-100 to-base-300 items-center justify-center relative overflow-hidden">
