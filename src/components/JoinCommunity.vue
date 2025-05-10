@@ -1,4 +1,5 @@
 <template>
+  <Preloader v-if="isLoading" />
     <section data-aos="zoom-in-up" class="font-poppins bg-primary-content py-20 px-4 text-center">
       <div class="max-w-xl mx-auto">
         <transition name="fade" appear>
@@ -22,6 +23,7 @@
               placeholder="Email address"
               class="input input-bordered w-full"
             />
+            <p v-if="errors.email" class="text-red-500 text-sm">{{ errors.email }}</p>
 
             <input
               v-model="whatsapp"
@@ -40,26 +42,75 @@
         </div>
       </transition>
     </div>
+    <Modal ref="modalRef" title="Thanks for subscribing!" message="You’ll now receive early updates, event invites, and exclusive news straight to your inbox. Stay tuned—exciting things are coming!"/>
   </section>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
+import api from '@/api/axios';
+import Modal from '@/components/Modal.vue';
+import { useToast } from 'vue-toastification';
+import Preloader from '@/components/utils/Preloader.vue';
 
-const email = ref('')
-const whatsapp = ref('')
+const email = ref('');
+const whatsapp = ref('');
+const toast = useToast();
+const modalRef = ref(null);
+const errors = ref({});
+const isLoading = ref(false);
+const validateForm = () => {
+  errors.value = {}
 
-function submitForm() {
-  console.log('Notify request:', {
-    email: email.value,
-    whatsapp: whatsapp.value,
-  })
+  let isValid = true
 
-  // Reset form fields
-  email.value = ''
-  whatsapp.value = ''
-  alert('You’ll be notified. Thanks for joining!')
+  // Validate email
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!email.value || !emailPattern.test(email.value)) {
+    errors.value.email = 'Please enter a valid email address.'
+    isValid = false
+  }
+
+  // Optional: only validate whatsapp if it's provided
+  if (whatsapp.value && whatsapp.value.length > 15) {
+    errors.value.whatsapp = 'WhatsApp number is too long.'
+    isValid = false
+  }
+  return isValid
 }
+
+const submitForm = async () => {
+  if (validateForm()) {
+    isLoading.value = true;
+    try {
+      const response = await api.post('notify-list/', {
+        email: email.value,
+        whatsappNo: whatsapp.value,
+      })
+
+      // Show modal on success
+      modalRef.value?.openModal()
+
+      // Reset form
+      form.value = {
+        email: '',
+       whatsapp: '',
+        
+      }
+
+    } catch (err) {
+      if (err.response && err.response.data) {
+        errors.value = err.response.data
+        toast.error('Something went wrong. Please try again.')
+      } else {
+        toast.error('Something went wrong, try again later or contact us.')
+      }
+    } finally {
+      isLoading.value = false // Always stop loader
+    }
+  }
+}
+
 </script>
 
 <style scoped>
