@@ -24,7 +24,7 @@ const modalRef = ref(null)
 
 const categories = [
   'Fashion', 'Food & Beverages', 'Electronics', 'Beauty & Skincare',
-  'Home Decor', 'Fitness & Wellness', 'Education', 'Other'
+  'Home Decor', 'Fitness & Wellness', 'Education', 'Others'
 ]
 
 const validateForm = () => {
@@ -134,7 +134,7 @@ const submitForm = async () => {
           <fieldset class="fieldset">
             <legend class="fieldset-legend">Brand Category *</legend>
            
-            <input list="categories" v-model="form.brand_category" placeholder="Choose or brand_type..." class="input input-bordered w-full" />
+            <input list="categories" v-model="form.brand_category" placeholder="Select category...(if others, Please specify)" class="input input-bordered w-full" />
             <datalist id="categories">
               <option v-for="item in categories" :key="item" :value="item" />
             </datalist>
