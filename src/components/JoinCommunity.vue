@@ -91,20 +91,14 @@ const submitForm = async () => {
       // Show modal on success
       modalRef.value?.openModal()
 
-      // Reset form
-      form.value = {
-        email: '',
-       whatsapp: '',
-        
-      }
+      email.value = ''
+      whatsapp.value = ''
 
     } catch (err) {
       if (err.response && err.response.data) {
         errors.value = err.response.data
         toast.error('Something went wrong. Please try again.')
-      } else {
-        toast.error('Something went wrong, try again later or contact us.')
-      }
+      } 
     } finally {
       isLoading.value = false // Always stop loader
     }
