@@ -21,15 +21,17 @@ function closeDropdown() {
         <!-- Hamburger -->
         <div class="dropdown relative">
           <Hamburger @toggle="dropdownOpen = $event" />
-          <ul
-            v-show="dropdownOpen"
-            class="absolute left-0 mt-6 z-10 menu menu-sm dropdown-content shadow bg-base-100 rounded w-52"
-            @click="closeDropdown"
-          >
-            <li><a href="#our-story">Our Story</a></li>
-            <li><a href="#why-us">Why Choose Us</a></li>
-            <li><a href="#contact">Contact Us</a></li>
-          </ul>
+              <transition name="fade-slide">
+                <div
+                  v-show="dropdownOpen"
+                  class="lg:hidden absolute flex flex-col menu menu-md  border-t shadow-md z-50 w-46 bg-base-100"
+                >
+                  <a class="w-full px-2 py-2" href="/">Home</a>
+                  <a class="w-full px-2 py-2" href="/#our-story">Our Story</a>
+                  <a class="w-full px-2 py-2" href="/#why-us">Coming Soon</a>
+                  <a class="w-full px-2 py-2" href="/#contact">Contact Us</a>
+                </div>
+              </transition>
         </div>
 
         <!-- Centered Logo -->
@@ -56,9 +58,10 @@ function closeDropdown() {
 
         <!-- Menu -->
         <ul class="menu menu-horizontal gap-6 text-lg">
-          <li><a href="#our-story">Our Story</a></li>
-          <li><a href="#why-us">Why Choose Us</a></li>
-          <li><a href="#contact">Contact Us</a></li>
+           <li><a href="/">Home</a></li>
+          <li><a href="/#our-story">Our Story</a></li>
+          <li><a href="/#why-us">Why Choose Us</a></li>
+          <li><a href="/#contact">Contact Us</a></li>
         </ul>
 
         <!-- Call Icon -->
@@ -69,3 +72,16 @@ function closeDropdown() {
     </nav>
   </header>
 </template>
+<style scoped>
+.fade-slide-enter-active {
+  transition: all 0.3s ease;
+}
+.fade-slide-leave-active {
+  transition: all 0.2s ease;
+}
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  transform: translateY(-10px);
+  opacity: 0;
+}
+</style>
