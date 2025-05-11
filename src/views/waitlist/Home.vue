@@ -2,15 +2,18 @@
     <div>
         <Hero/>
     </div>
-    <div>
+    <div id="our-story">
         <AboutUs/>
     </div>
-    <div>
+    <div id="why-us">
        <ComingSoon/>
     </div>
     <JoinMovement/>
     <JoinCommunity/>
-    <ContactUs/>
+    <div id="contact">
+         <ContactUs/>
+    </div>
+   
 </template>
 
 <script setup>
