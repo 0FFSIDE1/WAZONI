@@ -26,10 +26,10 @@ function closeDropdown() {
                   v-show="dropdownOpen"
                   class="lg:hidden absolute flex flex-col menu menu-md  border-t shadow-md z-50 w-46 bg-base-100"
                 >
-                  <a class="w-full px-2 py-2" href="/">Home</a>
-                  <a class="w-full px-2 py-2" href="/#our-story">Our Story</a>
-                  <a class="w-full px-2 py-2" href="/#why-us">Coming Soon</a>
-                  <a class="w-full px-2 py-2" href="/#contact">Contact Us</a>
+                  <a class="w-full px-2 py-2" href="/" aria-label="home">Home</a>
+                  <a class="w-full px-2 py-2" href="/#our-story" aria-label="our story">Our Story</a>
+                  <a class="w-full px-2 py-2" href="/#why-us" aria-label="coming soon">Coming Soon</a>
+                  <a class="w-full px-2 py-2" href="/#contact" aria-label="contact us">Contact Us</a>
                 </div>
               </transition>
         </div>
