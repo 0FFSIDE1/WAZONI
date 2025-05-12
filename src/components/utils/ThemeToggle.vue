@@ -1,6 +1,7 @@
 <template>
     <label class="flex cursor-pointer gap-2">
   <svg
+    v-if="theme === 'caramellatte'"
     xmlns="http://www.w3.org/2000/svg"
     width="20"
     height="20"
@@ -14,7 +15,9 @@
     <path
       d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
   </svg>
-  <input type="checkbox" value="synthwave" class="toggle theme-controller" />
+  <input type="checkbox" :checked="theme === 'dark'"
+      @change="toggleTheme"
+      aria-label="Toggle theme" value="synthwave" class="toggle theme-controller" />
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="20"
@@ -30,4 +33,24 @@
 </label>
 </template>
 <script setup>
+import { ref, watchEffect } from 'vue'
+
+// Set theme from localStorage or system preference
+const getInitialTheme = () => {
+  return localStorage.getItem('theme') ||
+    (window.matchMedia('(prefers-color-scheme: luxury)').matches ? 'luxury' : 'caramellatte')
+}
+
+const theme = ref(getInitialTheme())
+
+watchEffect(() => {
+  document.documentElement.setAttribute('data-theme', theme.value)
+  localStorage.setItem('theme', theme.value)
+})
+
+// Toggle between caramelLatte and dark
+const toggleTheme = () => {
+  theme.value = theme.value === 'luxury' ? 'caramellatte' : 'luxury'
+}
+
 </script>
