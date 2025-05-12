@@ -59,10 +59,10 @@ function closeDropdown() {
         <!-- Menu -->
         <ul class="menu menu-horizontal gap-6 text-md">
           
-          <li><a href="/">Home</a></li>
-          <li><a href="/#our-story">Our Story</a></li>
-          <li><a href="/#why-us">Why Choose Us</a></li>
-          <li><a href="/#contact">Contact Us</a></li>
+          <li><router-link to="/">Home</router-link></li>
+          <li><router-link to="/#our-story">Our Story</router-link></li>
+          <li><router-link to="/#why-us">Why Choose Us</router-link></li>
+          <li><router-link to="/#contact">Contact Us</router-link></li>
 
         </ul>
 
@@ -71,9 +71,13 @@ function closeDropdown() {
           <PhoneIcon class="w-6 h-6" />
         </a>
       </div>
+      <ThemeToggle/>
     </nav>
   </header>
 </template>
+<script scoped>
+import ThemeToggle from '@/components/utils/ThemeToggle.vue';
+</script>
 <style scoped>
 .fade-slide-enter-active {
   transition: all 0.3s ease;
