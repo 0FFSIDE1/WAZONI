@@ -57,11 +57,13 @@ function closeDropdown() {
         </a>
 
         <!-- Menu -->
-        <ul class="menu menu-horizontal gap-6 text-lg">
-           <li><a href="/">Home</a></li>
+        <ul class="menu menu-horizontal gap-6 text-md">
+          
+          <li><a href="/">Home</a></li>
           <li><a href="/#our-story">Our Story</a></li>
           <li><a href="/#why-us">Why Choose Us</a></li>
           <li><a href="/#contact">Contact Us</a></li>
+
         </ul>
 
         <!-- Call Icon -->
