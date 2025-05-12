@@ -3,20 +3,23 @@
     class="font-poppins mockup-phone border-primary w-64 md:w-72 lg:w-80 h-[500px] md:h-[650px] mx-auto scale-90 md:scale-100"
   >
     <div class="mockup-phone-display">
-      <div class="mockup-browser border-base-300 border w-72">
+      <div class="mockup-browser border-orange-300 border w-58">
         <div class="mockup-browser-toolbar">
-          <div class="input text-sm">https://wazoni.com</div>
+          <div class="input text-sm">www.wazoni.com</div>
         </div>
-        <div class="grid place-content-center border-t border-base-300 h-[555px]">
-          <span ref="typedElement" class="text-center text-lg font-semibold px-4"></span>
+        <div class="grid place-content-center border-t border-base-300 h-[400px]">
+          <span ref="typedElement" class="text-center text-sm font-semibold px-4"></span>
+         <div class="flex justify-center mt-12">
+             <button @click="$router.push('/waitlist')" class="font-poppins btn btn-primary scale-in">Join the Waitlist</button>
+         </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
 <script setup>
 import { onMounted, ref } from 'vue'
+import router from '../../router'
 import Typed from 'typed.js'
 
 const typedElement = ref(null)

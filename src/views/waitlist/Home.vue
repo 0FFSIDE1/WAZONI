@@ -5,6 +5,9 @@
     <div id="our-story">
         <AboutUs/>
     </div>
+    <div class="my-8 flex justify-center md:hidden">
+        <SubPhone />
+    </div>
     <div id="why-us">
        <ComingSoon/>
     </div>
@@ -23,5 +26,6 @@ import ComingSoon from '@/components/ComingSoon.vue';
 import JoinMovement from '@/components/JoinMovement.vue';
 import JoinCommunity from '@/components/JoinCommunity.vue';
 import ContactUs from '@/components/ContactUs.vue';
+import SubPhone from '@/components/utils/SubPhone.vue'
 
 </script>
