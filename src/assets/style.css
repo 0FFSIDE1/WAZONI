@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: caramellatte, dark --prefersdark, luxury --default;
+  themes: caramellatte --default, dark, luxury --prefersdark;
 }
 @plugin "daisyui/theme" {
   name: "caramellatte";
