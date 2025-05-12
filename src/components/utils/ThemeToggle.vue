@@ -38,7 +38,7 @@ import { ref, watchEffect } from 'vue'
 // Set theme from localStorage or system preference
 const getInitialTheme = () => {
   return localStorage.getItem('theme') ||
-    (window.matchMedia('(prefers-color-scheme: luxury)').matches ? 'luxury' : 'caramellatte')
+    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'luxury' : 'caramellatte');
 }
 
 const theme = ref(getInitialTheme())
@@ -48,7 +48,7 @@ watchEffect(() => {
   localStorage.setItem('theme', theme.value)
 })
 
-// Toggle between caramelLatte and dark
+// Toggle between caramelLatte and luxury theme
 const toggleTheme = () => {
   theme.value = theme.value === 'luxury' ? 'caramellatte' : 'luxury'
 }
