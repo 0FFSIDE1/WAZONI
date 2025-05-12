@@ -1,16 +1,16 @@
 <template>
   <section data-aos="zoom-in" class="font-poppins min-h-screen my-5 flex items-center justify-center px-4">
     <div class="max-w-3xl text-center">
-      <h1 class="text-5xl font-bold mb-6">Our Story</h1>
+      <h1 class="text-5xl font-bold mb-6" aria-label="section heading">Our Story</h1>
       <transition name="fade" mode="out-in">
         <div :key="currentStory.title" class="transition-opacity duration-1000 ease-in-out">
-          <p class="text-xl font-semibold text-primary mb-2">{{ currentStory.title }}</p>
-          <p class="py-4 text-lg leading-relaxed">
+          <p class="text-xl font-semibold text-primary mb-2" aria-label="story title">{{ currentStory.title }}</p>
+          <p class="py-4 text-lg leading-relaxed" aria-label="story message">
             {{ currentStory.story }}
           </p>
         </div>
       </transition>
-      <h1 class="text-primary">
+      <h1 class="text-primary" aria-label="Market nodull - na whoshow face de sell pass">
         "Market no dull — na who show face de sell pass."
       </h1>
       <button @click="GoToWaitlistPage" class="btn btn-primary btn-lg text-lg px-10 hover:scale-105 transition-transform duration-300 mt-8">Join the Waitlist</button>
@@ -39,12 +39,12 @@ const stories = [
     "story": "Olu dey bake cakes wey melt for mouth — birthdays, weddings, any occasion. But even with better taste, online orders no dey. Him Instagram dey dry, even though him cake dey sweet. One day, him friend tell am about one new vendor-focused platform. Olu say, 'If this thing fit show my work well, I go join sharp.' Now, Olu dey ready for global taste buds."
   },
    {
-    "title": "Samuel Built His Brand Quietly — Now He’s Ready for Volume",
-    "story": "For three years, Samuel has sold customized leather footwear. The craftsmanship is top-tier, the reviews are glowing, and repeat buyers are common. Still, word-of-mouth could only take him so far. Scaling was difficult without digital reach. When he heard about a platform built for vendors like him — quality-driven but underrepresented — he joined the waitlist. 'It’s time to move beyond survival and into real growth,' he said."
-  },
-   {
     "title": "Ngozi No Fit Waste Her Talent Again",
     "story": "Ngozi dey do hand-painted home décor — wall arts, flower vases, custom frames. Everybody wey buy from her dey always talk say she dey talented. But talent no be enough if people no fit see your work. When she hear about one new platform for small vendors, she no waste time. 'This na the push I need,' she talk."
+  },
+  {
+    "title": "Leila Had Talent, But She Needed a Platform",
+    "story": "Leila is an illustrator and digital artist who designs prints, stationery, and custom portraits. Her work is unique, vibrant, and praised by everyone who sees it. But without a solid online presence, her audience was limited. Algorithms didn’t favor her, and big platforms buried her work. When she discovered a vendor-first platform prioritizing visibility for creators like her, she saw hope. 'My work speaks for itself,' she said. 'Now I just need more people to hear it.'"
   },
    {
     "title": "Halima Wan Make Her Bags Travel Pass Her",
@@ -79,6 +79,15 @@ const stories = [
     "title": "Sarah Wanted More Than Just Sales — She Wanted Growth",
     "story": "Sarah had been selling eco-friendly beauty products for years. Great quality, strong reviews — but still stuck with low visibility. She knew she needed something different. That’s when she discovered a platform being built for vendors who are tired of being overlooked. She joined the waitlist because she believed her business deserved to be seen by more people. This time, she's not waiting for luck — she's waiting for the right launch."
   },
+  {
+    "title": "Sarah Wanted More Than Just Sales — She Wanted Growth",
+    "story": "Sarah had been selling eco-friendly beauty products for years. Great quality, strong reviews — but still stuck with low visibility. She knew she needed something different. That’s when she discovered a platform being built for vendors who are tired of being overlooked. She joined the waitlist because she believed her business deserved to be seen by more people. This time, she's not waiting for luck — she's waiting for the right launch."
+  },
+{
+  "title": "From Side Hustle to Main Business — Teni’s Turning Point",
+  "story": "Teni started by selling handmade scented candles from her kitchen. Her packaging was elegant, her fragrances long-lasting, and her customers always came back for more. But for a long time, her business stayed small — stuck in her immediate network. That changed the day she signed up for a new platform created to give vendors like her visibility and access to real growth. Now, Teni ships orders nationwide, collaborates with local stores, and plans to expand into wellness products. She says, 'I was just looking for a chance — and I found one.' Thousands of small businesses are still waiting to be seen. You could be next."
+}
+
 ]
 const currentIndex = ref(0)
 const currentStory = ref(stories[0])
@@ -87,7 +96,7 @@ onMounted(() => {
   setInterval(() => {
     currentIndex.value = (currentIndex.value + 1) % stories.length
     currentStory.value = stories[currentIndex.value]
-  }, 30000) // 30 seconds
+  }, 35000) // 30 seconds
 })
 </script>
 <style scoped>
