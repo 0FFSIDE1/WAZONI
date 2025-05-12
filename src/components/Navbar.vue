@@ -28,8 +28,8 @@ function closeDropdown() {
                 >
                   <router-link to="/" class="w-full px-2 py-2"  aria-label="home">Home</router-link>
                   <router-link to="/#our-story" class="w-full px-2 py-2" aria-label="our story">Our Story</router-link>
-                  <router-link class="w-full px-2 py-2" to="/#why-us" aria-label="coming soon">Coming Soon</router-link>
-                  <router-link class="w-full px-2 py-2" to="/#contact" aria-label="contact us">Contact Us</router-link>
+                  <router-link to="/#why-us" class="w-full px-2 py-2"  aria-label="coming soon">Coming Soon</router-link>
+                  <router-link to="/#contact" class="w-full px-2 py-2" aria-label="contact us">Contact Us</router-link>
                 </div>
               </transition>
         </div>
