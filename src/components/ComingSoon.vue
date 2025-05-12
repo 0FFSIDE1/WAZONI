@@ -11,7 +11,7 @@
             :key="index"
             class="group shadow-md rounded-xl p-6 bg-base-200 hover:bg-gray-200 transition duration-500 ease-in-out"
           >
-            <div class="text-5xl mb-4 transition-transform hover:scale-105 group-hover:text-2xl">
+            <div class="text-3xl mb-4 transition-transform hover:scale-105 group-hover:text-2xl">
               <component :is="feature.icon" />
             </div>
             <h3 class="text-xl font-semibold group-hover:text-2xl transition">
