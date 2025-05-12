@@ -24,12 +24,12 @@ function closeDropdown() {
               <transition name="fade-slide">
                 <div
                   v-show="dropdownOpen"
-                  class="lg:hidden absolute flex flex-col menu menu-xl mt-6  border-t shadow-md z-50 w-56 bg-base-100"
+                  class="lg:hidden absolute flex flex-col menu menu-xl mt-6 border-t shadow-md z-50 w-56 bg-base-100"
                 >
-                  <a class="w-full px-2 py-2" href="/" aria-label="home">Home</a>
-                  <a class="w-full px-2 py-2" href="/#our-story" aria-label="our story">Our Story</a>
-                  <a class="w-full px-2 py-2" href="/#why-us" aria-label="coming soon">Coming Soon</a>
-                  <a class="w-full px-2 py-2" href="/#contact" aria-label="contact us">Contact Us</a>
+                  <router-link to="/" class="w-full px-2 py-2"  aria-label="home">Home</router-link>
+                  <router-link to="/#our-story" class="w-full px-2 py-2" aria-label="our story">Our Story</router-link>
+                  <router-link class="w-full px-2 py-2" to="/#why-us" aria-label="coming soon">Coming Soon</router-link>
+                  <router-link class="w-full px-2 py-2" to="/#contact" aria-label="contact us">Contact Us</router-link>
                 </div>
               </transition>
         </div>
