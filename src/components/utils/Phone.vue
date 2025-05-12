@@ -8,7 +8,7 @@
           <div class="input text-sm">https://wazoni.com</div>
         </div>
         <div class="grid place-content-center border-t border-base-300 h-[555px]">
-          <span ref="typedElement" class="text-center text-lg font-semibold px-4"></span>
+          <span ref="typedElement" class="text-center text-lg font-semibold px-4 text-primary"></span>
         </div>
       </div>
     </div>
