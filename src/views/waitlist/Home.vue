@@ -5,7 +5,7 @@
     <div id="our-story">
         <AboutUs/>
     </div>
-    <div class="my-8 flex justify-center md:hidden">
+    <div class="my-4 flex justify-center md:hidden">
         <SubPhone />
     </div>
     <div id="why-us">
