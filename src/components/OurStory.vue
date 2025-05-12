@@ -31,6 +31,31 @@ const stories = [
     "story": "Mama Tee get fine Ankara, affordable price, and loyal customers — but she dey waka market every day, dey beg people to notice her. She no dey lazy, she just need the right people to see wetin she dey offer. Then she hear say one new platform dey come — one wey go give vendors visibility without stress. She say: “If this platform go help me show face, na there I wan dey.”"
   },
   {
+    "title": "Ruth Needed More Than Just a Local Following",
+    "story": "Ruth runs a boutique soap business from her home. Her all-natural bars are beautifully packaged, thoughtfully formulated, and highly rated by every customer she’s had. But growth was slow, limited to referrals and walk-ins. She knew her products had potential — but they needed the right stage. When she discovered a platform focused on giving rising entrepreneurs visibility, she joined immediately. 'This isn’t just a side hustle anymore,' she said. 'It’s a real business — and it deserves real reach.'"
+  },
+  {
+    "title": "Olu Dey Bake, But Internet No Dey Show Am Love",
+    "story": "Olu dey bake cakes wey melt for mouth — birthdays, weddings, any occasion. But even with better taste, online orders no dey. Him Instagram dey dry, even though him cake dey sweet. One day, him friend tell am about one new vendor-focused platform. Olu say, 'If this thing fit show my work well, I go join sharp.' Now, Olu dey ready for global taste buds."
+  },
+   {
+    "title": "Samuel Built His Brand Quietly — Now He’s Ready for Volume",
+    "story": "For three years, Samuel has sold customized leather footwear. The craftsmanship is top-tier, the reviews are glowing, and repeat buyers are common. Still, word-of-mouth could only take him so far. Scaling was difficult without digital reach. When he heard about a platform built for vendors like him — quality-driven but underrepresented — he joined the waitlist. 'It’s time to move beyond survival and into real growth,' he said."
+  },
+   {
+    "title": "Ngozi No Fit Waste Her Talent Again",
+    "story": "Ngozi dey do hand-painted home décor — wall arts, flower vases, custom frames. Everybody wey buy from her dey always talk say she dey talented. But talent no be enough if people no fit see your work. When she hear about one new platform for small vendors, she no waste time. 'This na the push I need,' she talk."
+  },
+   {
+    "title": "Halima Wan Make Her Bags Travel Pass Her",
+    "story": "Halima dey hand-make leather bags — original, stylish, and durable. But all her customers dey within her area. She want her brand to go far, but she no sabi the online game. Then she hear of one ecommerce platform wey dey give vendors wings. She say, 'If this platform fit carry my bags reach people wey sabi better thing, na there I belong.'"
+  },
+  {
+    "title": "Daniel’s Prints Fine, But Nobody Dey Look",
+    "story": "Daniel dey design t-shirts with bold African prints — fashion wey make statement. But him store dey hidden for one small street, and social media no dey help. He hear say new platform dey wey dey carry local vendors go front stage. He rush join the waitlist. Now him dey dream bigger — international delivery no far again."
+  },
+ 
+  {
     "title": "Chika’s Story: From Hidden Gem to Online Star",
     "story": "Chika dey make handmade jewelry wey dey burst brain. People wey buy am always come back, but the problem be say nobody sabi her. She dey hustle inside local market, still sales no dey grow. One day, she join waitlist for one new platform wey promise to give small vendors voice. Today, Chika dey ship her products go Lagos, Abuja, even outside Naija. Na visibility change her game."
   },
