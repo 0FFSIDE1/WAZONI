@@ -1,12 +1,13 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: caramellatte --default, dark, luxury --prefersdark;
+  themes: caramellatte, dark, luxury --prefersdark --default;
 }
 @plugin "daisyui/theme" {
   name: "caramellatte";
   --color-primary-content: oklch(98% 0.022 95.277);
  
 }
+
 
 @theme{
   --font-poppins: "Poppins", "san-serif"

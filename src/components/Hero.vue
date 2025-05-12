@@ -9,8 +9,8 @@
       ></div>
       
       <div class="content  px-4">
-        <blockquote class="font-poppins italic border-l-4 border-primary pl-6 text-lg md:text-xl mb-10"><h1 class="text-4xl md:text-5xl font-bold fade-in">"Your Hustle Deserves to Be <span class="text-neutral-content">Seen</span>"</h1></blockquote>
-        <p class="font-poppins mt-2 text-lg md:text-xl fade-in">Vendors like <span class="text-neutral-content">Mama Tee</span> are ready to stop begging for visibilty. Are you next?</p>
+        <blockquote class="font-poppins italic border-l-4 border-primary pl-6 text-lg md:text-xl mb-10"><h1 class="text-4xl md:text-5xl font-bold fade-in">"Your Hustle Deserves to Be <span class="text-base-content">Seen</span>"</h1></blockquote>
+        <p class="font-poppins mt-2 text-lg md:text-xl fade-in">Vendors like <span class="text-base-content">Mama Tee</span> are ready to stop begging for visibilty. Are you next?</p>
         <button @click="GoToWaitlistPage" class="font-poppins mt-4 btn btn-primary scale-in">Join the Waitlist</button>
       </div>
          <!-- Only show Phone component on md screens and up -->
