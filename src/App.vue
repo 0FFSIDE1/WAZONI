@@ -8,7 +8,6 @@
         </keep-alive>
         <component v-else :is="Component" />
       </router-view>
-
       <ScrollToTop />
     </DefaultLayout>
   </div>
