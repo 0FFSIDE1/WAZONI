@@ -4,7 +4,6 @@
 }
 @plugin "daisyui/theme" {
   name: "caramellatte";
-  default: true;
   --color-primary-content: oklch(98% 0.022 95.277);
  
 }
