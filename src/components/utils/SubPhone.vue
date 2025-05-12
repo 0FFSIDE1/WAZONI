@@ -5,10 +5,10 @@
     <div class="mockup-phone-display">
       <div class="mockup-browser border-orange-300 border w-56">
         <div class="mockup-browser-toolbar">
-          <div class="input text-sm">www.wazoni.com</div>
+          <div class="input text-sm">wazoni.com</div>
         </div>
         <div class="grid place-content-center border-t border-base-300 h-[400px]">
-          <span ref="typedElement" class="text-center text-sm font-semibold px-4"></span>
+          <span ref="typedElement" class="text-center text-secondary-content text-sm font-semibold px-4"></span>
          <div class="flex justify-center mt-12">
              <button @click="$router.push('/waitlist')" class="font-poppins btn btn-primary scale-in">Join the Waitlist</button>
          </div>
