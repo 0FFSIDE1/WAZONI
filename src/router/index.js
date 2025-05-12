@@ -23,6 +23,12 @@ const router = createRouter({
     if (savedPosition) {
       return { ...savedPosition, behavior: 'smooth' };
     }
+    if (to.hash) {
+      return {
+        el: to.hash,
+        behavior: 'smooth'
+      }
+    }
     else {
       return { top: 0, behavior: 'smooth' };
     }
