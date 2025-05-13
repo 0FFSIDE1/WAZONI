@@ -1,15 +1,15 @@
 <template>
   <input type="checkbox" class="modal-toggle" :id="modalId" v-model="isVisible" />
 
-  <div class="modal" role="dialog">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal">
     <div class="modal-box text-center px-6 py-10 rounded-xl">
       <div class="mb-4">
         <svg class="w-16 h-16 mx-auto text-green-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
         </svg>
       </div>
-      <h3 class="text-2xl font-semibold mb-2">{{ title }}</h3>
-      <p class="text-base text-neutral-content">{{ message }}</p>
+      <h3 class="text-2xl font-semibold mb-2" id="modal-title">{{ title }}</h3>
+      <p class="text-base text-neutral-content" id="modal-message">{{ message }}</p>
       <div class="mt-6">
         <button class="btn btn-primary w-full" @click="closeModal">Okay</button>
       </div>
