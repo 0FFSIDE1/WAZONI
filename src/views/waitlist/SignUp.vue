@@ -96,49 +96,48 @@ const submitForm = async () => {
     <!-- Left: Form -->
     <div class="w-full md:w-1/2 p-6 md:p-16 flex flex-col justify-center">
       <div class="max-w-xl mx-auto">
-        <h1 class="text-2xl py-5 md:text-4xl font-bold text-primary mb-3">Be The First. Be Visible. 📢</h1>
-        <p class="text-base-content/70 mb-5 text-sm md:text-base">
+        <h1 class="text-2xl py-5 md:text-4xl font-bold text-primary mb-3" id="waitlist-title">Be The First. Be Visible. 📢</h1>
+        <p class="text-base-content/70 mb-5 text-sm md:text-base" id="waitlist-content">
           Join our community of smart vendors. Get notified before we launch, and never miss an update or event.
         </p>
 
-        <form @submit.prevent="submitForm" class="space-y-4">
+        <form @submit.prevent="submitForm" class="space-y-4" id="waitlist-form">
           <!-- Full Name -->
             <fieldset class="fieldset">
               <legend class="fieldset-legend">Full Name *</legend>
-              <input v-model="form.fullName" type="text" class="input w-full" placeholder="Your full name" />
-              <p v-if="errors.fullName" class="text-error text-sm">{{ errors.fullName }}</p>
+              <input id="fullName" v-model="form.fullName" required type="text" class="input w-full" placeholder="Your full name" :aria-invalid="!!errors.fullName" aria-required="true" :aria-describedby="errors.fullName ? 'fullNameError' : null" autocomplete="name"/>
+              <p v-if="errors.fullName" role="alert" id="fullNameError" class="text-error text-sm">{{ errors.fullName }}</p>
             </fieldset>
 
              <!-- Business Name -->
-          <fieldset class="fieldset">
+            <fieldset class="fieldset">
               <legend class="fieldset-legend">Brand Name *</legend>
-              <input v-model="form.brand_name" type="text" class="input w-full" placeholder="Your business name"  />
-              <p v-if="errors.brand_name" class="text-error text-sm">{{ errors.brand_name }}</p>
+              <input id="brand name" :aria-invalid="!!errors.brand_name" aria-required="true" :aria-describedby="errors.brand_name ? 'brandnameError' : null"  v-model="form.brand_name" required type="text" class="input w-full" placeholder="Your business name"  />
+              <p v-if="errors.brand_name" role="alert" id="brandnameError" class="text-error text-sm">{{ errors.brand_name }}</p>
             </fieldset>
 
            <!-- Email -->
            <fieldset class="fieldset">
             <legend class="fieldset-legend">Email *</legend>
-            <input v-model="form.email" type="email" placeholder="youremail@example.com" class="input input-bordered w-full" />
-            <p v-if="errors.email" class="text-error text-sm">{{ errors.email }}</p>
+            <input id="email" v-model="form.email" :aria-invalid="!!errors.email" aria-required="true" :aria-describedby="errors.email ? 'emailError' : null" autocomplete="email" type="email" placeholder="youremail@example.com" class="input input-bordered w-full" />
+            <p v-if="errors.email" id="emailError" role="alert" class="text-error text-sm">{{ errors.email }}</p>
           </fieldset>
 
           <!-- WhatsApp (Optional) -->
           <fieldset class="fieldset">
             <legend class="fieldset-legend">WhatsApp Number *</legend>
-            <input v-model="form.phone" type="tel" placeholder="+234..." class="input input-bordered w-full" />
-             <p v-if="errors.phone" class="text-error text-sm">{{ errors.phone }}</p>
+            <input id="phone" v-model="form.phone" required :aria-invalid="!!errors.phone" aria-required="true" :aria-describedby="errors.phone ? 'phoneError' : null" autocomplete="tel" type="tel" placeholder="+234..." class="input input-bordered w-full" />
+             <p v-if="errors.phone" id="phoneError" role="alert" class="text-error text-sm">{{ errors.phone }}</p>
           </fieldset>
     
           <!-- Business brand_category -->
           <fieldset class="fieldset">
             <legend class="fieldset-legend">Brand Category *</legend>
-           
-            <input list="categories" v-model="form.brand_category" placeholder="Select category...(if others, Please specify)" class="input input-bordered w-full" />
+            <input  id="brand category" list="categories" required :aria-invalid="!!errors.brand_category" aria-required="true" :aria-describedby="errors.brand_category ? 'brandcategoryError' : null" v-model="form.brand_category" placeholder="Select category...(if others, Please specify)" class="input input-bordered w-full" />
             <datalist id="categories">
               <option v-for="item in categories" :key="item" :value="item" />
             </datalist>
-            <p v-if="errors.brand_category" class="text-error text-sm">{{ errors.brand_category }}</p>
+            <p v-if="errors.brand_category" id="brandcategoryError" role="alert" class="text-error text-sm">{{ errors.brand_category }}</p>
           </fieldset>
 
           <!-- brand_type of Business -->
@@ -146,43 +145,43 @@ const submitForm = async () => {
             <legend class="fieldset-legend">Type of Brand *</legend>
             <div class="flex flex-wrap gap-3">
               <label class="cursor-pointer">
-                <input type="radio" v-model="form.brand_type" value="Physical Store" class="radio radio-primary" />
+                <input id="physical store" type="radio" v-model="form.brand_type" value="Physical Store" class="radio radio-primary" />
                 <span class="ml-2">Physical Store</span>
               </label>
               <label class="cursor-pointer">
-                <input type="radio" v-model="form.brand_type" value="Online Store" class="radio radio-primary" />
+                <input id="online store" type="radio" v-model="form.brand_type" value="Online Store" class="radio radio-primary" />
                 <span class="ml-2">Online Store</span>
               </label>
               <label class="cursor-pointer">
-                <input type="radio" v-model="form.brand_type" value="Both" class="radio radio-primary" />
+                <input type="radio" id="both" v-model="form.brand_type" value="Both" class="radio radio-primary" />
                 <span class="ml-2">Both</span>
               </label>
             </div>
-            <p v-if="errors.brand_type" class="text-error text-sm">{{ errors.brand_type }}</p>
+            <p v-if="errors.brand_type" class="text-error text-sm" role="alert">{{ errors.brand_type }}</p>
           </fieldset>
 
           <!-- brand_scale -->
           <fieldset class="fieldset">
             <legend class="fieldset-legend">How big is your brand? *</legend>
-            <select v-model="form.brand_scale" class="select w-full">
+            <select id="scale_question" v-model="form.brand_scale" class="select w-full">
               <option disabled value="">Select one</option>
               <option>Just starting out</option>
               <option>Growing steadily</option>
               <option>Established brand</option>
             </select>
-            <p v-if="errors.brand_scale" class="text-error text-sm">{{ errors.brand_scale }}</p>
+            <p v-if="errors.brand_scale" class="text-error text-sm" role="alert">{{ errors.brand_scale }}</p>
           </fieldset>
 
           <!-- brand_scale -->
           <fieldset class="fieldset">
             <legend class="fieldset-legend">How much product do you have? *</legend>
-            <select v-model="form.quantity" class="select w-full">
+            <select id="quantity" v-model="form.quantity" class="select w-full">
               <option disabled value="">Select one</option>
               <option>10 - 100</option>
               <option>101 - 1000</option>
               <option>More than 1000</option>
             </select>
-            <p v-if="errors.quantity" class="text-error text-sm">{{ errors.quantity }}</p>
+            <p v-if="errors.quantity" class="text-error text-sm" role="alert">{{ errors.quantity }}</p>
           </fieldset>
 
           <!-- Deliver outside location -->
@@ -190,15 +189,15 @@ const submitForm = async () => {
             <legend class="fieldset-legend">Would you deliver outside your location? *</legend>
             <div class="flex gap-4">
               <label class="cursor-pointer">
-                <input type="radio" v-model="form.delivery_question" value="Yes" class="radio radio-success" />
+                <input id="yes" type="radio" v-model="form.delivery_question" value="Yes" class="radio radio-success" />
                 <span class="ml-2">Yes</span>
               </label>
               <label class="cursor-pointer">
-                <input type="radio" v-model="form.delivery_question" value="No" class="radio radio-error" />
+                <input id="no" type="radio" v-model="form.delivery_question" value="No" class="radio radio-error" />
                 <span class="ml-2">No</span>
               </label>
             </div>
-            <p v-if="errors.delivery_question" class="text-error text-sm">{{ errors.delivery_question }}</p>
+            <p v-if="errors.delivery_question" class="text-error text-sm" role="alert">{{ errors.delivery_question }}</p>
           </fieldset>
 
           <!-- Submit -->
@@ -217,6 +216,7 @@ const submitForm = async () => {
         src="https://undraw.co/api/illustrations/undraw_online_shopping_re_k1sv.svg"
         alt="Online business illustration"
         class="max-w-md z-10"
+        loading="lazy"
       />
     </div>
   </div>
