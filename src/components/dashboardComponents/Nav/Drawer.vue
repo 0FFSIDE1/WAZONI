@@ -8,7 +8,8 @@ import {
   CogIcon,
   UserGroupIcon,
   PowerIcon,
-  FolderPlusIcon
+  FolderPlusIcon,
+  ShoppingCartIcon
 } from "@heroicons/vue/24/outline"
 
 defineProps({ isOpen: Boolean })
@@ -71,6 +72,9 @@ const settingsOpen = ref(false)
           </li>
           <li>
             <router-link to="#"><UserGroupIcon class="w-6" />Customers</router-link>
+          </li>
+           <li>
+            <router-link to="#"><ShoppingCartIcon class="w-6" />Delivery</router-link>
           </li>
          
           <li>

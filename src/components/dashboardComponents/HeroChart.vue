@@ -22,7 +22,7 @@ const options = ref({
   xAxis: { data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] },
   yAxis: {},
   series: [
-    { name: '2025', type: 'line', data: [5, 20, 36] }
+  { name: '2025', type: 'line', data: [5, 20, 136, 50, 60, 73, 82, 68, 100, 122, 239, 230] }
   ]
 })
 </script>
