@@ -1,7 +1,7 @@
 <template>
     <div class="min-h-screen w-full">
         <NavBar />
-        <main>
+        <main class="md:mx-20">
             <slot />
         </main>
         <div class="md:hidden">
