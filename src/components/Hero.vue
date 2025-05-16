@@ -1,25 +1,43 @@
 <template>
-    <div class="relative slideshow-container h-[80vh] w-full">
-      <div
-        v-for="(img, index) in images"
-        :key="index"
-        class="slide"
-        :class="{ active: index === currentSlide }"
-        :style="{ backgroundImage: `url(${img})` }"
-      ></div>
-      
-      <div class="content  px-4">
-        <blockquote class="font-poppins italic border-l-4 border-primary pl-6 text-lg md:text-xl mb-10"><h1 class="text-4xl md:text-5xl font-bold fade-in">"Your Hustle Deserves to Be <span class="text-base-content">Seen</span>"</h1></blockquote>
-        <p class="font-poppins mt-2 text-lg md:text-xl fade-in">Vendors like <span class="text-base-content">Mama Tee</span> are ready to stop begging for visibilty. Are you next?</p>
-        <button @click="GoToWaitlistPage" class="font-poppins mt-4 btn btn-primary scale-in">Join the Waitlist</button>
-      </div>
-         <!-- Only show Phone component on md screens and up -->
-    <div class="hidden md:block absolute bottom-2 right-8 z-10">
+  <section class="relative h-[80vh] w-full slideshow-container" aria-label="Hero Section">
+    <!-- Slides as background images -->
+    <div
+      v-for="(img, index) in images"
+      :key="index"
+      class="absolute inset-0 transition-opacity duration-700 ease-in-out bg-cover bg-center"
+      :class="{ 'opacity-100 z-0': index === currentSlide, 'opacity-0': index !== currentSlide }"
+      :style="{ backgroundImage: `url(${img})` }"
+      role="img"
+      :aria-label="`Slide image ${index + 1}`"
+    ></div>
+
+    <!-- Hero content -->
+    <div class="content px-4">
+      <blockquote class="font-poppins italic border-l-4 border-primary pl-6 mb-6">
+        <h1 class="text-3xl text-secondary-content sm:text-4xl md:text-5xl font-bold leading-tight fade-in">
+          “Your Hustle Deserves to Be <span class="text-base-content">Seen</span>”
+        </h1>
+      </blockquote>
+      <p class="text-secondary-content font-poppins mt-2 text-lg md:text-xl fade-in">
+        Vendors like <strong class="text-base-content">Mama Tee</strong> are ready to stop begging for visibility.
+        Are you next?
+      </p>
+      <button
+        @click="GoToWaitlistPage"
+        class="font-poppins mt-4 btn btn-primary scale-in"
+        aria-label="Join the Waitlist"
+      >
+        Join the Waitlist
+      </button>
+    </div>
+
+    <!-- Phone Component: visible only on md and up -->
+    <div class="hidden md:block absolute bottom-8 right-8 z-20" aria-hidden="true">
       <Phone />
     </div>
-</div>
-   
+  </section>
 </template>
+
   
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
