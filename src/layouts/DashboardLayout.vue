@@ -14,7 +14,6 @@
 </template>
 <script setup>
 import NavBar from '@/components/dashboardComponents/Nav/NavBar.vue';
-
 import Dock from '@/components/dashboardComponents/Dock.vue';
 import Footer from '@/components/Footer.vue'
 </script>
