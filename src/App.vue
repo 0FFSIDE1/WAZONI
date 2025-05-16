@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="font-poppins">
     <Preloader v-if="loading" />
     <component :is="layoutComponent" v-else>
       <router-view v-slot="{ Component }">
