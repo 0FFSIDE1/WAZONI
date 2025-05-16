@@ -1,30 +1,37 @@
 <template>
-<section>
-    <HeroText/>
-    <HeroStat class="w-full"/>
-    <div class="my-6 flex flex-col md:flex-row px-8 py-8">
-        <HeroChart/>
-        <HeroPieChart/>
+  <section class="space-y-12 px-6 md:px-12 py-8">
+    <!-- HERO Section -->
+    <div class="space-y-4">
+      <HeroText />
+      <HeroStat class="w-full" />
     </div>
-    <div class="flex md:gap-60 flex-col md:flex-row">
-        <div>
-            <h2 class="text-2xl text-center">Recent Orders</h2>
-            <RecentOrder/>
-        </div>
-        <div>
-            <h2 class="text-2xl text-center">Notification</h2>
-            <Notification />
 
-        </div> 
+    <!-- CHARTS Section -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <HeroChart class="col-span-1 md:col-span-2" />
+      <HeroPieChart class="col-span-1" />
     </div>
-    <div class="py-8 my-8">
-        <h3 class="text-center my-4 py-4 text-2xl">Recent Transactions</h3>
-        <RecentTransaction />
+
+    <!-- MID Section: Orders + Notifications -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+      <div>
+        <h2 class="text-2xl font-semibold text-center mb-4">Recent Orders</h2>
+        <RecentOrder />
+      </div>
+      <div>
+        <h2 class="text-2xl font-semibold text-center mb-4">Notification</h2>
+        <Notification />
+      </div>
     </div>
-    
-    
-</section>
+
+    <!-- TRANSACTIONS Section -->
+    <div class="py-8">
+      <h3 class="text-center text-2xl font-semibold mb-6">Recent Transactions</h3>
+      <RecentTransaction />
+    </div>
+  </section>
 </template>
+
 <script setup>
 import HeroText from '@/components/dashboardComponents/HeroText.vue'
 import HeroStat from '@/components/dashboardComponents/HeroStat.vue'
