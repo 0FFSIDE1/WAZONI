@@ -1,7 +1,7 @@
 <template>
   <div>
     <Preloader v-if="loading" />
-    <DefaultLayout v-else>
+    <component :is="layoutComponent" v-else>
       <router-view v-slot="{ Component }">
         <keep-alive v-if="$route.meta.keepAlive">
           <component :is="Component" />
@@ -9,24 +9,31 @@
         <component v-else :is="Component" />
       </router-view>
       <ScrollToTop />
-    </DefaultLayout>
+    </component>
   </div>
 </template>
 
 <script setup>
+import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import DefaultLayout from './layouts/DefaultLayout.vue'
-import Preloader from './components/utils/Preloader.vue';
-import { ref, onMounted} from 'vue';
-import ScrollToTop from './components/utils/ScrollToTopBtn.vue';
+import DashboardLayout from './layouts/DashboardLayout.vue'
+import Preloader from './components/utils/Preloader.vue'
+import ScrollToTop from './components/utils/ScrollToTopBtn.vue'
+import layouts from './layouts'
 
-const loading = ref(true);
 const route = useRoute()
+const loading = ref(true)
 
+
+const layoutComponent = computed(() => {
+  const layout = route.meta.layout || 'default'
+  return layouts[layout] || layouts.default
+})
 
 onMounted(() => {
   setTimeout(() => {
-    loading.value = false; 
-  }, 4000);
-});
+    loading.value = false
+  }, 4000)
+})
 </script>
