@@ -3,8 +3,8 @@
   <svg
     v-if="theme === 'caramellatte'"
     xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
+    width="10"
+    height="10"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -17,11 +17,11 @@
   </svg>
   <input type="checkbox" :checked="theme === 'dark'"
       @change="toggleTheme"
-      aria-label="Toggle theme" value="synthwave" class="toggle theme-controller" />
+      aria-label="Toggle theme" value="synthwave" class="toggle theme-controller w-8 h-4" />
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
+    width="10"
+    height="10"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
