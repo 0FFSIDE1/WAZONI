@@ -6,6 +6,7 @@
 
       <!-- Side Drawer -->
       <aside class="relative w-72 bg-base-200 text-base-content p-4 shadow-lg z-50">
+        <button @click="$emit('close')" class="btn btn-sm btn-circle absolute top-2 right-2">✕</button>
         <h3 class="text-center border-b-2 p-4"><a href="/" class="text-2xl font-bold" aria-label="Homepage">WAZONI</a></h3>
         <ul class="menu menu-xs space-y-3 pt-8">
           <li>
@@ -33,12 +34,12 @@
           
         </ul>
         <div class="absolute bottom-12">
-          <ul class="flex flex-row items-center justify-between gap-32">
+          <ul class="flex flex-row items-center text-sm justify-between gap-24">
             <li>
-              <router-link to="#"><HomeIcon class="w-4"/>Home</router-link>
+              <router-link class="flex flex-row items-center gap-2" to="#"><HomeIcon class="w-4"/>Website</router-link>
             </li>
             <li>
-              <router-link to="#"><PowerIcon class="w-4"/>Logout</router-link>
+              <router-link class="flex flex-row items-center gap-2" to="#"><PowerIcon class="w-4"/>Logout</router-link>
             </li>
           </ul>
         </div>
