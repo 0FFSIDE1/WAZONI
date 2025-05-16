@@ -1,8 +1,10 @@
 <template>
 <section>
-    <Hero/>
+    <HeroText/>
+    <HeroStat class="w-full"/>
 </section>
 </template>
 <script setup>
-import Hero from '@/components/dashboardComponents/Hero.vue'
+import HeroText from '@/components/dashboardComponents/HeroText.vue'
+import HeroStat from '@/components/dashboardComponents/HeroStat.vue'
 </script>
