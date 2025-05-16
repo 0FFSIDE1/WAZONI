@@ -10,7 +10,7 @@
           </label> -->
         </th>
         <th>Product</th>
-        <th>Description</th>
+        <th>Qty</th>
         <th>Price</th>
         <th></th>
       </tr>
@@ -39,9 +39,8 @@
           </div>
         </td>
         <td>
-          Zemlak, Daniel and Leannon
           <br />
-          <span class="badge badge-ghost badge-sm">Desktop Support Technician</span>
+          <span class="badge badge-ghost badge-sm">1</span>
         </td>
         <td>$1000.00</td>
         <th>
@@ -71,9 +70,9 @@
           </div>
         </td>
         <td>
-          Carroll Group
+          
           <br />
-          <span class="badge badge-ghost badge-sm">Tax Accountant</span>
+          <span class="badge badge-ghost badge-sm">16</span>
         </td>
         <td>$4200.00</td>
         <th>
@@ -103,9 +102,9 @@
           </div>
         </td>
         <td>
-          Rowe-Schoen
+         
           <br />
-          <span class="badge badge-ghost badge-sm">Office Assistant I</span>
+          <span class="badge badge-ghost badge-sm">4</span>
         </td>
         <td>$80.00</td>
         <th>
@@ -135,9 +134,9 @@
           </div>
         </td>
         <td>
-          Wyman-Ledner
+         
           <br />
-          <span class="badge badge-ghost badge-sm">Community Outreach Specialist</span>
+          <span class="badge badge-ghost badge-sm">50</span>
         </td>
         <td>$900.00</td>
         <th>
