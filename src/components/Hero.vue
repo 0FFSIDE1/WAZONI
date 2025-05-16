@@ -13,13 +13,13 @@
 
     <!-- Hero content -->
     <div class="content px-4">
-      <blockquote class="font-poppins italic border-l-4 border-primary pl-6 mb-6">
+      <blockquote class="font-poppins italic border-l-4 border-base-content pl-6 mb-6">
         <h1 class="text-3xl text-secondary-content sm:text-4xl md:text-5xl font-bold leading-tight fade-in">
-          “Your Hustle Deserves to Be <span class="text-base-content">Seen</span>”
+          “Your Hustle Deserves to Be <span class="text-warning">Seen</span>”
         </h1>
       </blockquote>
       <p class="text-secondary-content font-poppins mt-2 text-lg md:text-xl fade-in">
-        Vendors like <strong class="text-base-content">Mama Tee</strong> are ready to stop begging for visibility.
+        Vendors like <strong class="text-warning">Mama Tee</strong> are ready to stop begging for visibility.
         Are you next?
       </p>
       <button
@@ -42,7 +42,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import Phone from '@/components/utils/Phone.vue'
-import Img1 from '@/assets/images/hero1.jpeg'
+import Img1 from '@/assets/images/download.png'
 import Img2 from '@/assets/images/hero2.jpeg'
 import Img3 from '@/assets/images/hero3.jpeg'
 import Img4 from '@/assets/images/hero4.jpeg'
@@ -51,7 +51,8 @@ const router = useRouter();
 const GoToWaitlistPage = () => {
   router.push('/waitlist');
 };
-const images = [Img1, Img2, Img3, Img4]
+// const images = [Img1, Img2, Img3, Img4]
+const images = [Img1]
 const currentSlide = ref(0)
 let interval
 
