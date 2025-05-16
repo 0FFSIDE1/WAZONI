@@ -1,5 +1,12 @@
 <template>
-  <v-chart class="h-96" :option="chartOptions" />
+  <!-- Responsive container -->
+  <div class="w-full max-w-3xl mx-auto px-4">
+    <v-chart
+      :option="chartOptions"
+      autoresize
+      class="w-full h-96"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -7,22 +14,16 @@ import { ref } from 'vue'
 import VChart from 'vue-echarts'
 import { use } from 'echarts/core'
 
-// Import required ECharts modules
-import {
-  PieChart
-} from 'echarts/charts'
-
+// Required ECharts modules
+import { PieChart } from 'echarts/charts'
 import {
   TitleComponent,
   TooltipComponent,
   LegendComponent
 } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
 
-import {
-  CanvasRenderer
-} from 'echarts/renderers'
-
-// Register components
+// Register modules
 use([
   PieChart,
   TitleComponent,
@@ -31,11 +32,13 @@ use([
   CanvasRenderer
 ])
 
-// Pie chart config
 const chartOptions = ref({
   title: {
     text: 'Sales by Category',
-    left: 'center'
+    left: 'center',
+    textStyle: {
+      fontSize: 18
+    }
   },
   tooltip: {
     trigger: 'item',
