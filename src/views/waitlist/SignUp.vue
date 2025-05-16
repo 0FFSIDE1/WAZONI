@@ -127,7 +127,7 @@ const submitForm = async () => {
           <fieldset class="fieldset">
             <legend class="fieldset-legend">WhatsApp Number *</legend>
             <input id="phone" v-model="form.phone" required :aria-invalid="!!errors.phone" aria-required="true" :aria-describedby="errors.phone ? 'phoneError' : null" autocomplete="tel" type="tel" placeholder="+234..." class="input input-bordered w-full" />
-             <p v-if="errors.phone" id="phoneError" role="alert" class="text-error text-sm">{{ errors.phone }}</p>
+             <p v-if="errors.phone" id="phoneError" role="alert" class="text-error text-sm">{{ errors.phone[0] }}</p>
           </fieldset>
     
           <!-- Business brand_category -->
@@ -207,7 +207,7 @@ const submitForm = async () => {
         </form>
       </div>
     </div>
-    <Modal ref="modalRef" />
+    <Modal ref="modalRef"/>
 
     <!-- Right: Illustration (hidden on small screens) -->
     <div class="hidden md:flex md:w-1/2 bg-gradient-to-br from-base-100 to-base-300 items-center justify-center relative overflow-hidden">

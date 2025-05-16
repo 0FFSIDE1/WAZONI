@@ -16,7 +16,6 @@
     <div id="contact">
          <ContactUs/>
     </div>
-   
 </template>
 
 <script setup>
