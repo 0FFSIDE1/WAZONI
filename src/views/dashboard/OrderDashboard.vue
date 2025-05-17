@@ -2,7 +2,7 @@
   <div class="p-6 mx-auto">
     <!-- Header -->
     <div class="flex justify-between items-center mb-6">
-      <h1 class="text-2xl font-bold">Orders Dashboard</h1>
+      <h1 class="text-2xl font-bold">Orders</h1>
       <button class="btn btn-sm btn-outline" @click="exportToCSV">Export CSV</button>
     </div>
 
@@ -25,61 +25,64 @@
     </div>
 
     <!-- Order Status Count Summary -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4 text-sm text-center">
-      <div class="p-4 bg-base-200 rounded">
-        <div class="font-semibold">Created</div>
+    <div class="grid grid-cols-2 text-secondary  text-md md:text-2xl sm:grid-cols-4 gap-4 mb-4  text-center">
+      <div class="p-6 bg-gray-200 rounded shadow-xl">
+        <div class="font-semibold py-2">Created</div>
         <div>{{ countByStatus('Created') }}</div>
       </div>
-      <div class="p-4 bg-base-200 rounded">
-        <div class="font-semibold">Pending</div>
+      <div class="p-6 bg-gray-200 rounded shadow-xl">
+        <div class="font-semibold text-orange-600 py-2">Pending</div>
         <div>{{ countByStatus('Pending') }}</div>
       </div>
-      <div class="p-4 bg-base-200 rounded">
-        <div class="font-semibold">Shipped</div>
+      <div class="p-6 bg-gray-200 rounded shadow-xl">
+        <div class="font-semibold text-info py-2">Shipped</div>
         <div>{{ countByStatus('Shipped') }}</div>
       </div>
-      <div class="p-4 bg-base-200 rounded">
-        <div class="font-semibold">Completed</div>
+      <div class="p-6 bg-gray-200 rounded shadow-xl">
+        <div class="font-semibold text-success py-2">Completed</div>
         <div>{{ countByStatus('Completed') }}</div>
       </div>
     </div>
 
-    <!-- Order Table -->
-    <div class="overflow-x-auto">
-      <table class="table table-zebra w-full">
-        <thead>
-          <tr>
-            <th>Customer</th>
-            <th>Phone</th>
-            <th>Address</th>
-            <th>Order ID</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Total ($)</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="order in filteredOrders" :key="order.id">
-            <td>{{ order.customer }}</td>
-            <td>{{ order.phone }}</td>
-            <td>{{ order.address }}</td>
-            <td>{{ order.orderId }}</td>
-            <td>{{ order.date }}</td>
-            <td>
-              <span class="badge" :class="{
-                'badge-success': order.status === 'Completed',
-                'badge-warning': order.status === 'Pending',
-                'badge-info': order.status === 'Shipped',
-                'badge-error': order.status === 'Cancelled',
-              }">{{ order.status }}</span>
-            </td>
-            <td>${{ order.total.toFixed(2) }}</td>
-            <td><button class="btn btn-sm btn-outline" @click="viewOrder(order)">View</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+   <!-- Responsive Table -->
+<div class="overflow-x-auto w-full rounded-lg border bg-base-100">
+  <table class="table table-zebra table-sm w-full min-w-[900px]">
+    <thead>
+      <tr>
+        <th>Customer</th>
+        <th>Phone</th>
+        <th>Address</th>
+        <th>Order ID</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Total ($)</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="order in filteredOrders" :key="order.id">
+        <td class="truncate max-w-[150px]" :title="order.customer">{{ order.customer }}</td>
+        <td>{{ order.phone }}</td>
+        <td class="truncate max-w-[180px]" :title="order.address">{{ order.address }}</td>
+        <td>{{ order.orderId }}</td>
+        <td>{{ order.date }}</td>
+        <td>
+          <span class="badge" :class="{
+            'badge-success': order.status === 'Completed',
+            'badge-warning': order.status === 'Pending',
+            'badge-info': order.status === 'Shipped',
+            'badge-error': order.status === 'Cancelled',
+          }">{{ order.status }}</span>
+        </td>
+        <td>${{ order.total.toFixed(2) }}</td>
+        <td>
+          <button class="btn btn-sm btn-outline" @click="viewOrder(order)">View</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 
     <!-- Order Detail Modal -->
     <dialog ref="modalRef" class="modal" role="dialog" aria-modal="true">
@@ -99,13 +102,15 @@
 
           <!-- Steps -->
           <h3 class="font-semibold mt-4 mb-2">Order Progress</h3>
+          <div class="flex justify-center items-center">
           <ul class="steps steps-vertical lg:steps-horizontal">
             <li class="step" :class="getStepClass('Created')">Created</li>
             <li class="step" :class="getStepClass('Pending')">Processing</li>
-            <li class="step" :class="getStepClass('Shipped')">Shipping</li>
+            <li class="step" :class="getStepClass('Shipped')">In Transit</li>
             <li class="step" :class="getStepClass('Completed')">Delivered</li>
             <li v-if="selectedOrder.status === 'Cancelled'" class="step step-error">Cancelled</li>
           </ul>
+          </div>
 
           <!-- Items -->
           <h3 class="font-semibold mt-6 mb-2">Items in this Order</h3>
@@ -189,7 +194,7 @@ const orders = ref([
   },
   {
     id: 4,
-    customer: 'Mark Smith',
+    customer: 'Mark Anothny',
     phone: '+15552223333',
     address: '456 New York, NY',
     orderId: 'ORD729012',
@@ -269,15 +274,40 @@ onMounted(() => {
 });
 
 const exportToCSV = () => {
-  const rows = [['Customer','Phone','Address','Order ID','Date','Status','Total']];
-  orders.value.forEach((o) => rows.push([o.customer, o.phone, o.address, o.orderId, o.date, o.status, o.total]));
-  const csv = rows.map((r) => r.join(',')).join('\n');
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'orders.csv';
-  a.click();
+  const headers = ['Customer', 'Phone', 'Address', 'Order ID', 'Date', 'Status', 'Total'];
+
+  const escapeCSV = (field) => {
+    if (typeof field === 'number' && field.toString().length > 10) {
+      // Force phone number to be treated as a string
+      return `"${field}"`;
+    }
+    if (typeof field === 'string' && (field.includes(',') || field.includes('"') || field.includes('\n'))) {
+      return `"${field.replace(/"/g, '""')}"`; // Escape quotes
+    }
+    return field;
+  };
+
+  const rows = orders.value.map((o) => [
+    escapeCSV(o.customer),
+    escapeCSV(o.phone),
+    escapeCSV(o.address),
+    escapeCSV(o.orderId),
+    escapeCSV(o.date),
+    escapeCSV(o.status),
+    escapeCSV(o.total),
+  ]);
+
+  const csvContent = [headers, ...rows].map((row) => row.join(',')).join('\n');
+
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.setAttribute('download', 'orders.csv');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 };
+
 </script>
 
 <style scoped>
