@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import {
+  BellAlertIcon,
   HomeIcon,
   HomeModernIcon,
   ShoppingBagIcon,
@@ -9,7 +10,8 @@ import {
   UserGroupIcon,
   PowerIcon,
   FolderPlusIcon,
-  ShoppingCartIcon
+  ShoppingCartIcon,
+  WalletIcon
 } from "@heroicons/vue/24/outline"
 
 const props = defineProps({
@@ -65,6 +67,12 @@ const settingsOpen = ref(false)
               <HomeModernIcon class="w-6" />Dashboard
             </router-link>
           </li>
+          <li>
+            <router-link to="/vendor/dashboard/">
+              <WalletIcon class="w-6" />Wallet    
+            </router-link>
+          </li>
+          
 
           <!-- Inventory Dropdown -->
           <li>
@@ -81,29 +89,26 @@ const settingsOpen = ref(false)
                 <li><router-link to="#"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122" />
 </svg>
-All Products</router-link></li>
-                <li><router-link to="#"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+Products</router-link></li>
+                <!-- <li><router-link to="#"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
 </svg>
-Add Products</router-link></li>
+Add Products</router-link></li> -->
                 <li><router-link to="#"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" />
 </svg>
-Product Stats</router-link></li>
+Products Stats</router-link></li>
               </ul>
             </transition>
           </li>
-
-          <!-- Orders -->
-          <li>
-            <router-link to="#"><ShoppingBagIcon class="w-6" />Orders</router-link>
-          </li>
-
           <!-- Transactions -->
           <li>
             <router-link to="#"><BanknotesIcon class="w-6" />Transactions</router-link>
           </li>
-
+          <!-- Orders -->
+          <li>
+            <router-link to="/vendor/dashboard/orders/"><ShoppingBagIcon class="w-6" />Orders</router-link>
+          </li>
           <!-- Delivery Dropdown -->
           <li>
             <button class="flex items-center justify-between w-full" @click="deliveryOpen = !deliveryOpen">
@@ -127,12 +132,14 @@ Track Parcel</router-link></li>
               </ul>
             </transition>
           </li>
-
-          <!-- Customers -->
+           <!-- Customers -->
           <li>
             <router-link to="#"><UserGroupIcon class="w-6" />Customers</router-link>
           </li>
-
+          <li>
+            <router-link to="#"><BellAlertIcon class="w-6" />Notifications</router-link>
+          </li>
+        
           <!-- Settings Dropdown -->
           <li>
             <button class="flex items-center justify-between w-full" @click="settingsOpen = !settingsOpen">
