@@ -4,12 +4,11 @@
     <thead>
       <tr>
         <th></th>
-        <th>Name</th>
-        <th>Job</th>
-        <th>company</th>
-        <th>location</th>
-        <th>Last Login</th>
-        <th>Favorite Color</th>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Reference</th>
+        <th>Amount</th>
+        <th>Status</th>
       </tr>
     </thead>
     <tbody>
@@ -20,7 +19,7 @@
         <td>Littel, Schaden and Vandervort</td>
         <td>Canada</td>
         <td>12/16/2020</td>
-        <td>Blue</td>
+        
       </tr>
       <tr>
         <th>2</th>
@@ -29,7 +28,7 @@
         <td>Zemlak, Daniel and Leannon</td>
         <td>United States</td>
         <td>12/5/2020</td>
-        <td>Purple</td>
+        
       </tr>
       <tr>
         <th>3</th>
@@ -38,7 +37,7 @@
         <td>Carroll Group</td>
         <td>China</td>
         <td>8/15/2020</td>
-        <td>Red</td>
+      
       </tr>
       <tr>
         <th>4</th>
@@ -47,7 +46,7 @@
         <td>Rowe-Schoen</td>
         <td>Russia</td>
         <td>3/25/2021</td>
-        <td>Crimson</td>
+      
       </tr>
       <tr>
         <th>5</th>
@@ -56,7 +55,7 @@
         <td>Wyman-Ledner</td>
         <td>Brazil</td>
         <td>5/22/2020</td>
-        <td>Indigo</td>
+       
       </tr>
       <tr>
         <th>6</th>
@@ -65,7 +64,7 @@
         <td>Wiza, Bins and Emard</td>
         <td>Venezuela</td>
         <td>12/8/2020</td>
-        <td>Purple</td>
+       
       </tr>
       <tr>
         <th>7</th>
@@ -74,7 +73,7 @@
         <td>Schuster-Schimmel</td>
         <td>Philippines</td>
         <td>2/17/2021</td>
-        <td>Yellow</td>
+        
       </tr>
       <tr>
         <th>8</th>
@@ -83,7 +82,7 @@
         <td>O'Hara, Welch and Keebler</td>
         <td>Indonesia</td>
         <td>5/23/2020</td>
-        <td>Crimson</td>
+      
       </tr>
       <tr>
         <th>9</th>
@@ -92,7 +91,7 @@
         <td>Turner-Kuhlman</td>
         <td>Philippines</td>
         <td>2/21/2021</td>
-        <td>Maroon</td>
+       
       </tr>
       <tr>
         <th>10</th>
@@ -101,18 +100,17 @@
         <td>Sauer LLC</td>
         <td>Chad</td>
         <td>6/23/2020</td>
-        <td>Green</td>
+      
       </tr>
     </tbody>
     <tfoot>
       <tr>
         <th></th>
-        <th>Name</th>
-        <th>Job</th>
-        <th>company</th>
-        <th>location</th>
-        <th>Last Login</th>
-        <th>Favorite Color</th>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Reference</th>
+        <th>Amount</th>
+        <th>Status</th>
       </tr>
     </tfoot>
   </table>
