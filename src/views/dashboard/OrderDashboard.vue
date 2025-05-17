@@ -102,7 +102,7 @@
 
           <!-- Steps -->
           <h3 class="font-semibold mt-4 mb-2">Order Progress</h3>
-          <div class="flex justify-center items-center">
+        
           <ul class="steps steps-vertical lg:steps-horizontal">
             <li class="step" :class="getStepClass('Created')">Created</li>
             <li class="step" :class="getStepClass('Pending')">Processing</li>
@@ -110,8 +110,7 @@
             <li class="step" :class="getStepClass('Completed')">Delivered</li>
             <li v-if="selectedOrder.status === 'Cancelled'" class="step step-error">Cancelled</li>
           </ul>
-          </div>
-
+        
           <!-- Items -->
           <h3 class="font-semibold mt-6 mb-2">Items in this Order</h3>
           <ul class="space-y-4 max-h-60 overflow-y-auto pr-2">
