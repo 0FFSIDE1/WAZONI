@@ -18,6 +18,12 @@ const routes = [
     component: () => import('@/views/dashboard/DashboardHome.vue'),
     meta: { keepAlive: false, layout: 'dashboard' }
   },
+   {
+    path: '/vendor/dashboard/orders/',
+    name: 'order',
+    component: () => import('@/views/dashboard/orderDashboard.vue'),
+    meta: { keepAlive: false, layout: 'dashboard' }
+  },
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
