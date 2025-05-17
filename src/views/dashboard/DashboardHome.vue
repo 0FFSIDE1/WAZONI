@@ -1,5 +1,5 @@
 <template>
-  <section class="space-y-12 px-6 md:px-12 py-8">
+  <section class="space-y-12 px-2 md:px-12 py-8">
     <!-- HERO Section -->
     <div class="space-y-4">
       <HeroText />
@@ -19,8 +19,8 @@
         <RecentOrder />
       </div>
       <div>
-        <h2 class="text-2xl font-semibold text-center mb-4">Notification</h2>
-        <Notification />
+        <h2 class="text-2xl font-semibold text-center mb-4">Customers</h2>
+        <RecentCustomers />
       </div>
     </div>
 
@@ -38,6 +38,7 @@ import HeroStat from '@/components/dashboardComponents/HeroStat.vue'
 import HeroChart from '@/components/dashboardComponents/HeroChart.vue'
 import HeroPieChart from '@/components/dashboardComponents/HeroPieChart.vue'
 import RecentOrder from '@/components/dashboardComponents/RecentOrder.vue'
-import Notification from '@/components/dashboardComponents/Notification.vue'
+// import Notification from '@/components/dashboardComponents/Notification.vue'
+import RecentCustomers from '@/components/dashboardComponents/RecentCustomers.vue'
 import RecentTransaction from '@/components/dashboardComponents/RecentTransaction.vue'
 </script>
