@@ -34,6 +34,6 @@ const layoutComponent = computed(() => {
 onMounted(() => {
   setTimeout(() => {
     loading.value = false
-  }, 4000)
+  }, 3000)
 })
 </script>
