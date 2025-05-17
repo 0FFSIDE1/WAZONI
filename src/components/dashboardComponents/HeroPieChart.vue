@@ -37,7 +37,7 @@ const chartOptions = ref({
     text: 'Sales by Category',
     left: 'center',
     textStyle: {
-      fontSize: 18
+      fontSize: 24
     }
   },
   tooltip: {
