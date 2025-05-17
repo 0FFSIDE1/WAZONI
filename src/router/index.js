@@ -21,7 +21,7 @@ const routes = [
    {
     path: '/vendor/dashboard/orders/',
     name: 'order',
-    component: () => import('@/views/dashboard/orderDashboard.vue'),
+    component: () => import('@/views/dashboard/OrderDashboard.vue'),
     meta: { keepAlive: false, layout: 'dashboard' }
   },
   {
