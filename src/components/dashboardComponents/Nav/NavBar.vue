@@ -1,5 +1,4 @@
 <script setup>
-import { defineEmits } from 'vue'
 import Hamburger from '@/components/dashboardComponents/Nav/Hamburger.vue'
 import ThemeToggle from '@/components/utils/ThemeToggle.vue'
 import { BellAlertIcon } from '@heroicons/vue/24/outline'
