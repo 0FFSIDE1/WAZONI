@@ -33,12 +33,12 @@
 </template>
 
 <script setup>
-import HeroText from '@/components/dashboardComponents/home/HeroText.vue'
-import HeroStat from '@/components/dashboardComponents/home/HeroStat.vue'
-import HeroChart from '@/components/dashboardComponents/home/HeroChart.vue'
-import HeroPieChart from '@/components/dashboardComponents/home/HeroPieChart.vue'
-import RecentOrder from '@/components/dashboardComponents/home/RecentOrder.vue'
+import HeroText from '@/components/dashboardComponents/homeComponents/HeroText.vue'
+import HeroStat from '@/components/dashboardComponents/homeComponents/HeroStat.vue'
+import HeroChart from '@/components/dashboardComponents/homeComponents/HeroChart.vue'
+import HeroPieChart from '@/components/dashboardComponents/homeComponents/HeroPieChart.vue'
+import RecentOrder from '@/components/dashboardComponents/homeComponents/RecentOrder.vue'
 // import Notification from '@/components/dashboardComponents/Notification.vue'
-import RecentCustomers from '@/components/dashboardComponents/home/RecentCustomers.vue'
-import RecentTransaction from '@/components/dashboardComponents/home/RecentTransaction.vue'
+import RecentCustomers from '@/components/dashboardComponents/homeComponents/RecentCustomers.vue'
+import RecentTransaction from '@/components/dashboardComponents/homeComponents/RecentTransaction.vue'
 </script>
