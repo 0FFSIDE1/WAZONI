@@ -9,7 +9,7 @@
       <NavBar :drawerOpen="drawerOpen" :isDesktop="isDesktop" @toggle="toggleDrawer" />
 
       <!-- Main content -->
-      <main class="p-4 md:pr-8">
+      <main class="md:pr-8">
         <slot />
       </main>
 
