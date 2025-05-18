@@ -15,14 +15,26 @@ const routes = [
   {
     path: '/vendor/dashboard/',
     name: 'dashboard',
-    component: () => import('@/views/dashboard/DashboardHome.vue'),
-    meta: { keepAlive: false, layout: 'dashboard' }
+    component: () => import('@/views/vendorDashboard/DashboardHome.vue'),
+    meta: { keepAlive: false, layout: 'vendordashboard' }
   },
-   {
+  {
     path: '/vendor/dashboard/orders/',
-    name: 'order',
-    component: () => import('@/views/dashboard/OrderDashboard.vue'),
-    meta: { keepAlive: false, layout: 'dashboard' }
+    name: 'orders',
+    component: () => import('@/views/vendorDashboard/OrderDashboard.vue'),
+    meta: { keepAlive: false, layout: 'vendordashboard' }
+  },
+  {
+    path: '/vendor/dashboard/products/',
+    name: 'products',
+    component: () => import('@/views/vendorDashboard/ProductDashboard.vue'),
+    meta: { keepAlive: false, layout: 'vendordashboard' }
+  },
+  {
+    path: '/vendor/dashboard/transactions/',
+    name: 'transactions',
+    component: () => import('@/views/vendorDashboard/TransactionsDashboard.vue'),
+    meta: { keepAlive: false, layout: 'vendordashboard' }
   },
   {
     path: '/:pathMatch(.*)*',
