@@ -15,8 +15,8 @@
         <option value="expense">Expenses</option>
       </select>
 
-      <input v-model="filters.startDate" type="date" class="input input-bordered w-full md:w-48" />
-      <input v-model="filters.endDate" type="date" class="input input-bordered w-full md:w-48" />
+      <input v-model="filters.startDate" type="date" placeholder="mm/dd/yyyy" class="input input-bordered w-full md:w-48" />
+      <input v-model="filters.endDate" type="date" placeholder="mm/dd/yyyy" class="input input-bordered w-full md:w-48" />
     </div>
 
     <!-- Chart + Form (desktop) -->
