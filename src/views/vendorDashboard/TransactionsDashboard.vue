@@ -20,15 +20,15 @@
     </div>
 
     <!-- Chart + Form (desktop) -->
-    <div class="hidden md:flex gap-6">
+    <div class="md:flex gap-6">
       <!-- Chart -->
-      <div class="w-1/2 bg-white shadow rounded p-4">
+      <div class="w-full md:w-1/2 bg-white shadow rounded p-4">
         <h3 class="font-bold mb-2">Transaction Summary</h3>
         <canvas ref="chartRef" class="w-full h-64" />
       </div>
 
       <!-- Form -->
-      <div class="w-1/2 bg-white h-full shadow rounded p-4">
+      <div class="hidden md:block w-1/2 bg-white h-full shadow rounded p-4">
         <h3 class="font-bold text-lg mb-4">Add Transaction</h3>
         <form @submit.prevent="addTransaction" class="space-y-4">
           <select v-model="newTransaction.type" class="select select-bordered w-full" required>
