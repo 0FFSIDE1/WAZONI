@@ -3,5 +3,5 @@ import DashboardLayout from './DashboardLayout.vue'
 
 export default {
   default: DefaultLayout,
-  dashboard: DashboardLayout,
+  vendordashboard: DashboardLayout,
 }
