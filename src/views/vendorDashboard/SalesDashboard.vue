@@ -2,7 +2,7 @@
   <div class="p-4 md:p-8 space-y-6">
     <!-- Heading + Mobile Add Button -->
     <div class="flex items-center justify-between">
-      <h2 class="text-xl md:text-2xl font-bold">Transactions</h2>
+      <h2 class="text-xl md:text-2xl font-bold">History</h2>
       <button @click="showModal = true" class="btn btn-primary btn-sm md:hidden">+ Add</button>
     </div>
 
@@ -24,7 +24,7 @@
     <!-- Chart + Form (desktop) -->
     <div class="md:flex gap-6">
       <!-- Chart -->
-      <div class="w-full md:w-1/2 bg-white shadow rounded p-4">
+      <div class="w-full md:w-1/2 bg-white shadow-lg rounded-xl p-4">
         <h3 class="font-bold mb-2">Summary</h3>
         <canvas ref="chartRef" class="w-full h-64" />
       </div>
@@ -59,31 +59,44 @@
       </div>
     </div>
 
-    <!-- Table -->
-    <div class="overflow-x-auto">
-      <table class="table table-zebra w-full mt-6">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Type</th>
-            <th>Amount ($)</th>
-            <th>Description</th>
-            <th>Date</th>
-            <th v-if="hasSales">Sold By</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(t, index) in paginatedTransactions" :key="t.id">
-            <td>{{ index + 1 + (currentPage - 1) * itemsPerPage }}</td>
-            <td class="capitalize">{{ t.type }}</td>
-            <td>{{ t.amount.toFixed(2) }}</td>
-            <td>{{ t.description }}</td>
-            <td>{{ t.date }}</td>
-            <td v-if="t.type === 'sale'">{{ t.soldBy || '—' }}</td>
-          </tr>
-        </tbody>
-      </table>
+   <!-- Table (Desktop only) -->
+<div class="hidden md:block overflow-x-auto">
+  <table class="table table-zebra w-full mt-6">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Type</th>
+        <th>Amount ($)</th>
+        <th>Description</th>
+        <th>Date</th>
+        <th v-if="hasSales">Sold By</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(t, index) in paginatedTransactions" :key="t.id">
+        <td>{{ index + 1 + (currentPage - 1) * itemsPerPage }}</td>
+        <td class="capitalize">{{ t.type }}</td>
+        <td>{{ t.amount.toFixed(2) }}</td>
+        <td>{{ t.description }}</td>
+        <td>{{ t.date }}</td>
+        <td v-if="t.type === 'sale'">{{ t.soldBy || '—' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- Mobile Card View -->
+<div class="md:hidden space-y-4 mt-6">
+  <div v-for="(t, index) in paginatedTransactions" :key="t.id" class="bg-white shadow-md rounded-xl p-4">
+    <div class="flex justify-between items-center mb-2">
+      <span class="text-sm font-semibold capitalize">{{ t.type }}</span>
+      <span class="text-sm text-gray-500">{{ t.date }}</span>
     </div>
+    <div class="text-lg font-bold text-gray-800">${{ t.amount.toFixed(2) }}</div>
+    <p class="text-sm text-gray-700 mt-1">{{ t.description }}</p>
+    <p v-if="t.type === 'sale'" class="text-xs text-gray-500 mt-1">Sold By: {{ t.soldBy || '—' }}</p>
+  </div>
+</div>
+
 
     <!-- Pagination -->
     <div class="flex justify-center mt-4">
