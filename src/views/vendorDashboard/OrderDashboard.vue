@@ -44,8 +44,8 @@
       </div>
     </div>
 
-   <!-- Responsive Table -->
-<div class="overflow-x-auto w-full rounded-lg border bg-base-100">
+  <!-- Responsive Table (for md and up) -->
+<div class="hidden md:block overflow-x-auto w-full rounded-lg border bg-base-100">
   <table class="table table-zebra table-sm w-full min-w-[900px]">
     <thead>
       <tr>
@@ -83,6 +83,36 @@
   </table>
 </div>
 
+<!-- Mobile Cards (for < md screens) -->
+<div class="md:hidden space-y-4">
+  <div
+    v-for="order in filteredOrders"
+    :key="order.id"
+    class="border rounded-lg p-4 shadow-sm bg-base-100"
+  >
+    <div class="flex justify-between items-center mb-2">
+      <h2 class="text-md font-bold">{{ order.customer }}</h2>
+      <span class="badge text-xs" :class="{
+        'badge-success': order.status === 'Completed',
+        'badge-warning': order.status === 'Pending',
+        'badge-info': order.status === 'Shipped',
+        'badge-error': order.status === 'Cancelled',
+      }">{{ order.status }}</span>
+    </div>
+
+    <div class="text-sm text-gray-600 space-y-1 mb-2">
+      <p><strong>Phone:</strong> {{ order.phone }}</p>
+      <p><strong>Address:</strong> {{ order.address }}</p>
+      <p><strong>Order ID:</strong> {{ order.orderId }}</p>
+      <p><strong>Date:</strong> {{ order.date }}</p>
+      <p><strong>Total:</strong> ${{ order.total.toFixed(2) }}</p>
+    </div>
+
+    <button class="btn btn-sm btn-outline w-full mt-2" @click="viewOrder(order)">
+      View Details
+    </button>
+  </div>
+</div>
 
     <!-- Order Detail Modal -->
     <dialog ref="modalRef" class="modal" role="dialog" aria-modal="true">
