@@ -33,7 +33,13 @@ const routes = [
   {
     path: '/vendor/dashboard/transactions/',
     name: 'transactions',
-    component: () => import('@/views/vendorDashboard/TransactionsDashboard.vue'),
+    component: () => import('@/views/vendorDashboard/SalesDashboard.vue'),
+    meta: { keepAlive: false, layout: 'vendordashboard' }
+  },
+    {
+    path: '/vendor/dashboard/parcels/',
+    name: 'parcels',
+    component: () => import('@/views/vendorDashboard/Parcel.vue'),
     meta: { keepAlive: false, layout: 'vendordashboard' }
   },
   {
