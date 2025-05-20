@@ -51,7 +51,7 @@
       <div class="flex-1 space-y-4">
         <div class="text-sm font-medium text-gray-700">Profile Completion</div>
         <progress
-          class="progress progress-primary w-full"
+          class="progress progress-success w-full"
           :value="completion"
           max="100"
         ></progress>
