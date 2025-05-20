@@ -13,7 +13,7 @@ const emit = defineEmits(['toggle'])
 </script>
 
 <template>
-  <header class="font-poppins sticky top-0 z-50 bg-base-100 shadow-lg h-24 flex items-center px-4 md:px-8">
+  <header class="font-poppins w-full sticky top-0 z-50 bg-base-100 shadow-lg h-24 flex items-center px-4 md:px-8">
     <div class="flex w-full items-center justify-between md:gap-12">
       <!-- Hamburger -->
       <Hamburger
