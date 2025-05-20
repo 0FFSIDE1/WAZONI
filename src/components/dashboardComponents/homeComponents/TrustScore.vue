@@ -2,12 +2,11 @@
 import { ref, watch, computed } from 'vue'
 import { StarIcon as SolidStar } from '@heroicons/vue/24/solid'
 import { StarIcon as OutlineStar } from '@heroicons/vue/24/outline'
-import { StarIcon as HalfStar } from '@heroicons/vue/24/solid' // optional custom or use svg
+// Replace HalfStar with a custom icon if needed
 
 const trustScore = ref(9.5)
 const animatedScore = ref(0)
 
-// Animate score on change
 watch(trustScore, (newScore) => {
   const startTime = performance.now()
   const duration = 1000
@@ -22,27 +21,24 @@ watch(trustScore, (newScore) => {
   requestAnimationFrame(animate)
 }, { immediate: true })
 
-// For progress bar
 const progress = computed(() => (trustScore.value / 10) * 100)
-
-// For star rating (e.g. 4.3 stars)
 const starRating = computed(() => trustScore.value / 2)
 </script>
 
 <template>
+  <div class="bg-neutral rounded-xl shadow-xl w-[90%] max-w-sm mx-auto p-6 flex flex-col justify-center items-center space-y-4">
     
-  <div class="flex flex-col bg-neutral shadow-xl card justify-center items-center w-64 py-4 h-[300px] md:w-76">
     <!-- Circle Progress -->
-    <div class="relative w-36 h-36 rounded-full">
-      <svg class="w-full h-full transform -rotate-90">
+    <div class="relative w-32 h-32 sm:w-36 sm:h-36">
+      <svg viewBox="0 0 180 180" class="w-full h-full transform -rotate-90">
         <circle
-          class="text-gray-200"
+          class="text-gray-300"
           stroke-width="10"
           stroke="currentColor"
           fill="transparent"
           r="80"
-          cx="92"
-          cy="92"
+          cx="90"
+          cy="90"
         />
         <circle
           class="text-green-500"
@@ -53,22 +49,22 @@ const starRating = computed(() => trustScore.value / 2)
           stroke="currentColor"
           fill="transparent"
           r="80"
-          cx="92"
-          cy="92"
+          cx="90"
+          cy="90"
         />
       </svg>
       <div class="absolute inset-0 flex flex-col items-center justify-center">
-        <span class="text-2xl font-bold text-green-600">{{ animatedScore }}</span>
-        <span class="text-sm text-white">Trust Score</span>
+        <span class="text-xl sm:text-2xl font-bold text-green-600">{{ animatedScore }}</span>
+        <span class="text-xs sm:text-sm text-white">Trust Score</span>
       </div>
     </div>
 
-    <!-- Star Rating (Heroicons) -->
+    <!-- Star Rating -->
     <div class="flex justify-center items-center space-x-1 text-yellow-400">
       <template v-for="i in 5" :key="i">
         <component
-          :is="i <= Math.floor(starRating) ? SolidStar : (i - starRating < 1 && i - starRating > 0 ? HalfStar : OutlineStar)"
-          class="w-6 h-6"
+          :is="i <= Math.floor(starRating) ? SolidStar : (i - starRating < 1 && i - starRating > 0 ? OutlineStar : OutlineStar)"
+          class="w-5 h-5 sm:w-6 sm:h-6"
         />
       </template>
     </div>
