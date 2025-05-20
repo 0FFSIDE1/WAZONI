@@ -33,7 +33,7 @@ const starRating = computed(() => trustScore.value / 2)
     
   <div class="flex flex-col bg-neutral shadow-xl card justify-center items-center w-64 py-4 h-[300px] md:w-76">
     <!-- Circle Progress -->
-    <div class="relative w-36 h-36  flex justify-center items-center rounded-full">
+    <div class="relative w-36 h-36 rounded-full">
       <svg class="w-full h-full transform -rotate-90">
         <circle
           class="text-gray-200"
