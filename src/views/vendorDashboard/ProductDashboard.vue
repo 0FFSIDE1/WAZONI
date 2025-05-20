@@ -2,7 +2,7 @@
   <div class="p-4 sm:p-6 max-w-7xl mx-auto">
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-      <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Products</h1>
+      <h1 class="text-2xl font-bold">Products</h1>
       <div class="flex gap-3 flex-wrap">
         <button @click="exportToCSV" class="btn btn-outline btn-success">
           Export CSV
