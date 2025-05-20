@@ -1,10 +1,13 @@
 <template>
   <!-- Responsive container -->
   <div class="w-full max-w-3xl mx-auto px-4">
+    <h3 class="text-xl font-bold text-center mb-4">
+      Sales by Category
+    </h3>
     <v-chart
       :option="chartOptions"
       autoresize
-      class="w-full h-96"
+      class="w-full h-96 shadow-lg"
     />
   </div>
 </template>
@@ -33,20 +36,13 @@ use([
 ])
 
 const chartOptions = ref({
-  title: {
-    text: 'Sales by Category',
-    left: 'center',
-    textStyle: {
-      fontSize: 24
-    }
-  },
   tooltip: {
     trigger: 'item',
     formatter: '{a} <br/>{b}: {c} ({d}%)'
   },
   legend: {
-    orient: 'vertical',
-    left: 'left'
+    orient: 'horizontal',
+    left: 'center',
   },
   series: [
     {
@@ -74,6 +70,6 @@ const chartOptions = ref({
 
 <style scoped>
 .h-96 {
-  height: 24rem;
+  height: 20rem;
 }
 </style>
