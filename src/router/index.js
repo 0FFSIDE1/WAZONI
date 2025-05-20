@@ -36,10 +36,28 @@ const routes = [
     component: () => import('@/views/vendorDashboard/SalesDashboard.vue'),
     meta: { keepAlive: false, layout: 'vendordashboard' }
   },
-    {
+  {
     path: '/vendor/dashboard/parcels/',
     name: 'parcels',
     component: () => import('@/views/vendorDashboard/Parcel.vue'),
+    meta: { keepAlive: false, layout: 'vendordashboard' }
+  },
+  {
+    path: '/vendor/dashboard/customers/',
+    name: 'customers',
+    component: () => import('@/views/vendorDashboard/Customer.vue'),
+    meta: { keepAlive: false, layout: 'vendordashboard' }
+  },
+  {
+    path: '/vendor/dashboard/support/',
+    name: 'support',
+    component: () => import('@/views/vendorDashboard/Support.vue'),
+    meta: { keepAlive: false, layout: 'vendordashboard' }
+  },
+    {
+    path: '/vendor/dashboard/notifications/',
+    name: 'notification',
+    component: () => import('@/views/vendorDashboard/Notification.vue'),
     meta: { keepAlive: false, layout: 'vendordashboard' }
   },
   {
