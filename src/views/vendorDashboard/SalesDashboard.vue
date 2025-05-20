@@ -2,7 +2,7 @@
   <div class="p-4 md:p-8 space-y-6">
     <!-- Heading + Mobile Add Button -->
     <div class="flex items-center justify-between">
-      <h2 class="text-xl md:text-2xl font-bold">History</h2>
+      <h1 class="text-2xl font-bold">Report</h1>
       <button @click="showModal = true" class="btn btn-primary btn-sm md:hidden">+ Add</button>
     </div>
 
