@@ -67,7 +67,9 @@
             <th>#</th>
             <th>Parcel Name</th>
             <th>Status</th>
+            <th>Location</th>
             <th>Date</th>
+            <th>ETA</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -85,7 +87,9 @@
                 <option>Delivered</option>
               </select>
             </td>
+            <td>{{ parcel.location }}</td>
             <td>{{ parcel.date }}</td>
+            <td>{{ parcel.eta }}</td>
             <td class="space-x-2">
               <button class="btn btn-sm btn-outline" @click="selectedParcel = parcel; openViewModal = true">
                 View
@@ -170,9 +174,16 @@ const startDate = ref('')
 const endDate = ref('')
 
 const parcels = ref([
-  { id: 1, name: 'Parcel A', status: 'Delivered', date: '2025-05-01' },
-  { id: 2, name: 'Parcel B', status: 'In Transit', date: '2025-05-15' },
-  { id: 3, name: 'Parcel C', status: 'Pending', date: '2025-05-20' }
+  { id: 1, name: 'Parcel A', status: 'Delivered', date: '2025-05-01', location: 'Location A', eta: '2025-05-10' },
+  { id: 2, name: 'Parcel B', status: 'In Transit', date: '2025-05-15', location: 'Location B', eta: '2025-05-20' },
+  { id: 3, name: 'Parcel C', status: 'Pending', date: '2025-05-20', location: 'Location C',  eta: '2025-05-25' },
+  { id: 4, name: 'Parcel D', status: 'Delivered', date: '2025-05-25', location: 'Location D', eta: '2025-05-30' },
+  { id: 5, name: 'Parcel E', status: 'In Transit', date: '2025-05-30', location: 'Location E', eta: '2025-06-05' },
+  { id: 6, name: 'Parcel F', status: 'Pending', date: '2025-06-01', location: 'Location F', eta: '2025-06-10' },
+  { id: 7, name: 'Parcel G', status: 'Delivered', date: '2025-06-05', location: 'Location G', eta: '2025-06-15' },
+  { id: 8, name: 'Parcel H', status: 'In Transit', date: '2025-06-10', location: 'Location H', eta: '2025-06-20' },
+  { id: 9, name: 'Parcel I', status: 'Pending', date: '2025-06-15', location: 'Location I', eta: '2025-06-25' },
+  { id: 10, name: 'Parcel J', status: 'Delivered', date: '2025-06-20', location: 'Location J', eta: '2025-06-30' }
 ])
 
 const openCreateModal = ref(false)
