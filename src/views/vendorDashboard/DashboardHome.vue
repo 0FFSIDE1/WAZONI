@@ -5,16 +5,17 @@
       <HeroText />
       <HeroStat class="w-full" />
     </div>
+    <div class="flex flex-col justify-center items-center">
+      <!-- <h2 class="text-2xl font-semibold text-center mb-4">Rating</h2> -->
+       <TrustScore />
+    </div>
 
     <!-- CHARTS Section -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <HeroChart class="col-span-1 md:col-span-2" />
       <HeroPieChart class="col-span-1" />
     </div>
-    <div class="flex flex-col justify-center items-center">
-      <h2 class="text-2xl font-semibold text-center mb-4">Vendor Rating</h2>
-       <TrustScore />
-    </div>
+   
      
    
 
