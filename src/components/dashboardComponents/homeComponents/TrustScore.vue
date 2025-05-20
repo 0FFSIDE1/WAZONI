@@ -4,7 +4,7 @@ import { StarIcon as SolidStar } from '@heroicons/vue/24/solid'
 import { StarIcon as OutlineStar } from '@heroicons/vue/24/outline'
 // Replace HalfStar with a custom icon if needed
 
-const trustScore = ref(9.5)
+const trustScore = ref(8.5)
 const animatedScore = ref(0)
 
 watch(trustScore, (newScore) => {
