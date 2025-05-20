@@ -46,7 +46,6 @@
     <option>In Transit</option>
     <option>Delivered</option>
   </select>
-
   <input
     type="date"
     v-model="startDate"
