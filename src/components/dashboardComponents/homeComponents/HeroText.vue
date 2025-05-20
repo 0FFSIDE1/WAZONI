@@ -1,5 +1,5 @@
 <template>
-<div class="relative flex justify-center px-6 h-46" style="background-image: url('/src/assets/images/Banner.jpeg');">
+<div class="relative flex justify-center px-6 h-46" :style="{ backgroundImage: `url(${bannerImage})` }">
     <div class="absolute bottom-0 flex flex-col md:flex-row  md:join-horizontal items-center gap-6">
         <div class="avatar avatar-online">
       <div class="w-46 md:w-46 border-8 border-primary border-t-accent-content rounded-full">
@@ -17,4 +17,5 @@
 </div>
 </template>
 <script setup>
+import bannerImage from '@/assets/images/Banner.jpeg'; 
 </script>
