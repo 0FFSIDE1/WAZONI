@@ -30,8 +30,8 @@ const starRating = computed(() => trustScore.value / 2)
 </script>
 
 <template>
-    <h2 class="text-2xl font-semibold text-center mb-4">Vendor Rating</h2>
-  <div class="flex flex-col bg-neutral shadow-xl card justify-center items-center py-4 h-full">
+    
+  <div class="flex flex-col bg-neutral shadow-xl card justify-center items-center w-64 py-4 h-[300px] md:w-76">
     <!-- Circle Progress -->
     <div class="relative w-36 h-36  flex justify-center items-center rounded-full">
       <svg class="w-full h-full transform -rotate-90">
