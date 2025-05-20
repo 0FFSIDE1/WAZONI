@@ -61,6 +61,12 @@ const routes = [
     meta: { keepAlive: false, layout: 'vendordashboard' }
   },
   {
+    path: '/vendor/dashboard/profile/',
+    name: 'profile',
+    component: () => import('@/views/vendorDashboard/ProfileSettings.vue'),
+    meta: { keepAlive: false, layout: 'vendordashboard' }
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('@/views/Error404.vue'),
