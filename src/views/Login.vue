@@ -29,11 +29,10 @@ const submitForm = async () => {
   try {
     await loginUser({ email: form.value.email, password: form.value.password })
     toast.success('Login successful!')
-   
   } catch (err) {
     if (err.response?.data) {
       errors.value = err.response.data
-      toast.error(err.response.data.message || 'Invalid credentials.')
+      toast.error(err.response.data.message)
     } else {
       toast.error('Something went wrong, try again later.')
     }
