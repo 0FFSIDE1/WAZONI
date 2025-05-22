@@ -13,7 +13,11 @@ import {
   ShoppingCartIcon,
   WalletIcon
 } from "@heroicons/vue/24/outline"
+import { logoutUser } from '@/composables/auth'
 
+const handleLogout = async () => {
+  await logoutUser();
+}
 const props = defineProps({
   isOpen: Boolean,
   isDesktop: Boolean
@@ -189,9 +193,9 @@ Renew Plan<kbd class="kbd kbd-xs">Coming Soon</kbd></router-link></li> -->
               </router-link>
             </li>
             <li>
-              <router-link class="flex items-center gap-2" to="#">
-                <PowerIcon class="w-4" />Logout
-              </router-link>
+             
+                <button @click="handleLogout" class="btn-logout btn-transparent flex items-center gap-2"><PowerIcon class="w-4" />Logout</button>
+              
             </li>
           </ul>
         </div>
