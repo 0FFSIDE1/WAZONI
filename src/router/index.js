@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
@@ -14,57 +14,63 @@ const routes = [
   },
   {
     path: '/vendor/dashboard/',
-    name: 'dashboard',
+    name: 'Vendor',
     component: () => import('@/views/vendorDashboard/DashboardHome.vue'),
-    meta: { keepAlive: false, layout: 'vendordashboard' }
+    meta: { keepAlive: false, layout: 'vendordashboard', requiresAuth: true, role: 'vendor' }
   },
   {
     path: '/vendor/dashboard/orders/',
     name: 'orders',
     component: () => import('@/views/vendorDashboard/OrderDashboard.vue'),
-    meta: { keepAlive: false, layout: 'vendordashboard' }
+    meta: { keepAlive: false, layout: 'vendordashboard', requiresAuth: true, role: 'vendor' }
   },
   {
     path: '/vendor/dashboard/products/',
     name: 'products',
     component: () => import('@/views/vendorDashboard/ProductDashboard.vue'),
-    meta: { keepAlive: false, layout: 'vendordashboard' }
+    meta: { keepAlive: false, layout: 'vendordashboard', requiresAuth: true, role: 'vendor' }
   },
   {
     path: '/vendor/dashboard/transactions/',
     name: 'transactions',
     component: () => import('@/views/vendorDashboard/SalesDashboard.vue'),
-    meta: { keepAlive: false, layout: 'vendordashboard' }
+    meta: { keepAlive: false, layout: 'vendordashboard', requiresAuth: true, role: 'vendor' }
   },
   {
     path: '/vendor/dashboard/parcels/',
     name: 'parcels',
     component: () => import('@/views/vendorDashboard/Parcel.vue'),
-    meta: { keepAlive: false, layout: 'vendordashboard' }
+    meta: { keepAlive: false, layout: 'vendordashboard', requiresAuth: true, role: 'vendor' }
   },
   {
     path: '/vendor/dashboard/customers/',
     name: 'customers',
     component: () => import('@/views/vendorDashboard/Customer.vue'),
-    meta: { keepAlive: false, layout: 'vendordashboard' }
+    meta: { keepAlive: false, layout: 'vendordashboard', requiresAuth: true, role: 'vendor' }
   },
   {
     path: '/vendor/dashboard/support/',
     name: 'support',
     component: () => import('@/views/vendorDashboard/Support.vue'),
-    meta: { keepAlive: false, layout: 'vendordashboard' }
+    meta: { keepAlive: false, layout: 'vendordashboard', requiresAuth: true, role: 'vendor' }
   },
-    {
+  {
     path: '/vendor/dashboard/notifications/',
     name: 'notification',
     component: () => import('@/views/vendorDashboard/Notification.vue'),
-    meta: { keepAlive: false, layout: 'vendordashboard' }
+    meta: { keepAlive: false, layout: 'vendordashboard', requiresAuth: true, role: 'vendor' }
   },
   {
     path: '/vendor/dashboard/profile/',
     name: 'profile',
     component: () => import('@/views/vendorDashboard/ProfileSettings.vue'),
-    meta: { keepAlive: false, layout: 'vendordashboard' }
+    meta: { keepAlive: false, layout: 'vendordashboard', requiresAuth: true, role: 'vendor' }
+  },
+  {
+    path: '/auth/login/dashboard/',
+    name: 'Login',
+    component: () => import('@/views/Login.vue'),
+    meta: { keepAlive: false, layout: 'default' }
   },
   {
     path: '/:pathMatch(.*)*',
@@ -86,12 +92,49 @@ const router = createRouter({
         el: to.hash,
         behavior: 'smooth'
       }
-    }
-    else {
+    } else {
       return { top: 0, behavior: 'smooth' };
     }
-    
-  },
+  }
+})
+
+// ✅ Navigation guard — placed BEFORE export
+router.beforeEach((to, from, next) => {
+  const access = localStorage.getItem('access_token');
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  if (to.meta.requiresAuth && !access) {
+    return next({ name: 'Login' });
+  }
+
+  if (to.meta.role && user?.role.toLowerCase() !== to.meta.role.toLowerCase()) {
+    // Redirect to user's dashboard based on role
+    switch (user?.role?.toLowerCase()) {
+      case 'vendor':
+        return next({ name: 'Vendor' });
+      case 'admin':
+        return next({ name: 'AdminDashboard' });
+      case 'affiliate':
+        return next({ name: 'AffiliateDashboard' });
+      default:
+        return next({ name: 'Login' });
+    }
+  }
+  if (to.name === 'Login' && access) {
+  switch (user?.role?.toLowerCase()) {
+    case 'vendor':
+      return next({ name: 'Vendor' });
+    case 'admin':
+      return next({ name: 'AdminDashboard' });
+    case 'affiliate':
+      return next({ name: 'AffiliateDashboard' });
+    default:
+      return next({ name: 'Vendor' });
+  }
+}
+
+
+  next();
 });
 
-export default router
+export default router;
