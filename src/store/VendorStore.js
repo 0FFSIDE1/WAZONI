@@ -6,6 +6,11 @@ export const useVendorStore = defineStore('vendor', {
     info: null,
     stats: [],
     products: [],
+    orders: [],
+    transactions: [],
+    parcels: [],
+    customers: [],
+    notifications: [],
     loading: {
       info: false,
       stats: false,
@@ -60,15 +65,21 @@ export const useVendorStore = defineStore('vendor', {
     async getVendorStats(forceRefresh = false) {
       const now = Date.now()
       const CACHE_TTL = 5 * 60 * 1000
-
       if (!forceRefresh && this.lastFetched.stats && now - this.lastFetched.stats < CACHE_TTL) {
         return
       }
+
+      if (!this.info || !this.info.id) {
+        await this.getVendorInfo(true) // force refresh to ensure latest info
+      }
+
       const vendorId = this.info?.id
       if (!vendorId) {
+        console.log('Vendor ID is not available')
         this.error.stats = 'Vendor ID is not available'
         return
       }
+
       this.loading.stats = true
       this.error.stats = null
 
