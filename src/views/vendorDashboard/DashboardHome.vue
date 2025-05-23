@@ -56,8 +56,8 @@ import { onMounted } from 'vue';
 const vendorStore = useVendorStore();
 onMounted(() => {
   vendorStore.getVendorInfo();
-  // vendorStore.getVendorStats();
-  // vendorStore.getVendorProducts();
+  vendorStore.getVendorStats();
+  vendorStore.getVendorProducts();
 });
 
 
