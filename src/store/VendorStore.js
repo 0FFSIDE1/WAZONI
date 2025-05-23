@@ -57,19 +57,23 @@ export const useVendorStore = defineStore('vendor', {
       }
     },
 
-    async getVendorStats(forceRefresh = false, id) {
+    async getVendorStats(forceRefresh = false) {
       const now = Date.now()
       const CACHE_TTL = 5 * 60 * 1000
 
       if (!forceRefresh && this.lastFetched.stats && now - this.lastFetched.stats < CACHE_TTL) {
         return
       }
-
+      const vendorId = this.info?.id
+      if (!vendorId) {
+        this.error.stats = 'Vendor ID is not available'
+        return
+      }
       this.loading.stats = true
       this.error.stats = null
 
       try {
-        const data = await fetchVendorStats(id)
+        const data = await fetchVendorStats(vendorId)
         this.stats = data || []
         this.lastFetched.stats = now
       } catch (err) {
