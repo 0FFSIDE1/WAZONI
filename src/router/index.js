@@ -66,6 +66,21 @@ const routes = [
     component: () => import('@/views/vendorDashboard/ProfileSettings.vue'),
     meta: { keepAlive: false, layout: 'vendordashboard', requiresAuth: true, role: 'vendor' }
   },
+    // Admin Dashboard (Example Route)
+  // {
+  //   path: '/admin/dashboard/',
+  //   name: 'AdminDashboard',
+  //   component: () => import('@/views/adminDashboard/Dashboard.vue'),
+  //   meta: { keepAlive: false, layout: 'admindashboard', requiresAuth: true, role: 'admin' }
+  // },
+
+  // Affiliate Dashboard (Example Route)
+  // {
+  //   path: '/affiliate/dashboard/',
+  //   name: 'AffiliateDashboard',
+  //   component: () => import('@/views/affiliateDashboard/Dashboard.vue'),
+  //   meta: { keepAlive: false, layout: 'affiliatedashboard', requiresAuth: true, role: 'affiliate' }
+  // },
   {
     path: '/auth/login/dashboard/',
     name: 'Login',
@@ -96,19 +111,22 @@ const router = createRouter({
       return { top: 0, behavior: 'smooth' };
     }
   }
-})
+});
 
-// ✅ Navigation guard — placed BEFORE export
+/// ✅ Navigation Guard
 router.beforeEach((to, from, next) => {
-  const access = localStorage.getItem('access_token');
   const user = JSON.parse(localStorage.getItem('user'));
 
-  if (to.meta.requiresAuth && !access) {
+  console.log('[Router] Navigating to:', to.name);
+  console.log('[Router] User:', user);
+
+  if (to.meta.requiresAuth && !user) {
+    console.log('[Router] Auth required but user missing. Redirecting to login.');
     return next({ name: 'Login' });
   }
 
-  if (to.meta.role && user?.role.toLowerCase() !== to.meta.role.toLowerCase()) {
-    // Redirect to user's dashboard based on role
+  if (to.meta.role && user?.role?.toLowerCase() !== to.meta.role.toLowerCase()) {
+    console.log(`[Router] Role mismatch: expected ${to.meta.role}, got ${user?.role}`);
     switch (user?.role?.toLowerCase()) {
       case 'vendor':
         return next({ name: 'Vendor' });
@@ -120,21 +138,26 @@ router.beforeEach((to, from, next) => {
         return next({ name: 'Login' });
     }
   }
-  if (to.name === 'Login' && access) {
-  switch (user?.role?.toLowerCase()) {
-    case 'vendor':
-      return next({ name: 'Vendor' });
-    case 'admin':
-      return next({ name: 'AdminDashboard' });
-    case 'affiliate':
-      return next({ name: 'AffiliateDashboard' });
-    default:
-      return next({ name: 'Vendor' });
-  }
-}
 
+  if (to.name === 'Login' && user) {
+    console.log('[Router] Already logged in, redirecting from Login page.');
+    switch (user?.role?.toLowerCase()) {
+      case 'vendor':
+        return next({ name: 'Vendor' });
+      case 'admin':
+        return next({ name: 'AdminDashboard' });
+      case 'affiliate':
+        return next({ name: 'AffiliateDashboard' });
+      default:
+        return next({ name: 'Vendor' });
+    }
+  }
 
   next();
+});
+
+router.afterEach((to, from) => {
+  console.log(`[Router] Route changed: ${from.fullPath} -> ${to.fullPath}`);
 });
 
 export default router;
