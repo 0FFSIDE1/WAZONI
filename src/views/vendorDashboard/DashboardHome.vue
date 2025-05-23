@@ -2,7 +2,7 @@
   <section class="space-y-12 px-2 md:px-12 py-8">
     <!-- HERO Section -->
     <div class="space-y-4">
-      <HeroText />
+      <HeroText v-if="vendorStore.info" :brandName="vendorStore.info?.brandName"/>
       <HeroStat class="w-full" />
     </div>
     <div class="flex flex-col justify-center items-center">
@@ -50,14 +50,14 @@ import RecentOrder from '@/components/dashboardComponents/homeComponents/RecentO
 import RecentCustomers from '@/components/dashboardComponents/homeComponents/RecentCustomers.vue';
 import RecentTransaction from '@/components/dashboardComponents/homeComponents/RecentTransaction.vue';
 import { useVendorStore } from '@/store/VendorStore';
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 
 
 const vendorStore = useVendorStore();
-onMounted(() => {
-  vendorStore.getVendorInfo();
-  vendorStore.getVendorStats();
-  vendorStore.getVendorProducts();
+
+onMounted(async () => {
+  await vendorStore.getVendorInfo();
+  await vendorStore.getVendorStats();
 });
 
 
