@@ -72,7 +72,7 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        await api.post('auth/token/refresh/'); // refreshes cookie
+        await api.post('auth/token/refresh/');
         return api(originalRequest); // retry original request
       } catch (refreshError) {
         console.error('Refresh token failed:', refreshError);
