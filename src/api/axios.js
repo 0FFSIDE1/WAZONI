@@ -26,43 +26,25 @@ function getCookie(name) {
   return cookieValue;
 }
 
-// 🔁 Refresh token function
-async function refreshToken() {
-  const refresh = localStorage.getItem('refresh_token');
-  if (!refresh) throw new Error('No refresh token available');
-
-  const response = await axios.post(`${baseURL}auth/token/refresh/`, { refresh });
-  const newAccess = response.data.access;
-  localStorage.setItem('access_token', newAccess);
-  return newAccess;
-}
-
-// 🛡️ Request interceptor
+// 🛡️ Attach CSRF + Authorization headers
 api.interceptors.request.use(
   async (config) => {
     const method = config.method?.toLowerCase();
-
-    // Attach Authorization header
-    const token = localStorage.getItem('access_token');
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
-
-    // Attach CSRF for unsafe methods
+    // CSRF for unsafe methods
     if (['post', 'put', 'patch', 'delete'].includes(method)) {
       let csrfToken = getCookie('csrftoken');
+
       if (!csrfToken || csrfToken === 'None') {
         try {
-          const response = await api.get('get-csrf-token');
-          csrfToken = response.data.csrfToken;
-        } catch (err) {
-          console.error('Failed to fetch CSRF token:', err);
+          const res = await api.get('get-csrf-token');
+          csrfToken = res.data.csrfToken;
+        } catch (e) {
+          console.warn('Could not fetch CSRF token:', e);
         }
       }
+
       if (csrfToken && csrfToken !== 'None') {
         config.headers['X-CSRFToken'] = csrfToken;
-      } else {
-        console.warn('CSRF token not available.');
       }
     }
 
@@ -71,24 +53,26 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// 🔁 Response interceptor: Auto refresh on 401
+// 🔁 Auto-refresh token on 401
 api.interceptors.response.use(
-  response => response,
+  (res) => res,
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url.includes('auth/token/refresh/')
+    ) {
       originalRequest._retry = true;
+
       try {
-        const newAccessToken = await refreshToken();
-        originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
-        return api(originalRequest);
-      } catch (err) {
-        console.error('Token refresh failed:', err);
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
+        await api.post('auth/token/refresh/'); // refreshes cookie
+        return api(originalRequest); // retry original request
+      } catch (refreshError) {
+        console.error('Refresh token failed:', refreshError);
         localStorage.removeItem('user');
-        router.push({ name: 'Login' }); // make sure this route exists
+        router.push({ name: 'Login' });
       }
     }
 
