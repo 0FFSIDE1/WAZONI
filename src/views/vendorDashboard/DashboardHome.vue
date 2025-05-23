@@ -40,13 +40,25 @@
 </template>
 
 <script setup>
-import HeroText from '@/components/dashboardComponents/homeComponents/HeroText.vue'
-import HeroStat from '@/components/dashboardComponents/homeComponents/HeroStat.vue'
-import HeroChart from '@/components/dashboardComponents/homeComponents/HeroChart.vue'
-import HeroPieChart from '@/components/dashboardComponents/homeComponents/HeroPieChart.vue'
-import TrustScore from '@/components/dashboardComponents/homeComponents/TrustScore.vue'
-import RecentOrder from '@/components/dashboardComponents/homeComponents/RecentOrder.vue'
-// import Notification from '@/components/dashboardComponents/Notification.vue'
-import RecentCustomers from '@/components/dashboardComponents/homeComponents/RecentCustomers.vue'
-import RecentTransaction from '@/components/dashboardComponents/homeComponents/RecentTransaction.vue'
+import HeroText from '@/components/dashboardComponents/homeComponents/HeroText.vue';
+import HeroStat from '@/components/dashboardComponents/homeComponents/HeroStat.vue';
+import HeroChart from '@/components/dashboardComponents/homeComponents/HeroChart.vue';
+import HeroPieChart from '@/components/dashboardComponents/homeComponents/HeroPieChart.vue';
+import TrustScore from '@/components/dashboardComponents/homeComponents/TrustScore.vue';
+import RecentOrder from '@/components/dashboardComponents/homeComponents/RecentOrder.vue';
+// import Notification from '@/components/dashboardComponents/Notification.vue';
+import RecentCustomers from '@/components/dashboardComponents/homeComponents/RecentCustomers.vue';
+import RecentTransaction from '@/components/dashboardComponents/homeComponents/RecentTransaction.vue';
+import { useVendorStore } from '@/store/VendorStore';
+import { onMounted } from 'vue';
+
+
+const vendorStore = useVendorStore();
+onMounted(() => {
+  vendorStore.getVendorInfo();
+  // vendorStore.getVendorStats();
+  // vendorStore.getVendorProducts();
+});
+
+
 </script>
