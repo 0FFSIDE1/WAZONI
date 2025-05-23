@@ -43,7 +43,7 @@
     </div>
     <div class="stat-value">{{ percentageCompleted }} %</div>
     <div class="stat-title">Completed Orders</div>
-    <div class="stat-desc text-secondary">31 pending orders</div>
+    <div class="stat-desc text-secondary text-[14px]">31 pending orders</div>
   </div>
 </div>
 </template>
