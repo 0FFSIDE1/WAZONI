@@ -8,7 +8,7 @@
 
     </div>
     <div class="stat-title">Total Sales</div>
-    <div class="stat-value text-primary">25.6K</div>
+    <div class="stat-value text-primary">₦ {{  totalSales }}</div>
     <div class="stat-desc">21% more than last month</div>
   </div>
 
@@ -20,7 +20,7 @@
 
     </div>
     <div class="stat-title">Total Orders</div>
-    <div class="stat-value text-secondary">2.6M</div>
+    <div class="stat-value text-secondary">₦ {{ totalOrders }}</div>
     <div class="stat-desc">21% more than last month</div>
   </div>
 
@@ -33,7 +33,7 @@
 
     </div>
     <div class="stat-title">Revenue</div>
-    <div class="stat-value text-secondary">10.6M</div>
+    <div class="stat-value text-secondary">₦ {{ totalRevenue }}</div>
     <div class="stat-desc">200% more than last month</div>
   </div>
 
@@ -41,11 +41,30 @@
     <div class="stat-figure text-secondary">
   
     </div>
-    <div class="stat-value">86%</div>
+    <div class="stat-value">{{ percentageCompleted }} %</div>
     <div class="stat-title">Completed Orders</div>
     <div class="stat-desc text-secondary">31 pending orders</div>
   </div>
 </div>
 </template>
 <script setup>
+
+defineProps({
+  totalSales: {
+    type: Number,
+    default: 0.00
+  },
+  totalOrders: {
+    type: Number,
+    default: 0
+  },
+  totalRevenue: {
+    type: Number,
+    default: 0
+  },
+  percentageCompleted: {
+    type: Number,
+    default: 0
+  }
+})
 </script>
