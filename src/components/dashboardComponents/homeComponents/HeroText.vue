@@ -11,11 +11,19 @@
 </div>
 <div class="my-6 herotext">
   <div class="flex item-center ">
-      <h1 class="text-center md:text-4xl mr-4 font-semibold">Hello! <span class="font-light text-balance">OFFSIDE INTEGRATED TECHNOLOGY — Here is what is happening in your store today!</span></h1>
+      <h1 class="text-center md:text-4xl mr-4 font-semibold">Hello! <span class="font-light text-balance">{{ brandName }} — Here is what is happening in your store today!</span></h1>
 </div>
   
 </div>
 </template>
 <script setup>
 import bannerImage from '@/assets/images/Banner.jpeg'; 
+
+
+defineProps({
+  brandName: {
+    type: String,
+    default: 'Brand Name'
+  },
+})
 </script>
