@@ -31,7 +31,7 @@ api.interceptors.request.use(
   async (config) => {
     const method = config.method?.toLowerCase();
     // CSRF for unsafe methods
-    if (['post', 'put', 'patch', 'delete'].includes(method)) {
+    if (['get','post', 'put', 'patch', 'delete'].includes(method)) {
       let csrfToken = getCookie('csrftoken');
 
       if (!csrfToken || csrfToken === 'None') {
@@ -46,6 +46,11 @@ api.interceptors.request.use(
       if (csrfToken && csrfToken !== 'None') {
         config.headers['X-CSRFToken'] = csrfToken;
       }
+    }
+    // 👉 Attach Authorization header from access cookie
+    const accessToken = getCookie('access');
+    if (accessToken && accessToken !== 'None') {
+      config.headers['Authorization'] = `Bearer ${accessToken}`;
     }
 
     return config;
