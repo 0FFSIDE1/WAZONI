@@ -14,3 +14,18 @@ export const fetchVendorProducts = async () => {
   const { data } = await api.get('products/')
   return data
 }
+
+export const fetchVendorOrders = async () => {
+  const { data } = await api.get('order/vendor/')
+  return data
+}
+
+export const fetchVendorParcel = async () => {
+  const { data } = await api.get('parcel/')
+  return data
+}
+
+export const fetchVendorTransactions = async () => {
+  const { data } = await api.get('transactions/')
+  return data
+}
