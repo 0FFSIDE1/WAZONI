@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { fetchVendorInfo, fetchVendorStats, fetchVendorProducts } from '@/services/vendor'
+import { fetchVendorInfo, fetchVendorStats, fetchVendorProducts, fetchVendorOrders, fetchVendorParcel, fetchVendorTransactions } from '@/services/vendor'
 
 export const useVendorStore = defineStore('vendor', {
   state: () => ({
@@ -15,16 +15,31 @@ export const useVendorStore = defineStore('vendor', {
       info: false,
       stats: false,
       products: false,
+      orders: false,
+      transactions: false,
+      parcels: false,
+      customers: false,
+      notifications: false,
     },
     error: {
       info: null,
       stats: null,
       products: null,
+      orders: false,
+      transactions: false,
+      parcels: false,
+      customers: false,
+      notifications: false,
     },
     lastFetched: {
       info: null,
       stats: null,
       products: null,
+      orders: false,
+      transactions: false,
+      parcels: false,
+      customers: false,
+      notifications: false,
     },
   }),
 
@@ -34,7 +49,7 @@ export const useVendorStore = defineStore('vendor', {
       {
         key: 'vendor-store',
         storage: localStorage,
-        paths: ['info', 'stats', 'products', 'lastFetched']
+        paths: ['info', 'stats', 'products', 'orders', 'transactions', 'customers', 'parcels', 'transactions', 'notifications', 'lastFetched']
       }
     ]
   },
@@ -113,6 +128,18 @@ export const useVendorStore = defineStore('vendor', {
         this.error.products = err.message || 'Failed to fetch vendor products'
       } finally {
         this.loading.products = false
+      }
+    },
+    async getVendorOrders(){
+      this.loading.orders = true
+      this.error.orders = null
+      try {
+        const data = await fetchVendorOrders()
+        this.orders = data || []
+      } catch (err){
+        this.error.orders = err.message || 'Failed to fetch vendor orders'
+      } finally {
+        this.loading.orders = false
       }
     },
 
