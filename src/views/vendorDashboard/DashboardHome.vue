@@ -58,6 +58,7 @@ const vendorStore = useVendorStore();
 onMounted(async () => {
   await vendorStore.getVendorInfo();
   await vendorStore.getVendorStats();
+  await vendorStore.getVendorOrders();
 });
 
 
