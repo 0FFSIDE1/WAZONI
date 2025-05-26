@@ -126,14 +126,14 @@ LOGIN</h1>
           <div class="flex items-center justify-center">
             <button class="btn btn-outline btn-primary w-full">
               <img src="https://img.icons8.com/color/16/000000/facebook-new.png" alt="Facebook Logo" class="mr-2" />
-              Login with Facebook
+              Facebook
             </button>
           </div>
           <!-- Twitter Login -->
           <div class="flex items-center justify-center">
             <button class="btn btn-outline btn-primary w-full">
               <img src="https://img.icons8.com/color/16/000000/twitter--v1.png" alt="Twitter Logo" class="mr-2" />
-              Login with Twitter
+              Twitter
             </button>
           </div>
         
