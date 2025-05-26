@@ -29,3 +29,8 @@ export const fetchVendorTransactions = async () => {
   const { data } = await api.get('transactions/')
   return data
 }
+
+export const fetchVendorNotifications = async () => {
+  const { data } = await api.get('notifications/')
+  return data
+}
