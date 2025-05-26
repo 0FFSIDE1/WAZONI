@@ -1,159 +1,86 @@
 <template>
-   <div class="overflow-x-auto">
-  <table class="table">
-    <!-- head -->
-    <thead>
-      <tr>
-        <th>
-          <!-- <label>
-            <input type="checkbox" class="checkbox" />
-          </label> -->
-        </th>
-        <th>Product</th>
-        <th>Qty</th>
-        <th>Price</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- row 1 -->
-      <tr>
-        <th>
-          <label>
-            <input type="checkbox" class="checkbox" />
-          </label>
-        </th>
-        <td>
-          <div class="flex items-center gap-3">
-            <div class="avatar">
-              <div class="mask mask-squircle h-12 w-12">
-                <img
-                  src="https://img.daisyui.com/images/profile/demo/2@94.webp"
-                  alt="Avatar Tailwind CSS Component" />
+  <div class="overflow-x-auto">
+    <table class="table table-sm">
+      <!-- head -->
+      <thead>
+        <tr>
+          <th></th>
+          <th>Order ID</th>
+          <th>Qty</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Dynamic Orders -->
+        <tr v-if="orders" v-for="(order, index) in orders.slice(0, 5)" :key="order.orderId">
+          <th>
+            <label>
+              <input type="checkbox" v-if="order.status == 'COMPLETED'" class="checkbox" checked />
+            </label>
+          </th>
+          <td>
+            <div class="flex items-center gap-3">
+              
+              <div>
+                <div class="font-bold">{{ order.orderId }}</div>
+                <div class="text-sm opacity-50">
+                  {{ formatDate(order.created_at) }}
+                </div>
               </div>
             </div>
-            <div>
-              <div class="font-bold">Hart Hagerty</div>
-              <div class="text-sm opacity-50">United States</div>
-            </div>
-          </div>
-        </td>
-        <td>
-          <br />
-          <span class="badge badge-ghost badge-sm">1</span>
-        </td>
-        <td>$1000.00</td>
-        <th>
-          <button class="btn btn-ghost btn-xs">details</button>
-        </th>
-      </tr>
-      <!-- row 2 -->
-      <tr>
-        <th>
-          <label>
-            <input type="checkbox" class="checkbox" />
-          </label>
-        </th>
-        <td>
-          <div class="flex items-center gap-3">
-            <div class="avatar">
-              <div class="mask mask-squircle h-12 w-12">
-                <img
-                  src="https://img.daisyui.com/images/profile/demo/3@94.webp"
-                  alt="Avatar Tailwind CSS Component" />
-              </div>
-            </div>
-            <div>
-              <div class="font-bold">Brice Swyre</div>
-              <div class="text-sm opacity-50">China</div>
-            </div>
-          </div>
-        </td>
-        <td>
-          
-          <br />
-          <span class="badge badge-ghost badge-sm">16</span>
-        </td>
-        <td>$4200.00</td>
-        <th>
-          <button class="btn btn-ghost btn-xs">details</button>
-        </th>
-      </tr>
-      <!-- row 3 -->
-      <tr>
-        <th>
-          <label>
-            <input type="checkbox" class="checkbox" />
-          </label>
-        </th>
-        <td>
-          <div class="flex items-center gap-3">
-            <div class="avatar">
-              <div class="mask mask-squircle h-12 w-12">
-                <img
-                  src="https://img.daisyui.com/images/profile/demo/4@94.webp"
-                  alt="Avatar Tailwind CSS Component" />
-              </div>
-            </div>
-            <div>
-              <div class="font-bold">Marjy Ferencz</div>
-              <div class="text-sm opacity-50">Russia</div>
-            </div>
-          </div>
-        </td>
-        <td>
-         
-          <br />
-          <span class="badge badge-ghost badge-sm">4</span>
-        </td>
-        <td>$80.00</td>
-        <th>
-          <button class="btn btn-ghost btn-xs">details</button>
-        </th>
-      </tr>
-      <!-- row 4 -->
-      <tr>
-        <th>
-          <label>
-            <input type="checkbox" class="checkbox" />
-          </label>
-        </th>
-        <td>
-          <div class="flex items-center gap-3">
-            <div class="avatar">
-              <div class="mask mask-squircle h-12 w-12">
-                <img
-                  src="https://img.daisyui.com/images/profile/demo/5@94.webp"
-                  alt="Avatar Tailwind CSS Component" />
-              </div>
-            </div>
-            <div>
-              <div class="font-bold">Yancy Tear</div>
-              <div class="text-sm opacity-50">Brazil</div>
-            </div>
-          </div>
-        </td>
-        <td>
-         
-          <br />
-          <span class="badge badge-ghost badge-sm">50</span>
-        </td>
-        <td>$900.00</td>
-        <th>
-          <button class="btn btn-ghost btn-xs">details</button>
-        </th>
-      </tr>
-    </tbody>
-    <!-- foot
-    <tfoot>
-      <tr>
-        <th></th>
-        <th>Name</th>
-        <th>Job</th>
-        <th>Favorite Color</th>
-        <th></th>
-      </tr>
-    </tfoot> -->
-  </table>
-</div>
+          </td>
+          <td>
+            <span class="badge badge-ghost badge-sm">
+              {{ getOrderQty(order.items) }}
+            </span>
+          </td>
+          <td>${{ order.total_price }}</td>
+          <td>
+            <span
+              :class="[
+                'badge badge-sm',
+                order.status === 'SHIPPED' ? 'badge-info' :
+                order.status === 'PENDING' ? 'badge-warning' :
+                order.status === 'CANCELLED' ? 'badge-error' :
+                'badge-success'
+              ]"
+            >
+              {{ order.status }}
+            </span>
+          </td>
+          <th>
+            <button class="btn btn-ghost btn-xs">details</button>
+          </th>
+        </tr>
+        <tr v-if="!orders.length">
+          <th></th>
+          <td colspan="5" class="text-center">
+            <div class="btn btn-ghost btn-xs">No Order Available</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
+<script setup>
+import { computed } from 'vue'
+
+
+// ✅ If coming from a prop
+const props = defineProps({ orders: Array })
+const orders = computed(() => props.orders || [])
+
+
+
+// Helper to format date
+const formatDate = (dateStr) => {
+  return new Date(dateStr).toLocaleDateString()
+}
+
+// Helper to calculate quantity
+const getOrderQty = (items) => {
+  return items.reduce((sum, item) => sum + item.quantity, 0)
+}
+</script>
