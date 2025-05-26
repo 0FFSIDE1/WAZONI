@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
-import { fetchVendorInfo, fetchVendorStats, fetchVendorProducts, fetchVendorOrders, fetchVendorParcel, fetchVendorTransactions } from '@/services/vendor'
+import { fetchVendorInfo, fetchVendorStats, fetchVendorProducts, fetchVendorOrders, fetchVendorParcel, fetchVendorTransactions, fetchVendorNotifications } from '@/services/vendor'
+
 
 export const useVendorStore = defineStore('vendor', {
   state: () => ({
@@ -140,6 +141,42 @@ export const useVendorStore = defineStore('vendor', {
         this.error.orders = err.message || 'Failed to fetch vendor orders'
       } finally {
         this.loading.orders = false
+      }
+    },
+    async getVendorNotifications(){
+      this.loading.notifications = true
+      this.error.notifications = null
+      try {
+        const data = await fetchVendorNotifications()
+        this.notifications = data || []
+      } catch (err){
+        this.error.notifications = err.message || 'Failed to fetch vendor notifications'
+      } finally {
+        this.loading.notifications = false
+      }
+    },
+    async getVendorTransactions(){
+      this.loading.transactions = true
+      this.error.transactions = null
+      try {
+        const data = await fetchVendorTransactions()
+        this.transactions = data.results || []
+      } catch (err){
+        this.error.transactions = err.message || 'Failed to fetch vendor transactions'
+      } finally {
+        this.loading.transactions = false
+      }
+    },
+    async getVendorParcels(){
+      this.loading.parcels = true
+      this.error.parcels = null
+      try {
+        const data = await fetchVendorParcel()
+        this.parcels = data || []
+      } catch (err){
+        this.error.parcels = err.message || 'Failed to fetch vendor parcels'
+      } finally {
+        this.loading.parcels = false
       }
     },
 
