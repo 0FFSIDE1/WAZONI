@@ -1,118 +1,59 @@
 <template>
-    <div class="overflow-x-auto">
-  <table class="table table-xs">
-    <thead>
-      <tr>
-        <th></th>
-        <th>Date</th>
-        <th>Description</th>
-        <th>Reference</th>
-        <th>Amount</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th>1</th>
-        <td>Cy Ganderton</td>
-        <td>Quality Control Specialist</td>
-        <td>Littel, Schaden and Vandervort</td>
-        <td>Canada</td>
-        <td>12/16/2020</td>
-        
-      </tr>
-      <tr>
-        <th>2</th>
-        <td>Hart Hagerty</td>
-        <td>Desktop Support Technician</td>
-        <td>Zemlak, Daniel and Leannon</td>
-        <td>United States</td>
-        <td>12/5/2020</td>
-        
-      </tr>
-      <tr>
-        <th>3</th>
-        <td>Brice Swyre</td>
-        <td>Tax Accountant</td>
-        <td>Carroll Group</td>
-        <td>China</td>
-        <td>8/15/2020</td>
-      
-      </tr>
-      <tr>
-        <th>4</th>
-        <td>Marjy Ferencz</td>
-        <td>Office Assistant I</td>
-        <td>Rowe-Schoen</td>
-        <td>Russia</td>
-        <td>3/25/2021</td>
-      
-      </tr>
-      <tr>
-        <th>5</th>
-        <td>Yancy Tear</td>
-        <td>Community Outreach Specialist</td>
-        <td>Wyman-Ledner</td>
-        <td>Brazil</td>
-        <td>5/22/2020</td>
-       
-      </tr>
-      <tr>
-        <th>6</th>
-        <td>Irma Vasilik</td>
-        <td>Editor</td>
-        <td>Wiza, Bins and Emard</td>
-        <td>Venezuela</td>
-        <td>12/8/2020</td>
-       
-      </tr>
-      <tr>
-        <th>7</th>
-        <td>Meghann Durtnal</td>
-        <td>Staff Accountant IV</td>
-        <td>Schuster-Schimmel</td>
-        <td>Philippines</td>
-        <td>2/17/2021</td>
-        
-      </tr>
-      <tr>
-        <th>8</th>
-        <td>Sammy Seston</td>
-        <td>Accountant I</td>
-        <td>O'Hara, Welch and Keebler</td>
-        <td>Indonesia</td>
-        <td>5/23/2020</td>
-      
-      </tr>
-      <tr>
-        <th>9</th>
-        <td>Lesya Tinham</td>
-        <td>Safety Technician IV</td>
-        <td>Turner-Kuhlman</td>
-        <td>Philippines</td>
-        <td>2/21/2021</td>
-       
-      </tr>
-      <tr>
-        <th>10</th>
-        <td>Zaneta Tewkesbury</td>
-        <td>VP Marketing</td>
-        <td>Sauer LLC</td>
-        <td>Chad</td>
-        <td>6/23/2020</td>
-      
-      </tr>
-    </tbody>
-    <tfoot>
-      <tr>
-        <th></th>
-        <th>Date</th>
-        <th>Description</th>
-        <th>Reference</th>
-        <th>Amount</th>
-        <th>Status</th>
-      </tr>
-    </tfoot>
-  </table>
-</div>
+  <div class="overflow-x-auto">
+    <table class="table table-xs">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Payment Mode</th>
+          <th>Reference</th>
+          <th>Amount</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(tx, index) in recentTransactions" :key="tx.id">
+          <td>{{ index + 1 }}</td>
+          <td>{{ formatDate(tx.created_at) }}</td>
+          <td>{{ tx.paymentMethod }}</td>
+          <td>{{ tx.ref }}</td>
+          <td>₦ {{ tx.amount }}</td>
+          <td v-if="tx.status=='COMPLETED'" class="text-success">{{ tx.status }}            
+          </td>
+          <td v-else class="text-error">{{ tx.status }}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Payment Mode</th>
+          <th>Reference</th>
+          <th>Amount</th>
+          <th>Status</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 </template>
+<script setup>
+import { computed } from 'vue';
+
+const props = defineProps({
+  transactions: {
+    type: Array,
+    required: true
+  }
+})
+
+const recentTransactions = computed(() => props.transactions.slice(0, 15))
+
+function formatDate(dateStr) {
+  const date = new Date(dateStr)
+  return date.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  })
+}
+</script>
