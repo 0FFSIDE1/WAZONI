@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 import VChart from 'vue-echarts'
 import { use } from 'echarts/core'
 
@@ -26,6 +26,12 @@ import {
 } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 
+const props = defineProps({
+  categoryData: {
+    type: Array,
+    default: () => []
+  }
+})
 // Register modules
 use([
   PieChart,
@@ -49,13 +55,7 @@ const chartOptions = ref({
       name: 'Categories',
       type: 'pie',
       radius: '60%',
-      data: [
-        { value: 1048, name: 'Electronics' },
-        { value: 735, name: 'Fashion' },
-        { value: 580, name: 'Home' },
-        { value: 484, name: 'Books' },
-        { value: 300, name: 'Others' }
-      ],
+      data: [],
       emphasis: {
         itemStyle: {
           shadowBlur: 10,
@@ -65,6 +65,15 @@ const chartOptions = ref({
       }
     }
   ]
+})
+// Update chart when prop changes
+watchEffect(() => {
+  if (props.categoryData && props.categoryData.length > 0) {
+    chartOptions.value.series[0].data = props.categoryData.map(item => ({
+      name: item.category,
+      value: item.total_quantity
+    }))
+  }
 })
 </script>
 
