@@ -8,7 +8,7 @@
 
     </div>
     <div class="stat-title">Total Sales</div>
-    <div class="stat-value text-primary">₦ {{  totalSales }}</div>
+    <div class="stat-value text-primary">₦ {{  formattedTotalSales }}</div>
     <div class="stat-desc">21% more than last month</div>
   </div>
 
@@ -20,7 +20,7 @@
 
     </div>
     <div class="stat-title">Total Orders</div>
-    <div class="stat-value text-secondary">₦ {{ totalOrders }}</div>
+    <div class="stat-value text-secondary">{{ totalOrders }}</div>
     <div class="stat-desc">21% more than last month</div>
   </div>
 
@@ -33,7 +33,7 @@
 
     </div>
     <div class="stat-title">Revenue</div>
-    <div class="stat-value text-secondary">₦ {{ totalRevenue }}</div>
+    <div class="stat-value text-secondary">₦ {{ formattedTotalRevenue }}</div>
     <div class="stat-desc">200% more than last month</div>
   </div>
 
@@ -41,15 +41,15 @@
     <div class="stat-figure text-secondary">
   
     </div>
-    <div class="stat-value">{{ percentageCompleted }} %</div>
+    <div class="stat-value">{{ percentageCompletedOrders }} %</div>
     <div class="stat-title">Completed Orders</div>
     <div class="stat-desc text-secondary text-[14px]">31 pending orders</div>
   </div>
 </div>
 </template>
 <script setup>
-
-defineProps({
+import { computed } from 'vue'
+const props = defineProps({
   totalSales: {
     type: Number,
     default: 0.00
@@ -62,9 +62,22 @@ defineProps({
     type: Number,
     default: 0
   },
-  percentageCompleted: {
+  percentageCompletedOrders: {
     type: Number,
     default: 0
   }
 })
+
+
+const formatLargeNumber = (value) => {
+  if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}M+`
+  if (value >= 1_000) return `${Math.floor(value / 1_000)}k+`
+  return value.toString()
+}
+
+// Computed properties using the reusable function
+const formattedTotalSales = computed(() => formatLargeNumber(props.totalSales))
+const formattedTotalRevenue = computed(() => formatLargeNumber(props.totalRevenue))
+
+
 </script>
