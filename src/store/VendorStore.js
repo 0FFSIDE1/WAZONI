@@ -122,12 +122,12 @@ export const useVendorStore = defineStore('vendor', {
         this.loading.stats = false
       }
     },
-    async getVendorProducts(page=1, forceRefresh = false) {
-      const now = Date.now()
-      const CACHE_TTL = 5 * 60 * 1000
-      if (!forceRefresh && this.lastFetched.products && now - this.lastFetched.products < CACHE_TTL) {
-        return
-      }
+    async getVendorProducts(page=1) {
+      // const now = Date.now()
+      // const CACHE_TTL = 5 * 60 * 1000
+      // if (!forceRefresh && this.lastFetched.products && now - this.lastFetched.products < CACHE_TTL) {
+      //   return
+      // }
       this.loading.products = true
       this.error.products = null
       try {
