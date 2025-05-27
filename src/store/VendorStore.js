@@ -9,7 +9,8 @@ import {
 import {
   fetchVendorProducts,
   editVendorProduct,
-  deleteProduct
+  deleteProduct,
+  createProduct
 } from '@/services/products'
 import { 
   fetchNotifications, 
@@ -146,18 +147,20 @@ export const useVendorStore = defineStore('vendor', {
         this.loading.products = false
       }
     },
-    async createVendorProduct(data) {
-      this.loading.products = true
-      this.error.products = null
-      try {
-        const response = await createProduct(data)
-        console.log('Create response:', response)
-        this.products.push(response.data)
-      } catch (err) {
-        this.error.products = err.message || 'Failed to create vendor product'
-      } finally {
-        this.loading.products = false
-      }
+    async createVendorProduct(payload) {
+    this.loading.products = true;
+    this.error.products = null;
+    try {
+      const response = await createProduct(payload);
+      console.log('Create response:', response);
+      this.products.push(response.data);
+      return response;
+    } catch (err) {
+      this.error.products = err.message || 'Failed to create vendor product';
+      throw err;
+    } finally {
+      this.loading.products = false;
+    }
     },
     async updateVendorProduct(id, data) {
       this.loading.products = true
