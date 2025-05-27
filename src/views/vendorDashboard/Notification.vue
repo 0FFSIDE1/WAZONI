@@ -159,16 +159,27 @@ const groupedNotifications = computed(() => {
   )
 })
 
-function markAsRead(id) {
-  const index = vendorStore.notifications.findIndex(n => n.id === id)
-  if (index !== -1) {
-    vendorStore.notifications[index].read = true
+async function markAsRead(id) {
+  const index = vendorStore.notifications.findIndex(n => n.id === id);
+  if (index !== -1 && !vendorStore.notifications[index].read) {
+    vendorStore.notifications[index].read = true;
+
+    try {
+      await vendorStore.updateNotificationReadStatus(id, {
+        read: true,
+      }); // API call to update backend
+      await getVendorNotifications(); // Refresh notifications from backend
+    } catch (error) {
+      console.error('Failed to update notification:', error);
+      vendorStore.notifications[index].read = false;
+    }
   }
 }
-
-function markAllAsRead() {
+async function markAllAsRead() {
   vendorStore.notifications.forEach(n => {
+    vendorStore.updateAllNotificationReadStatus()
     n.read = true
+   
   })
 }
 
