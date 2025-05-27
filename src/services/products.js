@@ -5,7 +5,7 @@ export const fetchVendorProducts = async (path) => {
   return data
 }
 export const createProduct = async (payload) => {
-  const { data } = await api.post(`products/`, payload)
+  const { data } = await api.post('products/', payload)
   return data
 }
 export const editVendorProduct = async (id, payload) => {
