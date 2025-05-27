@@ -1,5 +1,21 @@
 import { defineStore } from 'pinia'
-import { fetchVendorInfo, fetchVendorStats, fetchVendorProducts, fetchVendorOrders, fetchVendorParcel, fetchVendorTransactions, fetchVendorNotifications } from '@/services/vendor'
+import { 
+  fetchVendorInfo, 
+  fetchVendorStats,  
+  fetchVendorOrders, 
+  fetchVendorParcel, 
+  fetchVendorTransactions, 
+  } from '@/services/vendor'
+import {
+  fetchVendorProducts,
+  editVendorProduct,
+  deleteProduct
+} from '@/services/products'
+import { 
+  fetchNotifications, 
+  updateNotification, 
+  markAllNotificationsAsRead } from '@/services/notifications'
+
 
 
 export const useVendorStore = defineStore('vendor', {
@@ -64,14 +80,11 @@ export const useVendorStore = defineStore('vendor', {
     async getVendorInfo(forceRefresh = false) {
       const now = Date.now()
       const CACHE_TTL = 5 * 60 * 1000
-
       if (!forceRefresh && this.lastFetched.info && now - this.lastFetched.info < CACHE_TTL) {
         return
       }
-
       this.loading.info = true
       this.error.info = null
-
       try {
         const data = await fetchVendorInfo()
         this.info = data || {}
@@ -82,28 +95,23 @@ export const useVendorStore = defineStore('vendor', {
         this.loading.info = false
       }
     },
-
     async getVendorStats(forceRefresh = false) {
       const now = Date.now()
       const CACHE_TTL = 5 * 60 * 1000
       if (!forceRefresh && this.lastFetched.stats && now - this.lastFetched.stats < CACHE_TTL) {
         return
       }
-
       if (!this.info || !this.info.id) {
         await this.getVendorInfo(true) // force refresh to ensure latest info
       }
-
       const vendorId = this.info?.id
       if (!vendorId) {
         console.log('Vendor ID is not available')
         this.error.stats = 'Vendor ID is not available'
         return
       }
-
       this.loading.stats = true
       this.error.stats = null
-
       try {
         const data = await fetchVendorStats(vendorId)
         this.stats = data || []
@@ -114,24 +122,67 @@ export const useVendorStore = defineStore('vendor', {
         this.loading.stats = false
       }
     },
-
-    async getVendorProducts(forceRefresh = false) {
+    async getVendorProducts(page=1, forceRefresh = false) {
       const now = Date.now()
       const CACHE_TTL = 5 * 60 * 1000
-
       if (!forceRefresh && this.lastFetched.products && now - this.lastFetched.products < CACHE_TTL) {
         return
       }
-
       this.loading.products = true
       this.error.products = null
-
       try {
-        const data = await fetchVendorProducts()
-        this.products = data || []
+        const path = page ? `products/?page=${page}` : 'products/'
+        const data = await fetchVendorProducts(path)
+        this.products = data.results || []
+        this.pagination = {
+        count: data.count,
+        next: data.next,
+        previous: data.previous,
+      };
         this.lastFetched.products = now
       } catch (err) {
         this.error.products = err.message || 'Failed to fetch vendor products'
+      } finally {
+        this.loading.products = false
+      }
+    },
+    async createVendorProduct(data) {
+      this.loading.products = true
+      this.error.products = null
+      try {
+        const response = await createProduct(data)
+        console.log('Create response:', response)
+        this.products.push(response.data)
+      } catch (err) {
+        this.error.products = err.message || 'Failed to create vendor product'
+      } finally {
+        this.loading.products = false
+      }
+    },
+    async updateVendorProduct(id, data) {
+      this.loading.products = true
+      this.error.products = null
+      try {
+        const response = await editVendorProduct(id, data)
+        console.log('Update response:', response);
+        this.products = this.products.map(product =>
+          product.itemid === id ? { ...product, ...response } : product
+        )
+      } catch (err) {
+        this.error.products = err.message || 'Failed to update vendor product'
+      } finally {
+        this.loading.products = false
+      }
+    },
+    async deleteVendorProduct(id){
+      this.loading.products = true
+      this.error.products = null
+      try {
+        const response = await deleteProduct(id)
+        console.log('Delete response:', response)
+        this.products = this.products.filter(product => product.itemid !== id)
+      } catch (err) {
+        this.error.products = err.message || 'Failed to delete vendor product'
       } finally {
         this.loading.products = false
       }
@@ -148,11 +199,11 @@ export const useVendorStore = defineStore('vendor', {
         this.loading.orders = false
       }
     },
-      async getVendorNotifications(url = null) {
+    async getVendorNotifications(url = null) {
       this.loading.notifications = true
       this.error.notifications = null
       try {
-        const data = await fetchVendorNotifications(url) // don't reassign url=null again
+        const data = await fetchNotifications(url) // don't reassign url=null again
         this.notifications = data.results || []
       
         // ✅ store pagination info
@@ -164,6 +215,36 @@ export const useVendorStore = defineStore('vendor', {
       } catch (err) {
         this.error.notifications = err.message || 'Failed to fetch vendor notifications'
       } finally {
+        this.loading.notifications = false
+      }
+    },
+    async updateNotificationReadStatus(id, data) {
+      this.loading.notifications = true
+      this.error.notifications = null
+      try {
+        const response = await updateNotification(id, data)
+        this.notifications = this.notifications.map(notification =>
+          notification.id === id ? { ...notification, ...response } : notification
+        )
+      } catch (err) {
+        this.error.notifications = err.message || 'Failed to update vendor notification'
+      }
+      finally {
+        this.loading.notifications = false
+      }
+    },
+    async updateAllNotificationReadStatus() {
+      this.loading.notifications = true
+      this.error.notifications = null
+      try {
+        const response = await markAllNotificationsAsRead()
+        this.notifications = this.notifications.map(notification =>
+          notification.id === id ? { ...notification, ...response } : notification
+        )
+      } catch (err) {
+        this.error.notifications = err.message || 'Failed to update vendor notification'
+      }
+      finally {
         this.loading.notifications = false
       }
     },
