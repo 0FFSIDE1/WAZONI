@@ -12,6 +12,11 @@ export const useVendorStore = defineStore('vendor', {
     parcels: [],
     customers: [],
     notifications: [],
+    pagination: {
+    count: 0,
+    next: null,
+    previous: null,
+    },
     loading: {
       info: false,
       stats: false,
@@ -143,13 +148,20 @@ export const useVendorStore = defineStore('vendor', {
         this.loading.orders = false
       }
     },
-    async getVendorNotifications(){
+      async getVendorNotifications(url = null) {
       this.loading.notifications = true
       this.error.notifications = null
       try {
-        const data = await fetchVendorNotifications()
-        this.notifications = data || []
-      } catch (err){
+        const data = await fetchVendorNotifications(url) // don't reassign url=null again
+        this.notifications = data.results || []
+      
+        // ✅ store pagination info
+        this.pagination = {
+          count: data.count,
+          next: data.next,
+          previous: data.previous,
+        }
+      } catch (err) {
         this.error.notifications = err.message || 'Failed to fetch vendor notifications'
       } finally {
         this.loading.notifications = false

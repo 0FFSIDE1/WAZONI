@@ -30,7 +30,9 @@ export const fetchVendorTransactions = async () => {
   return data
 }
 
-export const fetchVendorNotifications = async () => {
-  const { data } = await api.get('notifications/')
+export const fetchVendorNotifications = async (url) => {
+  const baseUrl = import.meta.env.VITE_API_URL; 
+  const finalUrl = url ? (url.startsWith('http') ? url : `${baseUrl}${url}`) : `${baseUrl}notifications/`
+  const { data } = await api.get(finalUrl)
   return data
 }

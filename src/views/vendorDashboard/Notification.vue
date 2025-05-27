@@ -69,7 +69,7 @@
               <div class="flex-1">
                 <h3 class="font-semibold text-gray-800">{{ notification.title }}</h3>
                 <p class="text-sm text-gray-600">{{ notification.message }}</p>
-                <p class="text-xs text-gray-400 mt-1">{{ formatTime(notification.date) }}</p>
+                <p class="text-xs text-gray-400 mt-1">{{ formatTime(notification.created_at) }}</p>
               </div>
 
               <!-- Mark as read -->
@@ -92,103 +92,111 @@
       </div>
     </div>
   </div>
+  <!-- Pagination Controls -->
+  <div class="flex justify-start mx-4 mt-6 space-x-4">
+    <button
+      :disabled="!pagination.previous"
+      @click="loadPrevPage"
+      class="btn btn-sm"
+    >
+      Previous
+    </button>
+
+    <button
+      :disabled="!pagination.next"
+      @click="loadNextPage"
+      class="btn btn-sm"
+    >
+      Next
+    </button>
+  </div>
 </template>
 
 
 <script setup>
-import { ref, computed } from 'vue';
-import dayjs from 'dayjs';
+import { ref, computed, onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
+import dayjs from 'dayjs'
+import { useVendorStore } from '@/store/VendorStore'
+
+const vendorStore = useVendorStore()
+const { notifications, pagination } = storeToRefs(vendorStore)
+const { getVendorNotifications } = vendorStore
+
+const filter = ref('all')
+
+// Pagination handlers
+function loadNextPage() {
+  if (pagination.value.next) {
+    getVendorNotifications(pagination.value.next)
+  }
+}
+
+function loadPrevPage() {
+  if (pagination.value.previous) {
+    getVendorNotifications(pagination.value.previous)
+  }
+}
+
+// Notification filters
+const filteredNotifications = computed(() => {
+  if (filter.value === 'unread') return notifications.value.filter(n => !n.read)
+  if (filter.value === 'read') return notifications.value.filter(n => n.read)
+  return notifications.value
+})
+
+// Grouped by date
+const groupedNotifications = computed(() => {
+  const groups = {}
+  filteredNotifications.value.forEach(n => {
+    const dateKey = dayjs(n.created_at).format('YYYY-MM-DD')
+    if (!groups[dateKey]) groups[dateKey] = []
+    groups[dateKey].push(n)
+  })
+
+  return Object.fromEntries(
+    Object.entries(groups).sort((a, b) => new Date(b[0]) - new Date(a[0]))
+  )
+})
+
+function markAsRead(id) {
+  const index = vendorStore.notifications.findIndex(n => n.id === id)
+  if (index !== -1) {
+    vendorStore.notifications[index].read = true
+  }
+}
+
+function markAllAsRead() {
+  vendorStore.notifications.forEach(n => {
+    n.read = true
+  })
+}
+
+function formatTime(datetime) {
+  return dayjs(datetime).format('h:mm A')
+}
+
+function formatGroupDate(dateStr) {
+  const today = dayjs().format('YYYY-MM-DD')
+  const yesterday = dayjs().subtract(1, 'day').format('YYYY-MM-DD')
+  if (dateStr === today) return 'Today'
+  if (dateStr === yesterday) return 'Yesterday'
+  return dayjs(dateStr).format('MMMM D, YYYY')
+}
+
 function sidebarBtnClass(val) {
   return `flex items-center w-full px-4 py-2 rounded-md text-sm font-medium ${
     filter.value === val
       ? 'bg-blue-100 text-blue-600'
       : 'text-gray-700 hover:bg-gray-100'
-  }`;
-}
-// Sample Notification Data (Replace with API response)
-const notifications = ref([
-  {
-    id: 1,
-    title: 'Order Received',
-    message: 'You have received a new order for product XYZ.',
-    read: false,
-    date: dayjs().subtract(0, 'day').toISOString(),
-  },
-  {
-    id: 2,
-    title: 'Account Verified',
-    message: 'Your account has been successfully verified.',
-    read: true,
-    date: dayjs().subtract(1, 'day').toISOString(),
-  },
-  {
-    id: 3,
-    title: 'Product Approved',
-    message: 'Your product listing "Cool Shirt" has been approved.',
-    read: false,
-    date: dayjs().subtract(2, 'day').toISOString(), // 2 days ago
-  },
-  {
-    id: 4,
-    title: 'New Message',
-    message: 'You received a new message from a customer.',
-    read: true,
-    date: dayjs().subtract(3, 'day').toISOString(), // 3 days ago
-  },
-]);
-
-const filter = ref('all');
-
-const filteredNotifications = computed(() => {
-  if (filter.value === 'unread') {
-    return notifications.value.filter(n => !n.read);
-  } else if (filter.value === 'read') {
-    return notifications.value.filter(n => n.read);
-  }
-  return notifications.value;
-});
-
-const groupedNotifications = computed(() => {
-  const groups = {};
-
-  filteredNotifications.value.forEach(n => {
-    const dateKey = dayjs(n.date).format('YYYY-MM-DD');
-    if (!groups[dateKey]) {
-      groups[dateKey] = [];
-    }
-    groups[dateKey].push(n);
-  });
-
-  return Object.fromEntries(
-    Object.entries(groups).sort((a, b) => new Date(b[0]) - new Date(a[0]))
-  );
-});
-
-function markAsRead(id) {
-  const index = notifications.value.findIndex(n => n.id === id);
-  if (index !== -1) {
-    notifications.value[index].read = true;
-  }
+  }`
 }
 
-function markAllAsRead() {
-  notifications.value.forEach(n => {
-    n.read = true;
-  });
-}
-
-function formatTime(datetime) {
-  return dayjs(datetime).format('h:mm A');
-}
-
-function formatGroupDate(dateStr) {
-  const today = dayjs().format('YYYY-MM-DD');
-  const yesterday = dayjs().subtract(1, 'day').format('YYYY-MM-DD');
-  if (dateStr === today) return 'Today';
-  if (dateStr === yesterday) return 'Yesterday';
-  return dayjs(dateStr).format('MMMM D, YYYY');
-}
+onMounted(() => {
+  getVendorNotifications()
+})
 </script>
+
 
 <style scoped>
 .select {
