@@ -33,9 +33,9 @@ const emit = defineEmits(['toggle'])
         
       </div>
       <div class="flex items-center">
-         <a class="btn btn-ghost btn-circle flex" aria-label="Call us">
-          <BellAlertIcon class="w-6 h-6" />
-      </a>
+         <button @click="$router.push('/vendor/dashboard/notifications/')" class="btn btn-ghost btn-circle flex" aria-label="notifications">
+          <BellAlertIcon class="w-6 h-6"/>
+         </button>
       <ThemeToggle />
 
       </div>
