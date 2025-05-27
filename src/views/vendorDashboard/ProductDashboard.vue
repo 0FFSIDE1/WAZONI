@@ -46,8 +46,14 @@
               {{ product.current_quantity }}
             </td>
             <td>
-              <input type="checkbox" v-model="product.inStock" class="checkbox checkbox-primary" />
+              <input
+              type="checkbox"
+              v-model="product.inStock"
+              @change="toggleStockStatus(product)"
+              class="checkbox checkbox-primary"
+              />
             </td>
+            
             <td class="flex gap-1 flex-col md:flex-row">
               <button type="button" @click="editProduct(product)" class="btn btn-warning btn-sm">
                 <PencilIcon class="h-5 w-5 text-white" />Edit
@@ -162,7 +168,8 @@
 import { ref, computed, onMounted } from 'vue';
 import { useVendorStore } from '@/store/VendorStore';
 import { PencilIcon, TrashIcon } from '@heroicons/vue/24/solid';
-
+import { useRoute, useRouter } from 'vue-router';
+import { useToast } from 'vue-toastification';
 const modalRef = ref(null);
 const fileInput = ref(null);
 const search = ref('');
@@ -170,11 +177,26 @@ const filterCategory = ref('');
 const filterType = ref('');
 const page = ref(1);
 const pageSize = ref(5);
-
+const toast = useToast()
 const vendorStore = useVendorStore();
 const products = computed(() => vendorStore.products);
 
+const router = useRouter();
+const route = useRoute();
+// const uploadToCloudinary = async (file) => {
+//   const formData = new FormData();
+//   formData.append('file', file);
+//   formData.append('upload_preset', 'your_upload_preset'); // Replace with your preset
+//   formData.append('cloud_name', 'your_cloud_name'); // Replace with your cloud name
 
+//   const res = await fetch('https://api.cloudinary.com/v1_1/your_cloud_name/image/upload', {
+//     method: 'POST',
+//     body: formData
+//   });
+
+//   const data = await res.json();
+//   return data.secure_url;
+// };
 
 const filteredProducts = computed(() => {
   return products.value.filter(p => {
@@ -245,6 +267,20 @@ const addProduct = async () => {
     alert('Please upload exactly 2 images.');
     return;
   }
+  // // Upload images to Cloudinary
+  // const uploadedPhotos = await Promise.all(
+  //   formProduct.value.photos.map(async img => {
+  //     if (img.file) {
+  //       return await uploadToCloudinary(img.file);
+  //     }
+  //     return img.preview; // in case it's already uploaded
+  //   })
+  // );
+  //   const productData = {
+  //   ...formProduct.value,
+  //   photo1: uploadedPhotos[0],
+  //   photo2: uploadedPhotos[1]
+  // };
 
   const productData = {
     ...formProduct.value,
@@ -253,21 +289,38 @@ const addProduct = async () => {
 
   if (isEditing.value && editedProductId.value !== null) {
     await vendorStore.updateVendorProduct(formProduct.value.itemId, productData);
+    toast.success(
+      'Update Successfull'
+    )
   } else {
     await vendorStore.createVendorProduct(productData);
+    // toast.success(
+    //   'New Product Added!'
+    // )
   }
 
   await vendorStore.getVendorProducts(); // Refresh product list
+  router.push('/vendor/dashboard/products/')
+  
+  
+  
   closeModal();
 };
 
 const deleteProduct = async (id) => {
   if (confirm('Are you sure you want to delete this product?')) {
     await vendorStore.deleteVendorProduct(id);
-    await vendorStore.getVendorProducts(); // reloads and clears the deleted product from table
+    await vendorStore.getVendorProducts(); 
+    toast.success(
+      `Product with id ${id} deleted successfully!`
+    )
   }
 };
-
+const toggleStockStatus = async (product) => {
+  await vendorStore.updateVendorProduct(product.itemId, { ...product });
+  await vendorStore.getVendorProducts();
+  router.push('/vendor/dashboard/products/')
+};
 
 const handleImagePreview = (files) => {
   formProduct.value.photos = files.map(file => ({
