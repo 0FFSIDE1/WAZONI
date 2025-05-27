@@ -43,7 +43,7 @@
             <td>{{ product.productType }}</td>
             <td>₦ {{ product.currentPrice.toFixed(2) }}</td>
             <td>
-              {{ product.current_quantity }}
+              {{ product.currentQuantity }}
             </td>
             <td>
               <input
@@ -130,7 +130,7 @@
           ></textarea>
 
           <input
-            v-model.number="formProduct.current_quantity"
+            v-model.number="formProduct.currentQuantity"
             type="number"
             placeholder="Quantity"
             class="input input-bordered w-full col-span-2"
@@ -226,7 +226,7 @@ const defaultProduct = {
   productType: '',
   description: '',
   currentPrice: null,
-  current_quantity: 0,
+  currentQuantity: 0,
   inStock: true,
   photos: []
 };
@@ -267,44 +267,36 @@ const addProduct = async () => {
     alert('Please upload exactly 2 images.');
     return;
   }
-  // // Upload images to Cloudinary
+
   // const uploadedPhotos = await Promise.all(
   //   formProduct.value.photos.map(async img => {
-  //     if (img.file) {
-  //       return await uploadToCloudinary(img.file);
-  //     }
-  //     return img.preview; // in case it's already uploaded
+  //     return img.file ? await uploadToCloudinary(img.file) : img.preview;
   //   })
   // );
-  //   const productData = {
-  //   ...formProduct.value,
-  //   photo1: uploadedPhotos[0],
-  //   photo2: uploadedPhotos[1]
-  // };
 
   const productData = {
     ...formProduct.value,
-    photos: formProduct.value.photos.map(img => img.file) // Store actual files
+    // photo1: uploadedPhotos[0],
+    // photo2: uploadedPhotos[1]
   };
 
-  if (isEditing.value && editedProductId.value !== null) {
-    await vendorStore.updateVendorProduct(formProduct.value.itemId, productData);
-    toast.success(
-      'Update Successfull'
-    )
-  } else {
-    await vendorStore.createVendorProduct(productData);
-    // toast.success(
-    //   'New Product Added!'
-    // )
-  }
+  try {
+    if (isEditing.value && editedProductId.value !== null) {
+      await vendorStore.updateVendorProduct(formProduct.value.itemId, productData);
+      toast.success('Update Successfull');
+    } else {
+      const response = await vendorStore.createVendorProduct(productData);
+      console.log('Create response:', response);
+      toast.success('New Product Added!');
+    }
 
-  await vendorStore.getVendorProducts(); // Refresh product list
-  router.push('/vendor/dashboard/products/')
-  
-  
-  
-  closeModal();
+    await vendorStore.getVendorProducts(); // Refresh
+    router.push('/vendor/dashboard/products/');
+    closeModal();
+  } catch (error) {
+    console.error('Add Product Failed:', error);
+    toast.error(vendorStore.error.products);
+  }
 };
 
 const deleteProduct = async (id) => {
@@ -347,7 +339,7 @@ const triggerFileInput = () => {
 const exportToCSV = () => {
   const csvContent = [
     ['Name', 'Category', 'Type', 'Price', 'Qty', 'In Stock'],
-    ...filteredProducts.value.map((p) => [p.name, p.category, p.productType, p.currentPrice.toFixed(2), p.current_quantity.toString(), p.inStock]),
+    ...filteredProducts.value.map((p) => [p.name, p.category, p.productType, p.currentPrice.toFixed(2), p.currentQuantity.toString(), p.inStock]),
   ]
     .map((row) => row.join(','))
     .join('\n');
