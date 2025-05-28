@@ -39,7 +39,7 @@
         <tbody>
           <tr v-for="(product, index) in paginatedProducts" :key="index" class="hover">
             <td>{{ product.name }}</td>
-            <td>{{ product.category }}</td>
+            <td>{{ product.category_name }}</td>
             <td>{{ product.productType }}</td>
             <td>₦ {{ product.currentPrice.toFixed(2) }}</td>
             <td>
@@ -214,7 +214,7 @@ const paginatedProducts = computed(() => {
   return filteredProducts.value.slice(start, start + pageSize.value);
 });
 
-const categoryOptions = computed(() => [...new Set(products.value.map(p => p.category))]);
+const categoryOptions = computed(() => [...new Set(products.value.map(p => p.category_name))]);
 const typeOptions = computed(() => [...new Set(products.value.map(p => p.productType))]);
 
 const isEditing = ref(false);
