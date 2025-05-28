@@ -226,7 +226,7 @@ const defaultProduct = {
   productType: '',
   description: '',
   currentPrice: null,
-  currentQuantity: 0,
+  currentQuantity: 1,
   inStock: true,
   photos: []
 };
