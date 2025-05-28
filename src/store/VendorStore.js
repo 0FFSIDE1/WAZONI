@@ -10,7 +10,9 @@ import {
   fetchVendorProducts,
   editVendorProduct,
   deleteProduct,
-  createProduct
+  createProduct,
+  fetchSaleRecord,
+  createSaleRecord
 } from '@/services/products'
 import { 
   fetchNotifications, 
@@ -29,6 +31,7 @@ export const useVendorStore = defineStore('vendor', {
     parcels: [],
     customers: [],
     notifications: [],
+    sales: [],
     pagination: {
     count: 0,
     next: null,
@@ -43,6 +46,7 @@ export const useVendorStore = defineStore('vendor', {
       parcels: false,
       customers: false,
       notifications: false,
+      sales: false,
     },
     error: {
       info: null,
@@ -53,6 +57,7 @@ export const useVendorStore = defineStore('vendor', {
       parcels: false,
       customers: false,
       notifications: false,
+      sales: false,
     },
     lastFetched: {
       info: null,
@@ -63,6 +68,7 @@ export const useVendorStore = defineStore('vendor', {
       parcels: false,
       customers: false,
       notifications: false,
+      sales: false,
     },
   }),
 
@@ -72,7 +78,7 @@ export const useVendorStore = defineStore('vendor', {
       {
         key: 'vendor-store',
         storage: localStorage,
-        paths: ['info', 'stats', 'products', 'orders', 'transactions', 'customers', 'parcels', 'transactions', 'notifications', 'lastFetched']
+        paths: ['info', 'stats', 'products', 'orders', 'transactions', 'customers', 'parcels', 'transactions', 'notifications', 'sales', 'lastFetched']
       }
     ]
   },
@@ -275,7 +281,36 @@ export const useVendorStore = defineStore('vendor', {
         this.loading.parcels = false
       }
     },
-
+    async CreateSalesRecord(payload){
+      this.loading.sales = true
+      this.error.sales = null
+      try {
+        const response = await createSaleRecord(payload)
+        this.sales.push(response.data);
+        return response;
+      } catch(err){
+        this.error.sales = err.message || 'Failed to create sales record'
+      } finally {
+        this.loading.sales = false
+      }
+    },
+    async getSalesRecord(){
+      this.loading.sales = true
+      this.error.sales = null
+      try {
+        const data = await fetchSaleRecord()
+        this.sales = data || []
+        this.pagination = {
+          count: data.count,
+          next: data.next,
+          previous: data.previous,
+        }
+      } catch(err){
+        this.error.sales = err.message || 'Failed to create sales record'
+      } finally {
+        this.loading.sales = false
+      }
+    },
     resetVendorData() {
       this.info = null
       this.stats = []
