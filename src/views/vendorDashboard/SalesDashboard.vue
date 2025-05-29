@@ -80,6 +80,7 @@
                 step="0.01"
                 class="input input-bordered w-24"
                 placeholder="Price"
+                readonly
               />
 
             
@@ -97,10 +98,10 @@
             <button type="button" class="btn btn-outline btn-sm" @click="addLineItem">+ Add Product</button>
           </div>
 
-          <div class="text-right text-sm font-semibold">Subtotal: ₦ {{ subtotal.toFixed(2) }}</div>
+          <div class="text-right text-sm md:text-xl font-semibold">Subtotal: ₦ {{ subtotal.toFixed(2) }}</div>
 
           <div class="flex justify-end">
-            <button class="btn btn-primary" type="submit">Submit Sale</button>
+            <button class="btn btn-primary" type="submit">Submit</button>
           </div>
           </fieldset>
         </form>
@@ -112,32 +113,33 @@
       </div>
     </div>
 
-          <!-- Table (Desktop) -->
-    <div class="hidden md:block overflow-x-auto">
-      <table class="table table-zebra w-full mt-6">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Type</th>
-            <th>Amount ($)</th>
-            <th>Description</th>
-            <th>Date</th>
-            <th v-if="hasSales">Sold By</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(t, index) in paginatedTransactions" :key="t.id">
-            <td>{{ index + 1 + (currentPage - 1) * itemsPerPage }}</td>
-            <td class="capitalize">{{ t.type }}</td>
-            <td>{{ t.amount.toFixed(2) }}</td>
-            <td>{{ t.description }}</td>
-            <td>{{ t.date }}</td>
-            <td v-if="t.type === 'sale'">{{ t.soldBy || '—' }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
+     <!-- Table (Desktop) -->
+<div class="hidden md:block overflow-x-auto">
+  <table class="table table-zebra w-full mt-6">
+    <thead>
+      <tr>
+        <th>#</th> 
+        <th>Description</th>
+        <th>Date</th>
+        <th>Sold To</th>
+        <th v-if="hasSales">Sold By</th>
+         <th>Payment</th>
+        <th>Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(t, index) in paginatedTransactions" :key="t.id">
+        <td>{{ index + 1 + (currentPage - 1) * itemsPerPage }}</td> 
+        <td>{{ t.description || '—' }}</td>
+        <td>{{ new Date(t.created_at).toLocaleDateString() }}</td>
+        <td>{{ t.soldTo }}</td>
+        <td v-if="hasSales">{{ t.soldBy || '—' }}</td>
+         <td class="capitalize">{{ t.paymentMethod }}</td>
+        <td>₦ {{ t.subtotal ? t.subtotal : '0.00' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
     <!-- Mobile Card View -->
     <div class="md:hidden space-y-4 mt-6">
       <div
@@ -149,9 +151,11 @@
           <span class="text-sm font-semibold capitalize">{{ t.type }}</span>
           <span class="text-sm text-gray-500">{{ t.date }}</span>
         </div>
-        <div class="text-lg font-bold text-gray-800">${{ t.amount.toFixed(2) }}</div>
+        <div class="text-lg font-bold text-gray-800">₦ {{ t.subtotal }}</div>
         <p class="text-sm text-gray-700 mt-1">{{ t.description }}</p>
-        <p v-if="t.type === 'sale'" class="text-xs text-gray-500 mt-1">Sold By: {{ t.soldBy || '—' }}</p>
+        <p v-if="t.soldBy" class="text-xs text-gray-500 mt-1">Sold By: {{ t.soldBy || '—' }}</p>
+         <p class="text-xs text-gray-500 mt-1">Sold To: {{ t.soldTo || '—' }}</p>
+         <p>Date: {{ new Date(t.created_at).toLocaleDateString() }}</p>
       </div>
     </div>
 
@@ -173,6 +177,7 @@
     <dialog ref="modalRef" class="modal modal-bottom sm:modal-middle" :open="showModal">
       <div class="modal-box animate-fade-in">
         <h3 class="font-bold text-lg mb-4">Add Sale</h3>
+        <div class="text-right text-sm md:text-xl font-semibold">Subtotal: ₦ {{ subtotal.toFixed(2) }}</div>
         <form @submit.prevent="submitSale" class="space-y-4">
           <input v-model="newSale.soldBy" type="text" class="input input-bordered w-full" placeholder="Sold By" required />
           <input v-model="newSale.soldTo" type="text" class="input input-bordered w-full" placeholder="Sold To" />
@@ -185,9 +190,6 @@
             <option>Debit Card</option>
             <option>Other</option>
           </select>
-          
-
-          <!-- You can optionally add mobile line_items UI -->
            <!-- Line Items -->
           <div class="space-y-2 flex flex-col justify-center items-center">
             <div
@@ -200,6 +202,7 @@
                 @input="searchProduct(i)"
                 class="input input-sm input-bordered w-48"
                 placeholder="Search product"
+                required
               />
               <ul
                 v-if="item.suggestions.length"
@@ -220,6 +223,7 @@
                 min="1"
                 class="input input-sm input-bordered w-20"
                 placeholder="Qty"
+                required
               />
               <input
                 v-model.number="item.price"
@@ -227,11 +231,8 @@
                 step="0.01"
                 class="input input-sm input-bordered w-24"
                 placeholder="Price"
+                readonly
               />
-
-            
-              
-              
               <button type="button" class="btn btn-sm btn-error" @click="removeLineItem(i)">X</button>
               <span
                 v-if="item.product && item.quantity > item.product.currentQuantity"
@@ -240,7 +241,6 @@
                 ⚠ Stock exceeded
               </span>
             </div>
-
             <button type="button" class="btn btn-outline btn-sm" @click="addLineItem">+ Add Product</button>
           </div>
 
@@ -256,13 +256,12 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted, watch } from 'vue'
+import { ref, reactive, computed, onMounted, watch, vModelCheckbox } from 'vue'
 import Chart from 'chart.js/auto'
 import jsPDF from 'jspdf'
 import { useVendorStore } from '@/store/VendorStore'
 import { useToast } from 'vue-toastification'
-// Transaction Data
-const transactions = ref([])
+
 const toast = useToast()
 // Filters
 const filters = ref({ type: '', startDate: '', endDate: '' })
@@ -271,14 +270,21 @@ const filters = ref({ type: '', startDate: '', endDate: '' })
 const products = ref([])
 const vendorStore = useVendorStore()
 
+const transactions = ref([])
+
 const fetchProducts = async () => {
   await vendorStore.getVendorProducts()
   products.value = vendorStore.products
+  // get sales record also
+  await vendorStore.getSalesRecord()
+  transactions.value = vendorStore.sales?.results || []
+  console.log(transactions.value)
 }
-
+const user = JSON.parse(localStorage.getItem('user'));
+const username = user?.username
 // Sale Form
 const newSale = reactive({
-  soldBy: '',
+  soldBy: username,
   soldTo: '',
   description: '',
   paymentMethod: '',
@@ -335,31 +341,31 @@ const submitSale = async () => {
     }))
   }
 
-  const response = await vendorStore.CreateSalesRecord(payload)
-  console.log(response)
+  const  res = await vendorStore.CreateSalesRecord(payload)
   if (!vendorStore.error.sales){
+    const data = res
     toast.success('Created Successfully!')
-  } else {
-    toast.error(
-      vendorStore.error.sales
-    )
-  }
-  transactions.value.push({
-    id: data.id,
-    type: 'sale',
-    soldBy: newSale.soldBy,
-    amount: data.subtotal,
-    description: data.description,
-    date: data.created_at
-  })
-
-  generateInvoice(data)
-  Object.assign(newSale, {
-    soldBy: '', soldTo: '', description: '', paymentMethod: '', date: '',
+    // Update local transactions state
+    transactions.value.unshift({
+      soldBy: data.soldBy,
+      soldTo: data.soldTo,
+      description: data.description,
+      subtotal: data.subtotal,
+      paymentMethod: data.paymentMethod,
+      created_at: data.created_at
+    })
+    generateInvoice(data)
+    Object.assign(newSale, {
+    soldBy: username, soldTo: '', description: '', paymentMethod: '', date: '',
     type: 'sale', line_items: []
   })
   addLineItem()
+  await vendorStore.getSalesRecord()
+  transactions.value = vendorStore.sales?.results || []
   renderChart()
+  } else {
+    toast.error(vendorStore.error.sales)
+  }
 }
 
 // Generate PDF Invoice
@@ -389,20 +395,20 @@ const generateInvoice = (sale) => {
 // CSV Export
 const exportToCSV = () => {
   const csv = [
-    ['Type', 'Amount', 'Description', 'Date', 'Sold By'],
+    ['Description', 'Date', 'Sold By', 'Payment', 'Subtotal'],
     ...filteredTransactions.value.map(t => [
-      t.type,
-      t.amount.toFixed(2),
       t.description,
       t.date,
-      t.soldBy || ''
+      t.soldBy || '',
+      t.paymentMethod,
+      t.subtotal
     ])
   ].map(row => row.join(',')).join('\n')
 
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
   const link = document.createElement('a')
   link.href = URL.createObjectURL(blob)
-  link.setAttribute('download', 'transactions.csv')
+  link.setAttribute('download', 'sales.csv')
   document.body.appendChild(link)
   link.click()
   document.body.removeChild(link)
@@ -410,7 +416,7 @@ const exportToCSV = () => {
 
 // Pagination
 const currentPage = ref(1)
-const itemsPerPage = 5
+const itemsPerPage = 10
 const endIndex = computed(() => currentPage.value * itemsPerPage)
 
 const filteredTransactions = computed(() => {
@@ -459,12 +465,13 @@ const renderChart = () => {
 }
 
 const showModal = ref(false)
-const hasSales = computed(() => filteredTransactions.value.some(t => t.type === 'sale'))
+const hasSales = computed(() => filteredTransactions.value.some(t => t.soldBy))
 
 onMounted(() => {
   fetchProducts()
   renderChart()
   addLineItem()
+  console.log(username)
 })
 watch(filteredTransactions, renderChart)
 </script>
