@@ -286,7 +286,6 @@ export const useVendorStore = defineStore('vendor', {
       this.error.sales = null
       try {
         const response = await createSaleRecord(payload)
-        this.sales.push(response.data);
         return response;
       } catch(err){
         this.error.sales = err.message || 'Failed to create sales record'
