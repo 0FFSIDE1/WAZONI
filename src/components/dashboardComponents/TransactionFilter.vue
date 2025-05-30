@@ -21,21 +21,7 @@
       </select>
     </div>
 
-    <!-- ⏮️ Pagination Buttons -->
-    <div class="flex gap-2 justify-end sm:justify-start">
-      <button
-        @click="$emit('paginate', 'prev')"
-        class="px-4 py-2 bg-gray-100 text-sm rounded shadow hover:bg-gray-200"
-      >
-        Prev
-      </button>
-      <button
-        @click="$emit('paginate', 'next')"
-        class="px-4 py-2 bg-gray-100 text-sm rounded shadow hover:bg-gray-200"
-      >
-        Next
-      </button>
-    </div>
+    
   </div>
 </template>
 
