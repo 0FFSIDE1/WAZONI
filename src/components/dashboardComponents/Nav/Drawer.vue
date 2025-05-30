@@ -104,7 +104,7 @@ Products Stats <kbd class="kbd kbd-xs">Coming Soon</kbd></router-link></li>
           </li>
           <!-- Transactions -->
           <li>
-            <router-link to="/vendor/dashboard/transactions/"><ChartBarIcon class="w-6" />Sales</router-link>
+            <router-link to="/vendor/dashboard/sales/"><ChartBarIcon class="w-6" />Sales</router-link>
           </li>
           <li>
             <router-link to="/vendor/dashboard/transactions/"><BanknotesIcon class="w-6" />Transactions</router-link>
