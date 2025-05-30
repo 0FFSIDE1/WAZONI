@@ -1,7 +1,7 @@
 <template>
   <section class="space-y-12 px-2 md:px-12 py-8">
     <!-- HERO Section -->
-    <div class="space-y-4">
+    <div class="space-y-2">
       <HeroText v-if="vendorStore.info" :brandName="vendorStore.info?.brandName"/>
       <HeroStat v-if="vendorStore.stats" :totalSales="vendorStore.stats?.totalSales" :totalOrders="vendorStore.stats?.totalOrders" :totalRevenue="vendorStore.stats?.totalRevenue" :percentageCompletedOrders="vendorStore.stats?.percentageCompletedOrders" class="w-full" />
     </div>
