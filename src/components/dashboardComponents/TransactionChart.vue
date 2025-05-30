@@ -20,7 +20,7 @@ let typeChart = null
 let monthlyChart = null
 
 onMounted(async () => {
-    await store.getVendorTransactions()
+    await store.getVendorTransactions(true)
   await nextTick() // Wait for DOM to finish rendering
 
   const typeCtx = document.getElementById('typeChart')
