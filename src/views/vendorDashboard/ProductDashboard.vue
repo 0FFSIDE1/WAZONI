@@ -202,7 +202,7 @@ const filteredProducts = computed(() => {
   return products.value.filter(p => {
     return (
       p.name.toLowerCase().includes(search.value.toLowerCase()) &&
-      (!filterCategory.value || p.category === filterCategory.value) &&
+      (!filterCategory.value || p.category_name === filterCategory.value) &&
       (!filterType.value || p.productType === filterType.value)
     );
   });
