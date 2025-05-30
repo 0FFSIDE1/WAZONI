@@ -1,17 +1,17 @@
 <template>
   <div class="p-4 md:p-8 space-y-6">
     <div class="flex items-center justify-between">
-      <h1 class="text-2xl font-bold">Sales Dashboard</h1>
-      <button @click="showModal = true" class="btn btn-primary btn-sm md:hidden">+ Add</button>
+      <h1 class="text-2xl font-bold">Sales</h1>
+      <button @click="showModal = true" class="btn btn-primary btn-sm md:hidden">+ Add Record</button>
     </div>
 
     <!-- Filters -->
     <div class="flex flex-col md:flex-row md:items-center gap-4">
       <select v-model="filters.type" class="select select-bordered w-full md:w-48">
-        <option value="">All Types</option>
-        <option value="sale">Sales</option>
-        <option value="order">Orders</option>
-        <option value="expense">Expenses</option>
+        <option value="">All Sales Person</option>
+        <option v-for="person in soldByOptions" :key="person" :value="person">
+          {{ person }}
+        </option>
       </select>
       <label class="text-sm font-semibold">Start Date:</label>
       <input v-model="filters.startDate" type="date" class="input input-bordered w-full md:w-48" />
@@ -22,14 +22,14 @@
     <!-- Chart + Add Form -->
     <div class="md:flex gap-6">
       <!-- Form -->
-      <div class="hidden md:block w-1/2 bg-white h-full shadow rounded p-4">
+      <div class="hidden md:block w-1/2  bg-white h-full shadow rounded p-4">
         <h3 class="font-bold text-lg mb-4">Create Sale</h3>
         <form @submit.prevent="submitSale">
           <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-full border p-4">
           <input v-model="newSale.soldBy" class="input input-bordered w-full" placeholder="Sold By" required />
           <input v-model="newSale.soldTo" class="input input-bordered w-full" placeholder="Sold To" />
-          <textarea name="description" id="description" rows="5" v-model="newSale.description" class="input input-bordered w-full h-full p-2" placeholder="Description (optional)">
-          </textarea>
+          <!-- <textarea name="description" id="description" rows="5" v-model="newSale.description" class="input input-bordered w-full h-full p-2" placeholder="Description (optional)">
+          </textarea> -->
        
           <select v-model="newSale.paymentMethod" class="select select-bordered w-full" placeholder="Payment Method" required>
             <option disabled value="">Choose</option>
@@ -109,29 +109,31 @@
       <!-- Chart -->
       <div class="w-full md:w-1/2 bg-white shadow rounded-xl p-4">
         <h3 class="font-bold mb-2">Summary</h3>
-        <canvas ref="chartRef" class="w-full h-64" />
+        <canvas ref="chartRef" class="w-full" />
       </div>
     </div>
 
      <!-- Table (Desktop) -->
-<div class="hidden md:block overflow-x-auto">
-  <table class="table table-zebra w-full mt-6">
-    <thead>
+<div class="hidden md:block overflow-x-auto rounded-lg shadow">
+  <table class="table w-full mt-6">
+    <thead class="bg-base-200 text-base-content font-semibold uppercase">
       <tr>
         <th>#</th> 
-        <th>Description</th>
         <th>Date</th>
+        <th>Description</th>
+        
         <th>Sold To</th>
         <th v-if="hasSales">Sold By</th>
-         <th>Payment</th>
-        <th>Subtotal</th>
+        <th>Payment</th>
+        <th>Total</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="(t, index) in paginatedTransactions" :key="t.id">
         <td>{{ index + 1 + (currentPage - 1) * itemsPerPage }}</td> 
-        <td>{{ t.description || '—' }}</td>
         <td>{{ new Date(t.created_at).toLocaleDateString() }}</td>
+        <td>{{ t.description || '—' }}</td>
+        
         <td>{{ t.soldTo }}</td>
         <td v-if="hasSales">{{ t.soldBy || '—' }}</td>
          <td class="capitalize">{{ t.paymentMethod }}</td>
@@ -176,12 +178,12 @@
     <!-- Mobile Modal -->
     <dialog ref="modalRef" class="modal modal-bottom sm:modal-middle" :open="showModal">
       <div class="modal-box animate-fade-in">
-        <h3 class="font-bold text-lg mb-4">Add Sale</h3>
-        <div class="text-right text-sm md:text-xl font-semibold">Subtotal: ₦ {{ subtotal.toFixed(2) }}</div>
+        <h3 class="font-bold text-lg mb-4">Create Sales</h3>
+        <div class="text-right text-lg md:text-xl font-semibold mb-3">Subtotal: ₦ {{ subtotal.toFixed(2) }}</div>
         <form @submit.prevent="submitSale" class="space-y-4">
           <input v-model="newSale.soldBy" type="text" class="input input-bordered w-full" placeholder="Sold By" required />
           <input v-model="newSale.soldTo" type="text" class="input input-bordered w-full" placeholder="Sold To" />
-          <input v-model="newSale.description" type="text" class="input input-bordered w-full" placeholder="Description" />
+          <!-- <input v-model="newSale.description" type="text" class="input input-bordered w-full" placeholder="Description" /> -->
           <select v-model="newSale.paymentMethod" class="select select-bordered w-full" required>
             <option disabled value="">Select Payment Method</option>
             <option>Cash</option>
@@ -200,8 +202,8 @@
               <input
                 v-model="item.search"
                 @input="searchProduct(i)"
-                class="input input-sm input-bordered w-48"
-                placeholder="Search product"
+                class="input input-sm input-bordered w-28"
+                placeholder="Search Item"
                 required
               />
               <ul
@@ -221,7 +223,7 @@
                 v-model.number="item.quantity"
                 type="number"
                 min="1"
-                class="input input-sm input-bordered w-20"
+                class="input input-sm input-bordered w-10"
                 placeholder="Qty"
                 required
               />
@@ -229,7 +231,7 @@
                 v-model.number="item.price"
                 type="number"
                 step="0.01"
-                class="input input-sm input-bordered w-24"
+                class="input input-sm input-bordered w-20"
                 placeholder="Price"
                 readonly
               />
@@ -241,13 +243,13 @@
                 ⚠ Stock exceeded
               </span>
             </div>
-            <button type="button" class="btn btn-outline btn-sm" @click="addLineItem">+ Add Product</button>
+            <button type="button" class="btn btn-outline btn-sm mb-3" @click="addLineItem">+ Add Item</button>
           </div>
 
 
           <div class="flex justify-end gap-2">
-            <button class="btn btn-ghost" type="button" @click="showModal = false">Cancel</button>
-            <button class="btn btn-primary" type="submit" @click="showModal = false">Add</button>
+            <button class="btn btn-sm btn-ghost" type="button" @click="showModal = false">Cancel</button>
+            <button class="btn btn-sm btn-primary" type="submit" @click="showModal = false">Submit</button>
           </div>
         </form>
       </div>
@@ -263,12 +265,12 @@ import { useVendorStore } from '@/store/VendorStore'
 import { useToast } from 'vue-toastification'
 
 const toast = useToast()
+const vendorStore = useVendorStore()
 // Filters
 const filters = ref({ type: '', startDate: '', endDate: '' })
 
 // Product list
 const products = ref([])
-const vendorStore = useVendorStore()
 
 const transactions = ref([])
 
@@ -278,8 +280,14 @@ const fetchProducts = async () => {
   // get sales record also
   await vendorStore.getSalesRecord()
   transactions.value = vendorStore.sales?.results || []
-  console.log(transactions.value)
 }
+const soldByOptions = computed(() => {
+  const unique = new Set()
+  transactions.value.forEach(t => {
+    if (t.soldBy) unique.add(t.soldBy)
+  })
+  return Array.from(unique)
+})
 const user = JSON.parse(localStorage.getItem('user'));
 const username = user?.username
 // Sale Form
@@ -421,7 +429,7 @@ const endIndex = computed(() => currentPage.value * itemsPerPage)
 
 const filteredTransactions = computed(() => {
   return transactions.value.filter(t => {
-    const matchType = !filters.value.type || t.type === filters.value.type
+    const matchType = !filters.value.type || t.soldBy === filters.value.type
     const matchStart = !filters.value.startDate || new Date(t.date) >= new Date(filters.value.startDate)
     const matchEnd = !filters.value.endDate || new Date(t.date) <= new Date(filters.value.endDate)
     return matchType && matchStart && matchEnd
@@ -445,22 +453,38 @@ const chartRef = ref(null)
 let chartInstance = null
 
 const renderChart = () => {
-  const counts = { sale: 0, order: 0, expense: 0 }
+  const counts = {}
   filteredTransactions.value.forEach(t => {
-    counts[t.type] = (counts[t.type] || 0) + 1
-  })
+  const name = t.soldBy || 'Unknown'
+  counts[name] = (counts[name] || 0) + 1
+})
 
   if (chartInstance) chartInstance.destroy()
 
   chartInstance = new Chart(chartRef.value, {
     type: 'doughnut',
     data: {
-      labels: ['Sales', 'Orders', 'Expenses'],
+      labels: Object.keys(counts),
       datasets: [{
-        data: [counts.sale, counts.order, counts.expense],
-        backgroundColor: ['#10b981', '#3b82f6', '#f59e0b']
+        data: Object.values(counts),
+        backgroundColor: [
+        '#10b981', '#3b82f6', '#f59e0b',
+        '#6366f1', '#ef4444', '#8b5cf6', '#14b8a6'
+      ]
       }]
+    },
+    options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top'
+      },
+      title: {
+        display: true,
+        text: 'Sales Per Person',
+      }
     }
+  }
   })
 }
 
