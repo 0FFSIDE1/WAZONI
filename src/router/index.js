@@ -31,8 +31,8 @@ const routes = [
     meta: { keepAlive: false, layout: 'vendordashboard', requiresAuth: true, role: 'vendor' }
   },
   {
-    path: '/vendor/dashboard/transactions/',
-    name: 'transactions',
+    path: '/vendor/dashboard/sales/',
+    name: 'sales',
     component: () => import('@/views/vendorDashboard/SalesDashboard.vue'),
     meta: { keepAlive: false, layout: 'vendordashboard', requiresAuth: true, role: 'vendor' }
   },
@@ -64,6 +64,12 @@ const routes = [
     path: '/vendor/dashboard/profile/',
     name: 'profile',
     component: () => import('@/views/vendorDashboard/ProfileSettings.vue'),
+    meta: { keepAlive: false, layout: 'vendordashboard', requiresAuth: true, role: 'vendor' }
+  },
+  {
+    path: '/vendor/dashboard/transactions/',
+    name: 'transactions',
+    component: () => import('@/views/vendorDashboard/Transactions.vue'),
     meta: { keepAlive: false, layout: 'vendordashboard', requiresAuth: true, role: 'vendor' }
   },
     // Admin Dashboard (Example Route)
