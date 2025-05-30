@@ -24,14 +24,14 @@
           leave-to="opacity-0 scale-95"
         >
           <DialogPanel class="w-full max-w-xl transform overflow-hidden rounded-lg bg-white p-6 shadow-xl transition-all">
-            <DialogTitle class="text-lg font-semibold text-gray-900">
-              Transaction Detail
+            <DialogTitle class="text-xl font-semibold text-gray-900">
+              Summary
             </DialogTitle>
 
             <div v-if="transaction" class="mt-4 text-sm text-gray-700 space-y-3">
               <div><strong>Reference:</strong> {{ transaction.ref }}</div>
               <div><strong>Description:</strong> {{ transaction.description }}</div>
-              <div><strong>Amount:</strong> ${{ transaction.amount }}</div>
+              <div><strong>Amount:</strong> ₦ {{ transaction.amount }}</div>
               <div><strong>Status:</strong> {{ transaction.status }}</div>
               <div><strong>Type:</strong> {{ transaction.transactionType }}</div>
               <div><strong>Method:</strong> {{ transaction.paymentMethod }}</div>
