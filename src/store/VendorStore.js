@@ -257,12 +257,25 @@ export const useVendorStore = defineStore('vendor', {
         this.loading.notifications = false
       }
     },
-    async getVendorTransactions(){
+    async getVendorTransactions(forceRefresh = false){
+      const now = Date.now()
+      const CACHE_TTL = 5 * 60 * 1000
+      if (!forceRefresh && this.lastFetched.stats && now - this.lastFetched.stats < CACHE_TTL) {
+        return
+      }
+      if (!this.transactions || !this.transactions.id) {
+        await fetchVendorTransactions(true) // force refresh to ensure latest info
+      }
       this.loading.transactions = true
       this.error.transactions = null
       try {
         const data = await fetchVendorTransactions()
         this.transactions = data.results || []
+        this.pagination = {
+          count: data.count,
+          next: data.next,
+          previous: data.previous,
+        }
       } catch (err){
         this.error.transactions = err.message || 'Failed to fetch vendor transactions'
       } finally {
@@ -288,7 +301,7 @@ export const useVendorStore = defineStore('vendor', {
         const response = await createSaleRecord(payload)
         return response;
       } catch(err){
-        this.error.sales = err.message || 'Failed to create sales record'
+        this.error.sales = err.response.data.line_items[0] || 'Failed to create sales record'
       } finally {
         this.loading.sales = false
       }
