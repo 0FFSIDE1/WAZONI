@@ -80,26 +80,23 @@
 import { useVendorStore } from '@/store/VendorStore'
 import { formatDate } from '@/utils/formatters'
 import { inject, computed, ref } from 'vue'
-defineProps({
+const props = defineProps({
   search: String,
   status: String
 })
-const store = useVendorStore()
-// Local filters
-const search = ref('')
-const status = ref('')
 
-// Optional: expose these for filtering externally (like from a Filter component)
-defineExpose({ search, status })
+const store = useVendorStore()
+
+
 
 // Computed filtered transactions
 const filteredTransactions = computed(() => {
   return store.transactions.filter(tx => {
-    const matchesStatus = !status.value || tx.status === status.value
+    const matchesStatus = !props.status || tx.status === props.status
     const matchesSearch =
-      !search.value ||
-      tx.ref?.toLowerCase().includes(search.value.toLowerCase()) ||
-      tx.description?.toLowerCase().includes(search.value.toLowerCase())
+      !props.search ||
+      tx.ref?.toLowerCase().includes(props.search.toLowerCase()) ||
+      tx.description?.toLowerCase().includes(props.search.toLowerCase())
 
     return matchesStatus && matchesSearch
   })
