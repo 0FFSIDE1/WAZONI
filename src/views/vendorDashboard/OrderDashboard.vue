@@ -16,11 +16,11 @@
       />
       <select v-model="filterStatus" class="select select-bordered w-full md:w-1/4">
         <option value="">All Statuses</option>
-        <option value="Created">Created</option>
-        <option value="Pending">Pending</option>
-        <option value="Shipped">Shipped</option>
-        <option value="Completed">Completed</option>
-        <option value="Cancelled">Cancelled</option>
+        <option value="CREATED">Created</option>
+        <option value="PENDING">Pending</option>
+        <option value="SHIPPED">Shipped</option>
+        <option value="COMPLETED">Completed</option>
+        <option value="CANCELLED">Cancelled</option>
       </select>
     </div>
 
@@ -28,19 +28,19 @@
     <div class="grid grid-cols-2 text-secondary  text-md md:text-2xl sm:grid-cols-4 gap-4 mb-4  text-center">
       <div class="p-6 bg-gray-200 rounded shadow-xl">
         <div class="font-semibold py-2">Created</div>
-        <div>{{ countByStatus('Created') }}</div>
+        <div>{{ countByStatus('CREATED') }}</div>
       </div>
       <div class="p-6 bg-gray-200 rounded shadow-xl">
         <div class="font-semibold text-orange-600 py-2">Pending</div>
-        <div>{{ countByStatus('Pending') }}</div>
+        <div>{{ countByStatus('PENDING') }}</div>
       </div>
       <div class="p-6 bg-gray-200 rounded shadow-xl">
         <div class="font-semibold text-info py-2">Shipped</div>
-        <div>{{ countByStatus('Shipped') }}</div>
+        <div>{{ countByStatus('SHIPPED') }}</div>
       </div>
       <div class="p-6 bg-gray-200 rounded shadow-xl">
         <div class="font-semibold text-success py-2">Completed</div>
-        <div>{{ countByStatus('Completed') }}</div>
+        <div>{{ countByStatus('COMPLETED') }}</div>
       </div>
     </div>
 
@@ -55,7 +55,7 @@
         <th>Order ID</th>
         <th>Date</th>
         <th>Status</th>
-        <th>Total ($)</th>
+        <th>Total (₦)</th>
         <th></th>
       </tr>
     </thead>
@@ -65,19 +65,23 @@
         <td>{{ order.phone }}</td>
         <td class="truncate max-w-[180px]" :title="order.address">{{ order.address }}</td>
         <td>{{ order.orderId }}</td>
-        <td>{{ order.date }}</td>
+        <td>{{ order.created_at }}</td>
         <td>
           <span class="badge" :class="{
-            'badge-success': order.status === 'Completed',
-            'badge-warning': order.status === 'Pending',
-            'badge-info': order.status === 'Shipped',
-            'badge-error': order.status === 'Cancelled',
+            'badge-success': order.status === 'COMPLETED',
+            'badge-warning': order.status === 'PENDING',
+            'badge-info': order.status === 'SHIPPED',
+            'badge-error': order.status === 'CANCELLED',
+            'badge-ghost': order.status === 'CREATED',
           }">{{ order.status }}</span>
         </td>
-        <td>${{ order.total.toFixed(2) }}</td>
+        <td>₦ {{ order.total_price.toFixed(2) }}</td>
         <td>
           <button class="btn btn-sm btn-outline" @click="viewOrder(order)">View</button>
         </td>
+      </tr>
+      <tr v-if="filteredOrders.length === 0">
+        <td colspan="8" class="text-center py-4 text-gray-500">No orders found.</td>
       </tr>
     </tbody>
   </table>
@@ -93,25 +97,29 @@
     <div class="flex justify-between items-center mb-2">
       <h2 class="text-md font-bold">{{ order.customer }}</h2>
       <span class="badge text-xs" :class="{
-        'badge-success': order.status === 'Completed',
-        'badge-warning': order.status === 'Pending',
-        'badge-info': order.status === 'Shipped',
-        'badge-error': order.status === 'Cancelled',
-      }">{{ order.status }}</span>
+  'badge-success': order.status === 'COMPLETED',
+  'badge-warning': order.status === 'PENDING',
+  'badge-info': order.status === 'SHIPPED',
+  'badge-error': order.status === 'CANCELLED',
+  'badge-ghost': order.status === 'CREATED',
+}">{{ order.status }}</span>
     </div>
 
     <div class="text-sm text-gray-600 space-y-1 mb-2">
       <p><strong>Phone:</strong> {{ order.phone }}</p>
       <p><strong>Address:</strong> {{ order.address }}</p>
       <p><strong>Order ID:</strong> {{ order.orderId }}</p>
-      <p><strong>Date:</strong> {{ order.date }}</p>
-      <p><strong>Total:</strong> ${{ order.total.toFixed(2) }}</p>
+      <p><strong>Date:</strong> {{ order.created_at }}</p>
+      <p><strong>Total:</strong> ₦ {{ order.total_price.toFixed(2) }}</p>
     </div>
 
     <button class="btn btn-sm btn-outline w-full mt-2" @click="viewOrder(order)">
       View Details
     </button>
   </div>
+  <div v-if="filteredOrders.length === 0" class="text-center text-gray-500 py-8">
+  No orders found.
+</div>
 </div>
 
     <!-- Order Detail Modal -->
@@ -126,20 +134,37 @@
             <li><strong>Customer:</strong> {{ selectedOrder.customer }}</li>
             <li><strong>Phone:</strong> {{ selectedOrder.phone }}</li>
             <li><strong>Address:</strong> {{ selectedOrder.address }}</li>
-            <li><strong>Date:</strong> {{ selectedOrder.date }}</li>
-            <li><strong>Total:</strong> ${{ selectedOrder.total.toFixed(2) }}</li>
+            <li><strong>Date:</strong> {{ selectedOrder.created_at }}</li>
+            <li><strong>Total:</strong> ₦ {{ selectedOrder.total_price.toFixed(2) }}</li> 
           </ul>
 
           <!-- Steps -->
-          <h3 class="font-semibold mt-4 mb-2">Order Progress</h3>
+           
+           <div class="flex md:justify-center md:items-center gap-4 flex-col">
+            <h3 class="font-semibold mt-4 mb-2">Order Progress</h3>
         
-          <ul class="steps steps-vertical lg:steps-horizontal">
-            <li class="step" :class="getStepClass('Created')">Created</li>
-            <li class="step" :class="getStepClass('Pending')">Processing</li>
-            <li class="step" :class="getStepClass('Shipped')">In Transit</li>
-            <li class="step" :class="getStepClass('Completed')">Delivered</li>
-            <li v-if="selectedOrder.status === 'Cancelled'" class="step step-error">Cancelled</li>
+          <ul class="timeline timeline-vertical md:timeline-horizontal">
+                <li v-for="step in statusOrder" :key="step">
+                  <div :class="['timeline-start', 'timeline-box', getTimelineColor(step)]">{{ formatStepName(step) }}</div>
+                  <div class="timeline-middle">
+                   
+                    <div class="badge" :class="getTimelineBadgeColor(step)">
+                      {{ step === selectedOrder.status ? '✓' :  ''}}
+                    </div>
+                  </div>
+                  <hr class="bg-base-300" />
+                </li>
+                <!-- Handle cancelled case separately -->
+                <li v-if="selectedOrder.status === 'CANCELLED'">
+                  <div class="timeline-end text-error">Cancelled</div>
+                  <div class="timeline-middle">
+                    <div class="badge badge-error">Cancelled</div>
+                  </div>
+                  <hr class="bg-base-300" />
+                </li>
           </ul>
+           </div>
+
         
           <!-- Items -->
           <h3 class="font-semibold mt-6 mb-2">Items in this Order</h3>
@@ -151,13 +176,13 @@
             >
               <img :src="item.image" alt="" class="w-12 h-12 rounded object-cover" />
               <div class="flex-1">
-                <p class="font-medium">{{ item.name }}</p>
+                <p class="font-medium">{{ item['product']['name'] }}</p>
                 <p class="text-xs text-gray-500">
-                  ${{ item.price.toFixed(2) }} × {{ item.quantity }}
+                  ₦ {{ item['product']['currentPrice'] }} × {{ item.quantity }}
                 </p>
               </div>
               <div class="text-sm font-semibold">
-                ${{ (item.price * item.quantity).toFixed(2) }}
+                ₦ {{ (item['product']['currentPrice'] * item.quantity).toFixed(2) }}
               </div>
             </li>
           </ul>
@@ -179,88 +204,10 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+import { useVendorStore } from '@/store/Vendorstore'
 
-const orders = ref([
-  {
-    id: 1,
-    customer: 'John Doe',
-    phone: '+17728883456',
-    address: '102 Dallas texas',
-    orderId: 'ORD123456',
-    date: '2024-05-16',
-    status: 'Pending',
-    total: 120.99,
-    items: [
-      { name: 'Widget A', price: 29.99, quantity: 2, image: 'https://via.placeholder.com/40' },
-      { name: 'Service X', price: 60.01, quantity: 1, image: 'https://via.placeholder.com/40' },
-    ],
-  },
-  {
-    id: 2,
-    customer: 'Jane Smith',
-    phone: '+15552223333',
-    address: '456 New York, NY',
-    orderId: 'ORD789012',
-    date: '2024-05-15',
-    status: 'Completed',
-    total: 89.49,
-    items: [
-      { name: 'Item B', price: 44.75, quantity: 2, image: 'https://via.placeholder.com/40' },
-    ],
-  },
-  {
-    id: 3,
-    customer: 'Mark Smith',
-    phone: '+15552223333',
-    address: '456 New York, NY',
-    orderId: 'ORD782312',
-    date: '2024-05-15',
-    status: 'Pending',
-    total: 89.49,
-    items: [
-      { name: 'Item B', price: 44.75, quantity: 2, image: 'https://via.placeholder.com/40' },
-    ],
-  },
-  {
-    id: 4,
-    customer: 'Mark Anothny',
-    phone: '+15552223333',
-    address: '456 New York, NY',
-    orderId: 'ORD729012',
-    date: '2024-05-15',
-    status: 'Shipped',
-    total: 89.49,
-    items: [
-      { name: 'Item B', price: 44.75, quantity: 2, image: 'https://via.placeholder.com/40' },
-    ],
-  },
-  {
-    id: 5,
-    customer: 'Jude Essien',
-    phone: '+15552244333',
-    address: '456 New York, NY',
-    orderId: 'ORD780012',
-    date: '2024-05-15',
-    status: 'Cancelled',
-    total: 89.49,
-    items: [
-      { name: 'Item B', price: 44.75, quantity: 2, image: 'https://via.placeholder.com/40' },
-    ],
-  },
-  {
-    id: 6,
-    customer: 'Pal Smith',
-    phone: '+15552223333',
-    address: '456 New York, NY',
-    orderId: 'ORD785012',
-    date: '2024-05-15',
-    status: 'Cancelled',
-    total: 89.49,
-    items: [
-      { name: 'Item B', price: 44.75, quantity: 2, image: 'https://via.placeholder.com/40' },
-    ],
-  },
-]);
+const vendorStore = useVendorStore(); 
+const orders = ref([]);
 
 const filterStatus = ref('');
 const searchQuery = ref('');
@@ -270,22 +217,53 @@ const selectedOrder = ref({ items: [] });
 const filteredOrders = computed(() =>
   orders.value.filter((order) => {
     const byStatus = filterStatus.value ? order.status === filterStatus.value : true;
-    const bySearch = [order.customer, order.orderId]
-      .some((field) => field.toLowerCase().includes(searchQuery.value.toLowerCase()));
+    const bySearch = [order.customer, order.orderId].some((field) =>
+      (field || '').toString().toLowerCase().includes(searchQuery.value.toLowerCase())
+    );
     return byStatus && bySearch;
   })
 );
 
-const statusOrder = ['Created', 'Pending', 'Shipped', 'Completed'];
-const getStepClass = (step) => {
+const statusOrder = ['CREATED', 'PENDING', 'SHIPPED', 'COMPLETED'];
+const getTimelineColor = (step) => {
   const current = selectedOrder.value.status;
-  const idxCur  = statusOrder.indexOf(current);
+  const idxCur = statusOrder.indexOf(current);
   const idxStep = statusOrder.indexOf(step);
-  if (current === 'Cancelled')   return 'step-error';
-  if (current === 'Completed')   return 'step-success';
-  if (idxStep < idxCur)          return 'step-success';
-  if (idxStep === idxCur)        return 'step-warning';
-  return '';
+
+  if (current === 'CANCELLED') return 'text-error';
+
+  if (idxStep < idxCur) return 'text-success';
+  if (idxStep === idxCur && current === 'PENDING') return 'bg-warning';
+  if (idxStep === idxCur && current === 'SHIPPED') return 'bg-warning';
+  if (idxStep === idxCur && current === 'COMPLETED') return 'bg-success text-white';
+  if (idxStep === idxCur) return 'text-warning';
+  return 'text-gray-300';
+};
+
+const getTimelineBadgeColor = (step) => {
+  const current = selectedOrder.value.status;
+  const idxCur = statusOrder.indexOf(current);
+  const idxStep = statusOrder.indexOf(step);
+
+  if (current === 'CANCELLED') return 'badge-error';
+  if (idxStep < idxCur) return 'bg-green-500';
+  if (idxStep === idxCur) return 'badge-success';
+  return 'badge-ghost';
+};
+
+const formatStepName = (step) => {
+  switch (step) {
+    case 'CREATED':
+      return 'Created';
+    case 'PENDING':
+      return 'Processing';
+    case 'SHIPPED':
+      return 'In Transit';
+    case 'COMPLETED':
+      return 'Delivered';
+    default:
+      return step;
+  }
 };
 
 const countByStatus = (s) => orders.value.filter((o) => o.status === s).length;
@@ -295,11 +273,10 @@ const viewOrder = (order) => {
   modalRef.value?.showModal();
 };
 
-onMounted(() => {
-  setInterval(() => {
-    const pending = orders.value.find((o) => o.status === 'Pending');
-    if (pending) pending.status = 'Completed';
-  }, 10000);
+onMounted(async () => {
+  await vendorStore.getVendorOrders();
+  console.log(vendorStore.orders)
+  orders.value = vendorStore.orders.orders || [];
 });
 
 const exportToCSV = () => {
@@ -307,34 +284,34 @@ const exportToCSV = () => {
 
   const escapeCSV = (field) => {
     if (typeof field === 'number' && field.toString().length > 10) {
-      // Force phone number to be treated as a string
       return `"${field}"`;
     }
     if (typeof field === 'string' && (field.includes(',') || field.includes('"') || field.includes('\n'))) {
-      return `"${field.replace(/"/g, '""')}"`; // Escape quotes
+      return `"${field.replace(/"/g, '""')}"`;
     }
     return field;
   };
 
-  const rows = orders.value.map((o) => [
-    escapeCSV(o.customer),
-    escapeCSV(o.phone),
-    escapeCSV(o.address),
-    escapeCSV(o.orderId),
-    escapeCSV(o.date),
-    escapeCSV(o.status),
-    escapeCSV(o.total),
-  ]);
+  const rows = filteredOrders.value.map(order => [
+    order.customer,
+    order.phone,
+    order.address,
+    order.orderId,
+    order.created_at,
+    order.status,
+    order.items?.[0]?.subtotal ?? 0
+  ].map(escapeCSV));
 
-  const csvContent = [headers, ...rows].map((row) => row.join(',')).join('\n');
+  const csvContent = [headers, ...rows]
+    .map(row => row.join(','))
+    .join('\n');
 
   const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.setAttribute('download', 'orders.csv');
-  document.body.appendChild(link);
+  link.setAttribute('href', url);
+  link.setAttribute('download', `orders_${new Date().toISOString()}.csv`);
   link.click();
-  document.body.removeChild(link);
 };
 
 </script>
