@@ -63,7 +63,7 @@ onMounted(async () => {
   await vendorStore.getVendorStats();
   await vendorStore.getVendorOrders();
   await vendorStore.getVendorNotifications();
-  await vendorStore.getVendorTransactions();
+  await vendorStore.getVendorTransactions(true);
 });
 
 
