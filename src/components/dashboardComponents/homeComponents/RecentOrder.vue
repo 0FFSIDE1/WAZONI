@@ -50,9 +50,7 @@
               {{ order.status }}
             </span>
           </td>
-          <th>
-            <button class="btn btn-ghost btn-xs">details</button>
-          </th>
+         
         </tr>
         <tr v-if="!orders.length">
           <th></th>
