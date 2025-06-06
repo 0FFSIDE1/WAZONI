@@ -7,6 +7,7 @@ import AOS from 'aos'
 import 'aos/dist/aos.css'
 import Toast from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
+import "leaflet/dist/leaflet.css";
 
 const app = createApp(App)
 app.use(
