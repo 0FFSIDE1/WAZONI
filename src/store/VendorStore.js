@@ -2,8 +2,7 @@ import { defineStore } from 'pinia'
 import { 
   fetchVendorInfo, 
   fetchVendorStats,  
-  fetchVendorOrders, 
-  fetchVendorParcel, 
+  fetchVendorOrders,  
   fetchVendorTransactions, 
   } from '@/services/vendor'
 import {
@@ -18,7 +17,10 @@ import {
   fetchNotifications, 
   updateNotification, 
   markAllNotificationsAsRead } from '@/services/notifications'
-
+import {  
+  fetchVendorParcel,
+  CreateParcel
+} from '@/services/parcel'
 
 
 export const useVendorStore = defineStore('vendor', {
@@ -290,6 +292,19 @@ export const useVendorStore = defineStore('vendor', {
         this.parcels = data || []
       } catch (err){
         this.error.parcels = err.message || 'Failed to fetch vendor parcels'
+      } finally {
+        this.loading.parcels = false
+      }
+    },
+    async createParcelRecord(payload) {
+      this.loading.parcels = true
+      this.error.parcels = null
+
+      try {
+        const data = await CreateParcel(payload)
+        return data
+      } catch(err) {
+        this.error.parcels = err.response.data || 'Failed to create shipment'
       } finally {
         this.loading.parcels = false
       }
