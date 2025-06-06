@@ -93,7 +93,7 @@
             <td>{{ formatDate(parcel.created_at) }}</td>
             <td>{{ formatDate(parcel.eta) }}</td>
             <td class="space-x-2">
-              <button class="btn btn-sm btn-outline" @click="selectedParcel = parcel; openViewModal = true">
+              <button class="btn btn-sm btn-outline" @click="selectedParcel = parcel; openCreateModal = true">
                 View
               </button>
               <button class="btn btn-sm btn-error" @click="deleteParcel(parcel.id)">Delete</button>
@@ -103,10 +103,9 @@
         </tbody>
         <tbody v-if="filteredParcels.length === 0">
           <tr>
-          <td></td>
-          <td></td>
-           <td></td>
-          <td>No Record Available</td>
+          
+          <td colspan="8" class="text-center text-gray-500">No Record Available</td>
+
           </tr>
           
         </tbody>
@@ -117,7 +116,11 @@
     <div class="md:hidden space-y-4">
       <div v-if="filteredParcels" v-for="parcel in filteredParcels" :key="parcel.id" class="card bg-base-100 shadow-md">
         <div class="card-body">
-          <h3 class="font-bold">{{ parcel.name }}</h3>
+          <p><strong>Date Created:</strong> {{ formatDate(parcel.created_at) }}</p>
+          <p><strong>Tracking No:</strong>  {{ parcel.trackingNumber }}</p>
+          <p><strong>Weight:</strong> {{ parcel.weight }} KG</p>
+          <p><strong>Dimensions:</strong> {{ parcel.dimensions }} cm</p>
+          <p><strong>Destination:</strong> {{ parcel.destination }}</p>
           <p><strong>Status:</strong>
             <select v-model="parcel.status" class="select select-sm select-bordered" @change="updateChart">
               <option>Pending</option>
@@ -125,15 +128,16 @@
               <option>Delivered</option>
             </select>
           </p>
-          <p><strong>Date:</strong> {{ parcel.date }}</p>
+          <p><strong>Delivery Date:</strong> {{ formatDate(parcel.eta) }}</p>
+          
           <div class="card-actions justify-end">
-            <button class="btn btn-sm btn-outline" @click="selectedParcel = parcel; openViewModal = true">View</button>
+            <button class="btn btn-sm btn-outline" @click="selectedParcel = parcel; openCreateModal = true">View</button>
             <button class="btn btn-sm btn-error" @click="deleteParcel(parcel.id)">Delete</button>
           </div>
         </div>
       </div>
-      <div v-else="!filteredParcels">
-        <p>No Parcel Available</p>
+      <div v-if="filteredParcels.length === 0">
+        <p class="text-center my-8">No Parcel Available</p>
       </div>
     </div>
 
@@ -147,7 +151,7 @@
     </div>
 
     <!-- Create Modal -->
-<dialog class="modal modal-bottom sm:modal-middle" :open="openCreateModal">
+<dialog class="modal modal-bottom md:modal-middle" :open="openCreateModal">
     <div class="modal-box max-w-2xl">
       <h3 class="font-bold text-lg mb-4">🚚 Create New Parcel</h3>
 
@@ -155,7 +159,7 @@
         <!-- Receiver -->
         <input v-model="newParcel.receiver" class="input input-bordered w-full" placeholder="Receiver Name" required />
         <!-- Parcel Name -->
-        <input v-model="newParcel.name" class="input input-bordered w-full" placeholder="Parcel Name or ID (optional)" required />
+        <input v-model="newParcel.name" class="input input-bordered w-full" placeholder="Parcel Name or ID (optional)" />
 
         <!-- Searchable Order Dropdown -->
         <div class="relative">
@@ -163,7 +167,7 @@
             v-model="orderSearch"
             @input="searchOrders"
             @focus="showOrderDropdown = true"
-            @blur="() => setTimeout(() => (showOrderDropdown = false), 100)"
+            @blur="delayDropdownClose"
             class="input input-bordered w-full"
             placeholder="Search Order..."
           />
@@ -189,16 +193,16 @@
         <input v-model.number="newParcel.weight" type="number" step="0.01" class="input input-bordered w-full" placeholder="Weight (kg)" required />
 
         <!-- Dimensions -->
-        <input v-model="newParcel.dimensions" class="input input-bordered w-full" placeholder="Dimensions (e.g. 10x5x3 cm)" required />
+        <input v-model="newParcel.dimensions" type="text" class="input input-bordered w-full" placeholder="Dimensions (e.g. 10x5x3 cm)" required />
 
         <!-- Destination -->
-        <input v-model="newParcel.destination" class="input input-bordered w-full" placeholder="Destination" required />
+        <input v-model="newParcel.destination" type="text" class="input input-bordered w-full" placeholder="Destination" required />
 
 
-        <label class="input w-full">
+        <label class="input input-sm w-full">
           <span class="label">Delivery Date</span>
           <!-- ETA -->
-          <input v-model="newParcel.eta" aria-placeholder="ETA" type="datetime-local" class="input input-bordered w-full" required />
+          <input v-model="newParcel.eta" placeholder="ETA" type="datetime-local" class="input w-36 md:w-full input-bordered" required />
         </label>
       
         <!-- Status -->
@@ -226,12 +230,24 @@
 </dialog>
 
     <!-- View Modal -->
-    <dialog class="modal modal-bottom sm:modal-middle" :open="openViewModal">
+    <dialog class="modal modal-bottom sm:modal-middle" v-if="openCreateModal">
       <div class="modal-box">
-        <h3 class="font-bold text-lg">📦 Parcel Details</h3>
-        <p><strong>Name:</strong> {{ selectedParcel.name }}</p>
+        <h3 class="font-bold text-lg mb-3 text-center">📦 Parcel Info</h3>
+        <div class="flex flex-col gap-3">
+          <p><strong>Date Created:</strong> {{ formatDate(selectedParcel.created_at) }}</p>
+        <p><strong>Recipient:</strong> {{ selectedParcel.receiver }}</p>
+        <p><strong>Order:</strong> {{ selectedParcel.order }}</p>
+        
+        <p><strong>ID:</strong> {{ selectedParcel.name }}</p>
+        <p><strong>Description:</strong> {{ selectedParcel.description }}</p>
+        <p><strong>Weight:</strong> {{ selectedParcel.weight }} KG</p>
+        <p><strong>Dimensions:</strong> {{ selectedParcel.dimensions }}cm</p>
+        <p><strong>Courier:</strong> {{ selectedParcel?.courier ?? 'Not Available' }}</p>
+        <p><strong>Last Updated:</strong> {{ formatDate(selectedParcel.updated_at) }}</p>
         <p><strong>Status:</strong> {{ selectedParcel.status }}</p>
-        <p><strong>Date:</strong> {{ selectedParcel.date }}</p>
+        <p><strong>Delivery Date:</strong> {{ formatDate(selectedParcel.eta) }}</p>
+        </div>
+        
         <div class="modal-action">
           <button class="btn" @click="openViewModal = false">Close</button>
         </div>
@@ -245,6 +261,9 @@ import { ref, computed, onMounted, reactive, watch  } from 'vue'
 import Chart from 'chart.js/auto'
 import { useVendorStore } from '@/store/VendorStore'
 import { formatDate } from '@/utils/formatters'
+import { useToast } from 'vue-toastification'
+
+const toast = useToast()
 const filterStatus = ref('')
 const startDate = ref('')
 const endDate = ref('')
@@ -288,7 +307,7 @@ async function searchOrders() {
     console.error('Failed to fetch orders', err)
   }
 }
-function selectOrder(order) {
+async function selectOrder(order) {
   newParcel.order = order.orderId
   orderSearch.value = order.orderId
   showOrderDropdown.value = false
@@ -312,22 +331,25 @@ const filteredParcels = computed(() => {
 const hasMore = computed(() => parcels.value.length > page.value * perPage)
 
 const createParcel = async () => {
-  const response = await vendorStore.createParcelRecord(newParcel)
-  console.log(response)
-  parcels.value.push({
-    name: newParcel.value.name,
-    status: newParcel.value.status,
-    eta: newParcel.value.eta,
-    description: newParcel.value.description,
-    weight: newParcel.value.weight,
-    dimensions: newParcel.value.dimensions,
-    destination: newParcel.value.destination,
-    receiver: newParcel.value.receiver,
-    order: newParcel.value.order,
-  })
-  resetForm()
-  openCreateModal.value = false
-  updateChart()
+  try {
+    await vendorStore.createParcelRecord(newParcel)
+
+    if (!vendorStore.error.parcels) {
+      toast.success("Parcel Created Successfully!")
+      await vendorStore.getVendorParcels()
+      parcels.value = vendorStore.parcels.results
+      updateChart()
+      resetForm()
+    } else {
+      toast.error("Failed to create shipment. Please fix the errors and try again.")
+    }
+
+  } catch (err) {
+    toast.error("Failed to create parcel.")
+  } finally {
+    
+    openCreateModal.value = false
+  }
 }
 
 const deleteParcel = id => {
@@ -371,25 +393,40 @@ const updateChart = async () => {
     }
   })
 }
-function resetForm() {
+const resetForm = async () => {
   Object.assign(newParcel, {
     name: '',
     description: '',
     weight: null,
     dimensions: '',
     destination: '',
-    deliveryDate: '',
     eta: '',
     status: '',
     receiver: '',
     order: null,
   })
   orderSearch.value = ''
-  filteredOrders.value = []
+}
+function delayDropdownClose() {
+  setTimeout(() => {
+    showOrderDropdown.value = false
+  }, 200)
 }
 onMounted(async () => {
   await vendorStore.getVendorParcels()
   parcels.value = vendorStore.parcels.results
   await updateChart()
 })
+watch(
+  () => vendorStore.error.parcels,
+  (errors) => {
+    if (errors) {
+      Object.entries(errors).forEach(([field, messages]) => {
+        messages.forEach((msg) => {
+          toast.error(`${field}: ${msg}`)
+        })
+      })
+    }
+  }
+)
 </script>
