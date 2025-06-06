@@ -304,7 +304,13 @@ export const useVendorStore = defineStore('vendor', {
         const data = await CreateParcel(payload)
         return data
       } catch(err) {
-        this.error.parcels = err.response.data || 'Failed to create shipment'
+        console.error('Parcel creation error:', err)
+        // Safely access nested error response data
+        if (err.response && err.response.data) {
+          this.error.parcels = err.response.data
+        } else {
+          this.error.parcels = 'Failed to create shipment. Please fix the errors and try again.'
+        }
       } finally {
         this.loading.parcels = false
       }
