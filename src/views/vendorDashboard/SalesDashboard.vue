@@ -82,10 +82,6 @@
                 placeholder="Price"
                 readonly
               />
-
-            
-              
-              
               <button type="button" class="btn btn-sm btn-error" @click="removeLineItem(i)">X</button>
               <span
                 v-if="item.product && item.quantity > item.product.currentQuantity"
@@ -245,8 +241,6 @@
             </div>
             <button type="button" class="btn btn-outline btn-sm mb-3" @click="addLineItem">+ Add Item</button>
           </div>
-
-
           <div class="flex justify-end gap-2">
             <button class="btn btn-sm btn-ghost" type="button" @click="showModal = false">Cancel</button>
             <button class="btn btn-sm btn-primary" type="submit" @click="showModal = false">Submit</button>
@@ -256,7 +250,6 @@
     </dialog>
   </div>
 </template>
-
 <script setup>
 import { ref, reactive, computed, onMounted, watch, vModelCheckbox } from 'vue'
 import Chart from 'chart.js/auto'
@@ -268,12 +261,9 @@ const toast = useToast()
 const vendorStore = useVendorStore()
 // Filters
 const filters = ref({ type: '', startDate: '', endDate: '' })
-
 // Product list
 const products = ref([])
-
 const transactions = ref([])
-
 const fetchProducts = async () => {
   await vendorStore.getVendorProducts()
   products.value = vendorStore.products
@@ -495,7 +485,6 @@ onMounted(() => {
   fetchProducts()
   renderChart()
   addLineItem()
-  console.log(username)
 })
 watch(filteredTransactions, renderChart)
 </script>
