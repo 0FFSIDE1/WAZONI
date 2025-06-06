@@ -93,7 +93,7 @@
             <td>{{ formatDate(parcel.created_at) }}</td>
             <td>{{ formatDate(parcel.eta) }}</td>
             <td class="space-x-2">
-              <button class="btn btn-sm btn-outline" @click="selectedParcel = parcel; openCreateModal = true">
+              <button class="btn btn-sm btn-outline" @click="selectedParcel = parcel; openViewModal = true">
                 View
               </button>
               <button class="btn btn-sm btn-error" @click="deleteParcel(parcel.id)">Delete</button>
@@ -131,7 +131,7 @@
           <p><strong>Delivery Date:</strong> {{ formatDate(parcel.eta) }}</p>
           
           <div class="card-actions justify-end">
-            <button class="btn btn-sm btn-outline" @click="selectedParcel = parcel; openCreateModal = true">View</button>
+            <button class="btn btn-sm btn-outline" @click="selectedParcel = parcel; openViewModal = true">View</button>
             <button class="btn btn-sm btn-error" @click="deleteParcel(parcel.id)">Delete</button>
           </div>
         </div>
@@ -230,7 +230,7 @@
 </dialog>
 
     <!-- View Modal -->
-    <dialog class="modal modal-bottom sm:modal-middle" v-if="openCreateModal">
+    <dialog class="modal modal-bottom sm:modal-middle" :open="openViewModal">
       <div class="modal-box">
         <h3 class="font-bold text-lg mb-3 text-center">📦 Parcel Info</h3>
         <div class="flex flex-col gap-3">
@@ -307,7 +307,7 @@ async function searchOrders() {
     console.error('Failed to fetch orders', err)
   }
 }
-async function selectOrder(order) {
+function selectOrder(order) {
   newParcel.order = order.orderId
   orderSearch.value = order.orderId
   showOrderDropdown.value = false
