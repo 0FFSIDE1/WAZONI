@@ -4,14 +4,15 @@
       <h2 class="card-title">Tracking Status</h2>
       <ul class="steps steps-vertical">
         <li
-          v-for="(status, index) in statusList"
-          :key="index"
+          v-for="(entry, index) in trackingLog"
+          :key="entry.id"
           class="step"
-          :class="{ 'step-primary': status.completed }"
+          :class="{ 'step-primary': index <= lastIndex }"
         >
           <div class="flex flex-col">
-            <span class="font-semibold">{{ status.description }}</span>
-            <span class="text-sm text-gray-500">{{ status.timestamp }}</span>
+            <span class="font-semibold">{{ entry.status }}</span>
+            <span class="text-sm text-gray-500">{{ formatDate(entry.created_at) }}</span>
+            <span class="text-sm italic text-gray-400">{{ entry.location }}</span>
           </div>
         </li>
       </ul>
@@ -19,21 +20,19 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    status: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  computed: {
-    statusList() {
-      return this.status.map((item) => ({
-        ...item,
-        completed: true, // Adjust based on your API data
-      }));
-    },
-  },
-};
+<script setup>
+import { computed } from 'vue'
+
+const props = defineProps({
+  trackingLog: {
+    type: Array,
+    default: () => []
+  }
+})
+
+const lastIndex = computed(() => props.trackingLog.length - 1)
+
+const formatDate = (dateStr) => {
+  return new Date(dateStr).toLocaleString()
+}
 </script>
