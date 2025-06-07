@@ -7,41 +7,48 @@
   </div>
 </template>
 
-<script>
-import L from "leaflet";
+<script setup>
+import { onMounted } from 'vue'
+import L from 'leaflet'
 
-export default {
-  props: {
-    location: {
-      type: Object,
-      default: () => ({ lat: 51.505, lng: -0.09 }), // Default: London
-    },
-    route: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  mounted() {
-    this.initMap();
-  },
-  methods: {
-    initMap() {
-      const map = L.map("map").setView([this.location.lat, this.location.lng], 13);
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      }).addTo(map);
+const props = defineProps({
+  trackingLog: {
+    type: Array,
+    default: () => []
+  }
+})
 
-      // Add marker for current location
-      L.marker([this.location.lat, this.location.lng])
+onMounted(() => {
+  const map = L.map('map').setView([51.505, -0.09], 5)
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map)
+
+  if (props.trackingLog.length) {
+    const coords = props.trackingLog.map(entry => [entry.latitude, entry.longitude])
+    const lastEntry = props.trackingLog[props.trackingLog.length - 1]
+
+    // Draw route polyline
+    L.polyline(coords, { color: 'blue' }).addTo(map)
+
+    // Use last entry's coordinates and location label
+    if (lastEntry) {
+      const { latitude, longitude, location } = lastEntry
+      L.marker([latitude, longitude])
         .addTo(map)
-        .bindPopup("Current Parcel Location")
-        .openPopup();
+        .bindPopup(location || 'Current Parcel Location') // fallback if location is empty
+        .openPopup()
 
-      // Add route if provided
-      if (this.route.length > 0) {
-        L.polyline(this.route, { color: "blue" }).addTo(map);
-      }
-    },
-  },
-};
+      map.setView([latitude, longitude], 13)
+    }
+  }
+})
+
 </script>
+
+<style scoped>
+#map {
+  width: 100%;
+}
+</style>
