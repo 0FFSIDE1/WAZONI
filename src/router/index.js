@@ -72,6 +72,12 @@ const routes = [
     component: () => import('@/views/vendorDashboard/Transactions.vue'),
     meta: { keepAlive: false, layout: 'vendordashboard', requiresAuth: true, role: 'vendor' }
   },
+  {
+    path: '/vendor/dashboard/track/',
+    name: 'trackParcel',
+    component: () => import('@/views/vendorDashboard/TrackParcel.vue'),
+    meta: { keepAlive: false, layout: 'vendordashboard', requiresAuth: true, role: 'vendor' }
+  },
     // Admin Dashboard (Example Route)
   // {
   //   path: '/admin/dashboard/',
